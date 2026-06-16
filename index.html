@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CouplesTrip // Smart Travel Dashboard (Production Ready)</title>
-    <!-- Tailwind CSS -->
+    <title>CouplesTrip // Smart Travel Dashboard (V2)</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts & FontAwesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,21 +34,18 @@
 </head>
 <body class="text-gray-800 antialiased overflow-hidden h-screen flex">
 
-    <!-- SIDEBAR -->
     <aside class="w-64 bg-white border-r border-gray-100 flex flex-col justify-between p-6 shrink-0">
         <div>
-            <!-- Logo / Brand -->
             <div class="flex items-center gap-3 px-2 mb-8">
                 <div class="w-9 h-9 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-sm">
                     <i class="fa-solid fa-heart text-sm"></i>
                 </div>
                 <div>
                     <span class="font-bold text-base tracking-tight block">OurSpace</span>
-                    <span class="text-xs text-gray-400 font-medium">Travel Cloud Engine</span>
+                    <span class="text-xs text-gray-400 font-medium">Travel Cloud Engine v2</span>
                 </div>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="space-y-1.5">
                 <button onclick="switchTab('itinerary')" id="btn-itinerary" class="sidebar-link active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200">
                     <i class="fa-solid fa-route text-base w-5 text-center"></i>
@@ -67,28 +62,28 @@
             </nav>
         </div>
 
-        <!-- Sync Status Widget -->
         <div id="sync-indicator" class="bg-amber-50 border border-amber-100 p-3 rounded-2xl flex flex-col gap-1">
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
                 <span class="text-xs font-bold text-amber-800" id="sync-status-title">Local Storage Mode</span>
             </div>
-            <p class="text-[10px] text-amber-600 leading-relaxed" id="sync-status-desc">ข้อมูลถูกบันทึกในเครื่องนี้ชั่วคราว เชื่อมต่อ Google Sheet เพื่อออนไลน์และแชร์กับแฟน</p>
+            <p class="text-[10px] text-amber-600 leading-relaxed" id="sync-status-desc">ระบบเซฟในเครื่องนี้ชั่วคราว เชื่อมต่อกูเกิลคลาวด์เพื่อจำค่าถาวรข้ามเครื่อง</p>
         </div>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
     <main class="flex-1 flex flex-col min-w-0 bg-[#F9FAFB]">
-        <!-- Top Sticky Header -->
         <header class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8 shrink-0">
             <div class="flex items-center gap-4">
-                <h1 class="text-lg font-bold text-gray-900" id="main-trip-title">Our Dream Trip</h1>
+                <div class="flex items-center gap-2 group">
+                    <h1 class="text-lg font-bold text-gray-900" id="main-trip-title">Our Dream Trip</h1>
+                    <button onclick="editTripTitle()" class="text-gray-400 hover:text-gray-900 text-xs p-1 rounded-sm cursor-pointer" title="แก้ไขชื่อทริป">
+                        <i class="fa-solid fa-pen text-[11px]"></i>
+                    </button>
+                </div>
                 
-                <!-- Plan Manager Selector -->
                 <div class="bg-gray-100 p-0.5 rounded-xl flex border border-gray-200/50 items-center">
                     <div id="plan-buttons-container" class="flex gap-0.5">
-                        <!-- Rendered by JS -->
-                    </div>
+                        </div>
                     <button onclick="addNewPlanPrompt()" class="w-7 h-7 ml-1 rounded-lg hover:bg-gray-200 flex items-center justify-center text-gray-500 text-xs transition-colors" title="เพิ่มแผนใหม่">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -106,12 +101,9 @@
             </div>
         </header>
 
-        <!-- DASHBOARD BODY CONTAINER -->
         <div class="flex-1 overflow-y-auto p-8">
             
-            <!-- PAGE 1: ITINERARY PLANNER -->
             <div id="view-itinerary" class="fade-in-view space-y-6">
-                <!-- Top Row Analytics Cards -->
                 <div class="grid grid-cols-4 gap-5">
                     <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs">
                         <p class="text-xs font-medium text-gray-400 mb-1">Total Places to Visit</p>
@@ -129,14 +121,12 @@
                         <img class="absolute inset-0 w-full h-full object-cover opacity-70" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80" alt="Destination">
                         <div class="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent p-4 flex flex-col justify-end">
                             <span class="text-white font-bold text-sm">Ready for Takeoff</span>
-                            <span class="text-white/80 text-[10px]">บันทึกข้อมูลเรียลไทม์</span>
+                            <span class="text-white/80 text-[10px]">ระบบจำค่าอัตโนมัติ</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Main Grid Split -->
                 <div class="grid grid-cols-12 gap-6 items-start">
-                    <!-- Left: Destination List -->
                     <div class="col-span-7 space-y-4">
                         <div class="flex items-center justify-between">
                             <h2 class="font-bold text-gray-900 flex items-center gap-2">
@@ -148,13 +138,10 @@
                             </button>
                         </div>
 
-                        <!-- Place Container -->
                         <div id="places-container" class="space-y-3">
-                            <!-- Injected dynamically -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Right: Google Maps Live Embed Frame -->
                     <div class="col-span-5 sticky top-0 bg-white p-4 rounded-2xl border border-gray-100 shadow-2xs">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs font-bold text-gray-900">Google Maps Live Window</span>
@@ -171,7 +158,6 @@
                 </div>
             </div>
 
-            <!-- PAGE 2: EXPENSES & SPLIT CALCULATOR -->
             <div id="view-expenses" class="fade-in-view hidden space-y-6">
                 <div class="grid grid-cols-3 gap-5">
                     <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs">
@@ -188,24 +174,33 @@
                     </div>
                 </div>
 
-                <!-- Settlement Alert Card -->
                 <div id="settlement-card" class="p-4 rounded-2xl border flex items-center justify-between">
-                    <!-- Text Dynamic Injection -->
-                </div>
+                    </div>
 
                 <div class="grid grid-cols-12 gap-6 items-start">
-                    <!-- Add Expense Form -->
                     <div class="col-span-5 bg-white p-6 rounded-2xl border border-gray-100 shadow-2xs space-y-4">
                         <h3 class="font-bold text-gray-900 text-sm">จดบันทึกค่าใช้จ่ายจริง</h3>
                         
                         <div class="space-y-3">
                             <div>
                                 <label class="text-[11px] text-gray-400 font-bold block mb-1">ชื่อรายการค่าใช้จ่าย</label>
-                                <input type="text" id="expense-title" placeholder="เช่น ค่าตั๋วเครื่องบิน, ค่าตั๋วดีสนีย์" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
+                                <input type="text" id="expense-title" placeholder="เช่น ค่าตั๋วเครื่องบิน, ค่าสุกี้" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
                             </div>
-                            <div>
-                                <label class="text-[11px] text-gray-400 font-bold block mb-1">จำนวนเงิน (฿)</label>
-                                <input type="number" id="expense-amount" placeholder="0.00" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-[11px] text-gray-400 font-bold block mb-1">หมวดหมู่ค่าใช้จ่าย</label>
+                                    <select id="expense-category" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900 bg-white">
+                                        <option value="✈️ เดินทาง">✈️ เดินทาง</option>
+                                        <option value="🏨 ที่พัก">🏨 ที่พัก</option>
+                                        <option value="🍽️ อาหาร">🍽️ อาหาร</option>
+                                        <option value="🛍️ ช้อปปิ้ง">🛍️ ช้อปปิ้ง</option>
+                                        <option value="🎟️ ท่องเที่ยว/กิจกรรม">🎟️ ท่องเที่ยว/กิจกรรม</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-[11px] text-gray-400 font-bold block mb-1">จำนวนเงิน (฿)</label>
+                                    <input type="number" id="expense-amount" placeholder="0.00" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
+                                </div>
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
@@ -230,20 +225,17 @@
                         </button>
                     </div>
 
-                    <!-- Expense Log History -->
                     <div class="col-span-7 bg-white p-6 rounded-2xl border border-gray-100 shadow-2xs space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-bold text-gray-900 text-sm">ประวัติการใช้จ่ายทั้งหมด</h3>
                             <span class="text-[11px] text-gray-400" id="log-count">0 รายการ</span>
                         </div>
                         <div id="expense-log-list" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-                            <!-- Logs dynamically injected -->
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 3: CLOUD CONFIG (SHEETS CONNECT) -->
             <div id="view-cloud-config" class="fade-in-view hidden space-y-6">
                 <div class="max-w-2xl bg-white p-8 rounded-2xl border border-gray-100 shadow-2xs space-y-6">
                     <div class="flex items-center gap-3">
@@ -252,7 +244,7 @@
                         </div>
                         <div>
                             <h2 class="font-bold text-base text-gray-900">Google Sheets Sync Configuration</h2>
-                            <p class="text-xs text-gray-400">ผูกหน้าแอปนี้เข้ากับ Google Sheet ส่วนตัวของคุณเพื่อใช้งานออนไลน์แบบถาวรฟรี 100%</p>
+                            <p class="text-xs text-gray-400">ผูกหน้าแอปนี้เข้ากับ Google Sheet ส่วนตัวของคุณเพื่อเปิดโหมดออนไลน์ถาวร</p>
                         </div>
                     </div>
 
@@ -260,45 +252,19 @@
                         <div>
                             <label class="text-xs font-bold text-gray-700 block mb-1">Google Web App URL (Deployment Web App)</label>
                             <input type="url" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs border border-gray-200 rounded-xl px-4 py-3 focus:outline-hidden focus:border-gray-900">
-                            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">วางลิงก์ Web App ที่คุณได้จากการบันทึก Google Apps Script ที่ระบบสร้างให้ลงในนี้ เพื่อเริ่มการเชื่อมต่อแบบออนไลน์</p>
+                            <p class="text-[11px] text-amber-600 mt-1.5 leading-relaxed bg-amber-50 p-2.5 rounded-xl border border-amber-100">
+                                <i class="fa-solid fa-circle-info"></i> **ฟีเจอร์จดจำลิงก์ถาวร:** หลังจากคุณกดเชื่อมต่อในเครื่องนี้แล้ว ระบบจะทำการต่อท้ายลิงก์เว็บของคุณด้วยโค้ดพิเศษอัติโนมัติ คุณสามารถก๊อปปี้ URL บนเว็บบราวเซอร์นั้นไปแชร์ให้แฟน หรือเปิดใช้จากเครื่องอื่นได้ทันทีโดยไม่ต้องมาใส่รหัสนี้อีกแล้วครับ!
+                            </p>
                         </div>
 
                         <div class="flex gap-3 pt-2">
-                            <button onclick="saveCloudConfig()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-all">
+                            <button onclick="saveCloudConfig()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-all cursor-pointer">
                                 เชื่อมต่อและเริ่มโหมดออนไลน์
                             </button>
-                            <button onclick="disconnectCloud()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all">
-                                ยกเลิกการเชื่อมต่อกลับสู่โหมดออฟไลน์
+                            <button onclick="disconnectCloud()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all cursor-pointer">
+                                ยกเลิกการเชื่อมต่อ
                             </button>
                         </div>
-                    </div>
-
-                    <!-- Technical Instruction Code Generator Box -->
-                    <div class="bg-gray-900 rounded-2xl p-5 space-y-3 text-white">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5"><i class="fa-solid fa-code"></i> Google Apps Script Code สำหรับก๊อปปี้</span>
-                            <span class="text-[10px] text-gray-400">วางใน Extensions > Apps Script</span>
-                        </div>
-                        <pre class="text-[10px] text-gray-300 font-mono overflow-x-auto p-3 bg-black/30 rounded-xl max-h-48 select-all">
-function doGet() {
-  var userProperties = PropertiesService.getUserProperties();
-  var data = userProperties.getProperty('trip_database');
-  return ContentService.createTextOutput(data || '{"plans": ["Plan A", "Plan B"], "tripData": {"A":[], "B":[]}, "expenses": []}')
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doPost(e) {
-  try {
-    var jsonString = e.postData.contents;
-    var userProperties = PropertiesService.getUserProperties();
-    userProperties.setProperty('trip_database', jsonString);
-    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}</pre>
                     </div>
                 </div>
             </div>
@@ -306,12 +272,11 @@ function doPost(e) {
         </div>
     </main>
 
-    <!-- FLOATING MODAL: FOR ADDING NEW PLACES -->
     <div id="modal-add-place" class="fixed inset-0 bg-black/30 backdrop-blur-xs hidden items-center justify-center z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-gray-900 text-base">เพิ่มสถานที่ใหม่ไปยังทริป</h3>
-                <button onclick="closeModal()" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeModal()" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <div class="space-y-3">
@@ -321,6 +286,16 @@ function doPost(e) {
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
+                        <label class="text-[10px] font-bold text-gray-400 block mb-1">หมวดหมู่สถานที่</label>
+                        <select id="p-category" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900 bg-white">
+                            <option value="✈️ เดินทาง">✈️ เดินทาง</option>
+                            <option value="🏨 ที่พัก">🏨 ที่พัก</option>
+                            <option value="🍽️ อาหาร">🍽️ อาหาร</option>
+                            <option value="🛍️ ช้อปปิ้ง">🛍️ ช้อปปิ้ง</option>
+                            <option value="🎟️ ท่องเที่ยว/กิจกรรม">🎟️ ท่องเที่ยว/กิจกรรม</option>
+                        </select>
+                    </div>
+                    <div>
                         <label class="text-[10px] font-bold text-gray-400 block mb-1">ระดับความอยากไป (PRIORITY)</label>
                         <select id="p-priority" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900 bg-white">
                             <option value="⭐ High">⭐ High (ต้องไป)</option>
@@ -328,58 +303,74 @@ function doPost(e) {
                             <option value="Low">Low (ถ้าทันค่อยไป)</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 block mb-1">ประมาณการค่าใช้จ่าย (฿)</label>
-                        <input type="number" id="p-cost" placeholder="0" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
-                    </div>
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 block mb-1">ลิงก์ Google Maps ของสถานที่ (หรือแชร์จากมือถือมาวางได้เลย)</label>
-                    <input type="url" id="p-link" placeholder="https://maps.app.goo.gl/... หรือ https://goo.gl/maps/..." class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">ประมาณการค่าใช้จ่าย (฿)</label>
+                    <input type="number" id="p-cost" placeholder="0" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 block mb-1">ลิงก์รูปภาพปกสถานที่ (เว้นว่างไว้ได้ระบบจะใช้รูปพื้นฐาน)</label>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">ลิงก์ Google Maps ของสถานที่ (วางลิงก์ที่แชร์จากมือถือได้เลย)</label>
+                    <input type="url" id="p-link" placeholder="https://goo.gl/maps/... หรือลิงก์หมุดแผนที่" class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">ลิงก์รูปภาพปกสถานที่ (เว้นว่างไว้ได้)</label>
                     <input type="url" id="p-img" placeholder="https://images.unsplash.com/..." class="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-hidden focus:border-gray-900">
                 </div>
             </div>
 
-            <button onclick="submitNewPlace()" class="w-full bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold py-2.5 rounded-xl shadow-xs transition-all mt-2">
+            <button onclick="submitNewPlace()" class="w-full bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold py-2.5 rounded-xl shadow-xs transition-all mt-2 cursor-pointer">
                 บันทึกลงในแผนปัจจุบัน
             </button>
         </div>
     </div>
 
-    <!-- APPLICATION CONTROLLER SCRIPT (JavaScript Core Engine) -->
     <script>
         // App State
         let state = {
+            tripTitle: "Our Dream Trip",
             plans: ["Plan A", "Plan B"],
             currentPlan: "Plan A",
             tripData: {
-                "Plan A": [
-                    { id: 1, title: "Shibuya Crossing & Hachiko", priority: "⭐ High", cost: 0, link: "https://maps.google.com/maps?q=Shibuya+Crossing&t=&z=13&ie=UTF8&iwloc=&output=embed", img: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=150&q=80", visited: true },
-                    { id: 2, title: "TeamLab Planets Tokyo", priority: "⭐ High", cost: 1200, link: "https://maps.google.com/maps?q=TeamLab+Planets+Tokyo&t=&z=13&ie=UTF8&iwloc=&output=embed", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=150&q=80", visited: false }
-                ],
-                "Plan B": [
-                    { id: 3, title: "Kyoto Fushimi Inari Shrine", priority: "⭐ High", cost: 0, link: "https://maps.google.com/maps?q=Fushimi+Inari+Shrine&t=&z=13&ie=UTF8&iwloc=&output=embed", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=150&q=80", visited: false }
-                ]
+                "Plan A": [],
+                "Plan B": []
             },
             expenses: []
         };
 
-        let cloudScriptUrl = localStorage.getItem('trip_cloud_url') || "";
+        let cloudScriptUrl = "";
+
+        // Get Cloud URL from URL Param (Auto-Remember feature) or LocalStorage
+        function getCloudUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let urlFromParam = urlParams.get('db');
+            if (urlFromParam) {
+                // Decode base64 URL to look clean
+                try { return atob(urlFromParam); } catch(e) { return urlFromParam; }
+            }
+            return localStorage.getItem('trip_cloud_url') || "";
+        }
+
+        function updateBrowserUrl(url) {
+            if (url) {
+                const base64Url = btoa(url);
+                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?db=' + base64Url;
+                window.history.pushState({path: newUrl}, '', newUrl);
+            }
+        }
 
         function init() {
+            cloudScriptUrl = getCloudUrl();
             if (cloudScriptUrl) {
                 document.getElementById('cloud-script-url').value = cloudScriptUrl;
-                updateSyncUI(true, "Cloud Sync Active", "แอปพลิเคชันของคุณออนไลน์และเชื่อมข้อมูลแบบคลาวด์แล้ว");
+                updateBrowserUrl(cloudScriptUrl);
+                updateSyncUI(true, "Cloud Sync Active", "แอปพลิเคชันออนไลน์ผ่านกูเกิลคลาวด์เรียบร้อย จำค่าอัตโนมัติแล้ว");
                 pullFromCloud();
             } else {
-                const localState = localStorage.getItem('trip_local_db');
+                const localState = localStorage.getItem('trip_local_db_v2');
                 if (localState) {
                     state = JSON.parse(localState);
                 }
-                updateSyncUI(false, "Local Storage Mode", "ข้อมูลถูกบันทึกในเครื่องนี้ชั่วคราว เชื่อมต่อ Google Sheet เพื่อออนไลน์และแชร์กับแฟน");
+                updateSyncUI(false, "Local Storage Mode", "ระบบเซฟในเครื่องนี้ชั่วคราว เชื่อมต่อกูเกิลคลาวด์เพื่อจำค่าถาวรข้ามเครื่อง");
                 renderAll();
             }
         }
@@ -388,11 +379,11 @@ function doPost(e) {
             if (cloudScriptUrl) {
                 pushToCloud();
             } else {
-                localStorage.setItem('trip_local_db', JSON.stringify(state));
+                localStorage.setItem('trip_local_db_v2', JSON.stringify(state));
             }
         }
 
-        // Cloud Operations Engine
+        // Cloud Operations
         async function pushToCloud() {
             if (!cloudScriptUrl) return;
             setSyncLoading(true);
@@ -403,10 +394,7 @@ function doPost(e) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(state)
                 });
-                // Since 'no-cors' mode doesn't return response tokens clearly, we simulate optimistic update success
-                setTimeout(() => {
-                    setSyncLoading(false);
-                }, 800);
+                setTimeout(() => setSyncLoading(false), 800);
             } catch(e) {
                 console.error("Cloud push sync error:", e);
                 setSyncLoading(false);
@@ -421,12 +409,12 @@ function doPost(e) {
                 let data = await res.json();
                 if (data && data.plans) {
                     state = data;
+                    if(!state.tripTitle) state.tripTitle = "Our Dream Trip"; // Fallback for old version
                     renderAll();
                 }
             } catch(e) {
                 console.error("Cloud pull sync error:", e);
-                // Fallback to local if fetch failed
-                const localState = localStorage.getItem('trip_local_db');
+                const localState = localStorage.getItem('trip_local_db_v2');
                 if (localState) state = JSON.parse(localState);
                 renderAll();
             } finally {
@@ -438,7 +426,16 @@ function doPost(e) {
             if (cloudScriptUrl) {
                 pullFromCloud();
             } else {
-                alert("คุณกำลังใช้งานโหมดออฟไลน์ (Local) กรุณาเชื่อมต่อลิงก์ในแท็บ Google Sheets Sync เพื่อเปิดใช้ระบบคลาวด์ออนไลน์");
+                alert("คุณกำลังใช้งานโหมดออฟไลน์ กรุณาเชื่อมต่อลิงก์ในแท็บ Google Sheets Sync เพื่อเปิดใช้ระบบคลาวด์ออนไลน์");
+            }
+        }
+
+        function editTripTitle() {
+            const newTitle = prompt("กรุณาระบุชื่อทริปใหม่ของคุณ:", state.tripTitle);
+            if (newTitle && newTitle.trim() !== "") {
+                state.tripTitle = newTitle.trim();
+                saveState();
+                renderAll();
             }
         }
 
@@ -465,11 +462,8 @@ function doPost(e) {
 
         function setSyncLoading(isLoading) {
             const icon = document.getElementById('sync-icon');
-            if (isLoading) {
-                icon.classList.add('animate-spin');
-            } else {
-                icon.classList.remove('animate-spin');
-            }
+            if (isLoading) icon.classList.add('animate-spin');
+            else icon.classList.remove('animate-spin');
         }
 
         function saveCloudConfig() {
@@ -477,7 +471,8 @@ function doPost(e) {
             if(!url) return alert("กรุณากรอก URL ลิงก์จาก Google Web App ให้ถูกต้อง");
             cloudScriptUrl = url;
             localStorage.setItem('trip_cloud_url', url);
-            updateSyncUI(true, "Cloud Sync Active", "แอปพลิเคชันของคุณออนไลน์และเชื่อมข้อมูลแบบคลาวด์แล้ว");
+            updateBrowserUrl(url);
+            updateSyncUI(true, "Cloud Sync Active", "แอปพลิเคชันออนไลน์ผ่านกูเกิลคลาวด์เรียบร้อย จำค่าอัตโนมัติแล้ว");
             pushToCloud().then(() => pullFromCloud());
         }
 
@@ -485,12 +480,14 @@ function doPost(e) {
             cloudScriptUrl = "";
             localStorage.removeItem('trip_cloud_url');
             document.getElementById('cloud-script-url').value = "";
-            updateSyncUI(false, "Local Storage Mode", "ข้อมูลถูกบันทึกในเครื่องนี้ชั่วคราว เชื่อมต่อ Google Sheet เพื่อออนไลน์และแชร์กับแฟน");
+            // Clear URL Param
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({path: cleanUrl}, '', cleanUrl);
+            updateSyncUI(false, "Local Storage Mode", "ระบบเซฟในเครื่องนี้ชั่วคราว เชื่อมต่อกูเกิลคลาวด์เพื่อจำค่าถาวรข้ามเครื่อง");
             saveState();
             renderAll();
         }
 
-        // Tab Swapping Logic
         function switchTab(tabName) {
             document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
             document.getElementById('view-itinerary').classList.add('hidden');
@@ -509,8 +506,8 @@ function doPost(e) {
             }
         }
 
-        // Render Operations
         function renderAll() {
+            document.getElementById('main-trip-title').innerText = state.tripTitle || "Our Dream Trip";
             renderPlansBar();
             renderItinerary();
             renderExpenses();
@@ -519,11 +516,10 @@ function doPost(e) {
         function renderPlansBar() {
             const container = document.getElementById('plan-buttons-container');
             container.innerHTML = '';
-            
             state.plans.forEach(planName => {
                 const isActive = state.currentPlan === planName;
                 const btn = document.createElement('button');
-                btn.className = `px-3 py-1 text-xs font-semibold rounded-lg transition-all ${isActive ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-900'}`;
+                btn.className = `px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${isActive ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-900'}`;
                 btn.innerText = planName;
                 btn.onclick = () => {
                     state.currentPlan = planName;
@@ -532,6 +528,15 @@ function doPost(e) {
                 container.appendChild(btn);
             });
             document.getElementById('plan-badge').innerText = state.currentPlan;
+        }
+
+        // Color helper for category styling
+        function getCategoryStyle(cat) {
+            if (cat.includes('เดินทาง')) return 'bg-blue-50 text-blue-700 border-blue-100';
+            if (cat.includes('ที่พัก')) return 'bg-purple-50 text-purple-700 border-purple-100';
+            if (cat.includes('อาหาร')) return 'bg-amber-50 text-amber-700 border-amber-100';
+            if (cat.includes('ช้อปปิ้ง')) return 'bg-rose-50 text-rose-700 border-rose-100';
+            return 'bg-emerald-50 text-emerald-700 border-emerald-100'; // Activities
         }
 
         function renderItinerary() {
@@ -551,7 +556,7 @@ function doPost(e) {
             document.getElementById('header-total-budget').innerText = `฿${(totalEstCost + totalActualSpent).toLocaleString()}`;
 
             if(list.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400 py-8 text-center bg-white rounded-2xl border border-dashed border-gray-200">ยังไม่มีสถานที่ในแผนนี้ กดเพิ่มแผนที่หรือจุดเที่ยวของคุณได้เลย</p>`;
+                container.innerHTML = `<p class="text-xs text-gray-400 py-8 text-center bg-white rounded-2xl border border-dashed border-gray-200">ยังไม่มีสถานที่ในแผนนี้ กดเพิ่มสถานที่เพื่อเริ่มต้นทริปของคุณ</p>`;
                 return;
             }
 
@@ -559,18 +564,17 @@ function doPost(e) {
                 const card = document.createElement('div');
                 card.className = `bg-white p-3.5 rounded-2xl border border-gray-100 shadow-3xs flex items-center justify-between gap-4 transition-all duration-300 ${item.visited ? 'opacity-60' : ''}`;
                 
-                // Formulate maps execution link
                 let mapsActionHtml = "";
                 if (item.link) {
-                    // Quick check if it is already an embed format or clean string
-                    const isEmbed = item.link.includes('embed');
-                    const targetLink = isEmbed ? item.link : `https://maps.google.com/maps?q=${encodeURIComponent(item.title)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
-                    mapsActionHtml = `<button onclick="loadLiveMap('${targetLink}', '${item.title}')" class="text-blue-500 hover:underline inline-flex items-center gap-0.5 cursor-pointer"><i class="fa-solid fa-map-location text-[9px]"></i> ส่องแผนที่</button>`;
+                    let mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(item.title)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+                    mapsActionHtml = `<button onclick="loadLiveMap('${mapUrl}', '${item.title}')" class="text-blue-500 hover:underline inline-flex items-center gap-0.5 cursor-pointer font-semibold"><i class="fa-solid fa-map-location text-[9px]"></i> เปิดแผนที่</button>`;
                 }
+
+                const catClass = getCategoryStyle(item.category || "🎟️ ท่องเที่ยว/กิจกรรม");
 
                 card.innerHTML = `
                     <div class="flex items-center gap-3 min-w-0 flex-1">
-                        <button onclick="toggleVisited(${item.id})" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-colors ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-300 hover:border-gray-400 bg-white'}">
+                        <button onclick="toggleVisited(${item.id})" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-colors cursor-pointer ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-300 hover:border-gray-400 bg-white'}">
                             ${item.visited ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''}
                         </button>
                         
@@ -579,15 +583,16 @@ function doPost(e) {
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-2 flex-wrap">
                                 <h4 class="font-bold text-xs text-gray-900 truncate ${item.visited ? 'line-through text-gray-400' : ''}">${item.title}</h4>
-                                <span class="text-[9px] px-1.5 py-0.2 rounded-md font-medium bg-amber-50 text-amber-700">${item.priority}</span>
+                                <span class="text-[9px] px-2 py-0.5 rounded-md font-bold border ${catClass}">${item.category || '🎟️ กิจกรรม'}</span>
+                                <span class="text-[9px] px-1.5 py-0.2 rounded-md font-medium bg-gray-100 text-gray-600">${item.priority}</span>
                             </div>
                             <div class="flex items-center gap-3 mt-0.5 text-[11px] text-gray-400 font-medium">
-                                <span class="text-gray-900 font-semibold">ประมาณ ฿${item.cost.toLocaleString()}</span>
+                                <span class="text-gray-900 font-bold">ประมาณ ฿${item.cost.toLocaleString()}</span>
                                 ${mapsActionHtml}
                             </div>
                         </div>
                     </div>
-                    <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 p-2 text-xs transition-colors"><i class="fa-regular fa-trash-can"></i></button>
+                    <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 p-2 text-xs transition-colors cursor-pointer"><i class="fa-regular fa-trash-can"></i></button>
                 `;
                 container.appendChild(card);
             });
@@ -616,7 +621,7 @@ function doPost(e) {
         }
 
         function addNewPlanPrompt() {
-            const name = prompt("กรุณาระบุชื่อแผนงานการเดินทางใหม่ (เช่น Plan C, ทริปสำรอง 3 วัน):");
+            const name = prompt("กรุณาระบุชื่อแผนงานการเดินทางใหม่ (เช่น Plan C, แผนสำรอง):");
             if (!name || name.trim() === "") return;
             const cleanName = name.trim();
             if (state.plans.includes(cleanName)) return alert("ชื่อแผนนี้มีอยู่แล้ว");
@@ -628,7 +633,6 @@ function doPost(e) {
             renderAll();
         }
 
-        // Places Modal Controllers
         function openModal() {
             document.getElementById('modal-add-place').classList.remove('hidden');
             document.getElementById('modal-add-place').classList.add('flex');
@@ -640,6 +644,7 @@ function doPost(e) {
 
         function submitNewPlace() {
             const title = document.getElementById('p-title').value.trim();
+            const category = document.getElementById('p-category').value;
             const priority = document.getElementById('p-priority').value;
             const cost = parseFloat(document.getElementById('p-cost').value) || 0;
             const link = document.getElementById('p-link').value.trim();
@@ -647,27 +652,23 @@ function doPost(e) {
 
             if(!title) return alert('กรุณากรอกชื่อสถานที่ปลายทาง');
 
-            if (!state.tripData[state.currentPlan]) {
-                state.tripData[state.currentPlan] = [];
-            }
+            if (!state.tripData[state.currentPlan]) state.tripData[state.currentPlan] = [];
 
             state.tripData[state.currentPlan].push({
                 id: Date.now(),
-                title, priority, cost, link, img, visited: false
+                title, category, priority, cost, link, img, visited: false
             });
 
             closeModal();
             saveState();
             renderAll();
             
-            // reset fields
             document.getElementById('p-title').value = '';
             document.getElementById('p-cost').value = '';
             document.getElementById('p-link').value = '';
             document.getElementById('p-img').value = '';
         }
 
-        // Bill Splitting Logic
         function renderExpenses() {
             const totalSpent = state.expenses.reduce((sum, item) => sum + item.amount, 0);
             const paidYou = state.expenses.filter(e => e.payer === 'you').reduce((sum, e) => sum + e.amount, 0);
@@ -713,13 +714,17 @@ function doPost(e) {
 
             state.expenses.forEach((e, idx) => {
                 const log = document.createElement('div');
+                const badgeStyle = getCategoryStyle(e.category || "🍽️ อาหาร");
                 log.className = "flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100 text-xs";
                 log.innerHTML = `
-                    <div>
-                        <p class="font-bold text-gray-900">${e.title}</p>
-                        <p class="text-[10px] text-gray-400">ผู้จ่าย: <span class="capitalize font-medium text-gray-600">${e.payer}</span> • ${e.split === 'split' ? 'หารครึ่ง' : 'จ่ายเต็มคนเดียว'}</p>
+                    <div class="min-w-0 flex-1 mr-3">
+                        <div class="flex items-center gap-2">
+                            <p class="font-bold text-gray-900 truncate">${e.title}</p>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded border font-bold ${badgeStyle}">${e.category || '🍽️ อาหาร'}</span>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-0.5">ผู้จ่าย: <span class="capitalize font-semibold text-gray-600">${e.payer === 'you' ? 'คุณเอง' : 'แฟน'}</span> • ${e.split === 'split' ? 'หารครึ่ง' : 'จ่ายเต็มคนเดียว'}</p>
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 shrink-0">
                         <span class="font-bold text-gray-900">฿${e.amount.toLocaleString()}</span>
                         <button onclick="deleteExpense(${idx})" class="text-gray-300 hover:text-rose-500 cursor-pointer"><i class="fa-regular fa-circle-xmark"></i></button>
                     </div>
@@ -730,13 +735,14 @@ function doPost(e) {
 
         function addExpense() {
             const title = document.getElementById('expense-title').value.trim();
+            const category = document.getElementById('expense-category').value;
             const amount = parseFloat(document.getElementById('expense-amount').value);
             const payer = document.getElementById('expense-payer').value;
             const split = document.getElementById('expense-split').value;
 
             if(!title || !amount) return alert('กรุณาระบุข้อมูลชื่อรายการและจำนวนเงินที่ใช้จริง');
 
-            state.expenses.unshift({ title, amount, payer, split });
+            state.expenses.unshift({ title, category, amount, payer, split });
             saveState();
             renderAll();
 
@@ -750,7 +756,6 @@ function doPost(e) {
             renderAll();
         }
 
-        // App Trigger
         window.onload = init;
     </script>
 </body>
