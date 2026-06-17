@@ -548,44 +548,55 @@
 
         function init() {
             const localTheme = localStorage.getItem('trip_theme_v5') || "light";
-            changeTheme(localTheme);
-
             const localLang = localStorage.getItem('trip_lang_v5') || "th";
             state.currentLang = localLang;
 
-            cloudScriptUrl = getCloudUrl();
-            if (cloudScriptUrl) {
-                document.getElementById('cloud-script-url').value = cloudScriptUrl;
-                updateBrowserUrl(cloudScriptUrl);
-                updateSyncUI(true, "Cloud Sync Active", "ออนไลน์เชื่อมโยงฐานข้อมูลแล้ว");
+            // โหลด state จาก localStorage ก่อนเสมอ
+            const localSaved = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
+            if (localSaved) {
+                try {
+                    const parsed = JSON.parse(localSaved);
+                    state = { ...state, ...parsed };
+                } catch(e) { console.warn('Could not parse local state'); }
+            }
+            state.currentLang = localLang;
+            if (!state.categoriesMap) {
+                state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
+            }
+
+            // Apply theme (ต้องทำหลังโหลด state เพื่อให้ dark class บน <html> ถูกต้อง)
+            changeTheme(state.currentTheme || localTheme);
+
+            // ตรวจสอบ cloud URL จาก input element
+            const savedCloudUrl = localStorage.getItem('trip_cloud_url_v5');
+            if (savedCloudUrl) {
+                const urlInput = document.getElementById('cloud-url');
+                if (urlInput) urlInput.value = savedCloudUrl;
+            }
+
+            renderAll();
+
+            // ถ้ามี cloud URL — ดึงข้อมูลจาก cloud ด้วย
+            if (getCloudUrl()) {
                 pullFromCloud();
-            } else {
-                const local = localStorage.getItem('trip_local_db_v5');
-                if (local) state = JSON.parse(local);
-                state.currentLang = localLang;
-                if(!state.categoriesMap) {
-                    state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
-                }
-                changeTheme(state.currentTheme || localTheme);
-                renderAll();
             }
         }
 
 
         function saveState() {
-            // 1. จำค่าลง Local Storage ในเครื่องทันที (แอปทำงานลื่นไหล ไม่มีสะดุด)
+            // 1. จำค่าลง Local Storage ในเครื่องทันที
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
             
-            // 2. ระบบ Auto-Sync: ดึง URL คลาวด์มาตรวจสอบ หากมีให้ซิงค์ขึ้นทันที
-            const cloudUrlInput = document.getElementById('cloud-url');
-            const cloudUrl = cloudUrlInput ? cloudUrlInput.value.trim() : '';
-            
-            if (cloudUrl && typeof syncToCloud === 'function') {
-                // ใช้ debounce เล็กน้อยเพื่อป้องกันไม่ให้ยิงถี่เกินไปกรณีพิมพ์ต่อเนื่อง
+            // 2. บันทึก cloud URL ล่าสุดด้วย
+            const cloudUrl = getCloudUrl();
+            if (cloudUrl) localStorage.setItem('trip_cloud_url_v5', cloudUrl);
+
+            // 3. Auto-Sync ขึ้น Cloud ถ้ามี URL (debounced 1.5 วินาที)
+            if (cloudUrl) {
                 if (window.autoSyncTimer) clearTimeout(window.autoSyncTimer);
                 window.autoSyncTimer = setTimeout(() => {
                     syncToCloud();
-                }, 1000); // จะส่งขึ้น Cloud หลังจากอัปเดตข้อมูลเสร็จแล้ว 1 วินาที
+                }, 1500);
             }
         }
 
@@ -594,85 +605,139 @@
             const url = cloudUrlInput ? cloudUrlInput.value.trim() : '';
             if(!url) return;
 
-            // แสดงสถานะเบื้องต้นว่ากำลังเชื่อมต่อ (ถ้ามีปุ่มกด)
+            // แสดงสถานะกำลังซิงค์
             const syncBtn = document.querySelector('[onclick="syncToCloud()"]');
-            if(syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-2"></i>Auto-Syncing...';
+            if(syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-2"></i>Syncing...';
 
             fetch(url, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'text/plain' // ใช้ text/plain เพื่อหลีกเลี่ยงปัญหา CORS preflight ใน Apps Script
+                    // ใช้ text/plain เพื่อหลีกเลี่ยง CORS preflight ใน Apps Script
+                    'Content-Type': 'text/plain'
                 },
                 body: JSON.stringify(state)
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
             .then(data => {
                 if(data.status === 'success') {
-                    console.log('Cloud Sync Success:', data.message);
+                    updateSyncIndicator(true, data.timestamp || '');
                     if(syncBtn) {
-                        syncBtn.innerHTML = '<i class="fa-solid fa-cloud-check mr-2 text-green-400"></i>Synced';
-                        setTimeout(() => {
-                            syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync to Cloud';
-                        }, 2000);
+                        syncBtn.innerHTML = '<i class="fa-solid fa-cloud-check mr-2 text-green-400"></i>Synced!';
+                        setTimeout(() => { syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync to Cloud'; }, 2500);
                     }
                 } else {
-                    console.error('Cloud Sync Error:', data.message);
-                    if(syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2 text-red-400"></i>Sync Failed';
+                    throw new Error(data.message || 'Sync failed');
                 }
             })
             .catch(err => {
-                console.error('Network Error:', err);
-                if(syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-wifi mr-2 text-red-500"></i>Network Error';
+                console.error('Cloud Sync Error:', err);
+                if(syncBtn) {
+                    syncBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2 text-red-400"></i>Failed';
+                    setTimeout(() => { syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync to Cloud'; }, 3000);
+                }
+                updateSyncIndicator(false, '');
             });
         }
 
+        // FIX: รวม pushToCloud และ pullFromCloud ให้ใช้ cloud-url input เดียวกัน
         async function pushToCloud() {
-            if (!cloudScriptUrl) return;
+            const url = getCloudUrl();
+            if (!url) return;
             setSyncLoading(true);
             try {
-                await fetch(cloudScriptUrl, {
+                const res = await fetch(url, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(state)
                 });
-                setTimeout(() => setSyncLoading(false), 600);
-            } catch(e) { console.error(e); setSyncLoading(false); }
+                const data = await res.json();
+                if (data.status === 'success') {
+                    updateSyncIndicator(true, data.timestamp || '');
+                }
+            } catch(e) {
+                console.error('pushToCloud error:', e);
+                updateSyncIndicator(false, '');
+            } finally {
+                setSyncLoading(false);
+            }
         }
 
         async function pullFromCloud() {
-            if (!cloudScriptUrl) return;
+            const url = getCloudUrl();
+            if (!url) return;
             setSyncLoading(true);
             try {
-                let res = await fetch(cloudScriptUrl);
-                let data = await res.json();
-                if (data && data.plans) {
+                const res = await fetch(url + '?t=' + Date.now()); // cache-bust
+                const data = await res.json();
+                if (data && (data.tripData || data.plans)) {
                     const langCache = state.currentLang;
+                    const themeCache = state.currentTheme;
                     state = data;
                     state.currentLang = langCache;
+                    state.currentTheme = themeCache;
                     if (!state.timelineGroups) state.timelineGroups = ["ตลอดทั้งทริป", "Day 1", "Day 2"];
                     if (!state.categoriesMap) {
                         state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
                     }
+                    updateSyncIndicator(true, data._lastSynced || '');
+                    saveState();
                     renderAll();
+                } else if (data.status === 'empty') {
+                    console.log('Cloud is empty, keeping local data.');
                 }
             } catch(e) {
-                console.error(e);
-                const local = localStorage.getItem('trip_local_db_v5');
-                if (local) state = JSON.parse(local);
-                renderAll();
-            } finally { setSyncLoading(false); }
+                console.error('pullFromCloud error:', e);
+                // Fallback to localStorage
+                const local = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
+                if (local) { state = JSON.parse(local); renderAll(); }
+                updateSyncIndicator(false, '');
+            } finally {
+                setSyncLoading(false);
+            }
         }
 
-        function triggerManualSync() {
-            if (cloudScriptUrl) pullFromCloud();
-            else alert(state.currentLang === "th" ? "คุณอยู่ในโหมดออฟไลน์ กรุณาเชื่อมคลาวด์ก่อน" : "Offline mode active.");
+        // FIX: helper ดึง URL จาก input element เสมอ (ไม่ใช้ global variable)
+        function getCloudUrl() {
+            const el = document.getElementById('cloud-url');
+            return el ? el.value.trim() : '';
+        }
+
+        // FIX: อัปเดต sync status indicator ใน sidebar
+        function updateSyncIndicator(success, timestamp) {
+            const dot = document.querySelector('#sync-indicator .rounded-full');
+            const title = document.getElementById('sync-status-title');
+            const desc = document.getElementById('sync-status-desc');
+            if (!dot || !title || !desc) return;
+            if (success) {
+                dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+                title.innerText = 'Cloud Synced';
+                const t = timestamp ? new Date(timestamp).toLocaleTimeString('th-TH') : '';
+                desc.innerText = t ? 'อัปเดตล่าสุด ' + t : 'ซิงค์กับ Google Sheet แล้ว';
+            } else {
+                dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
+                title.innerText = 'Local Storage';
+                desc.innerText = 'ระบบเซฟข้อมูลชั่วคราว';
+            }
         }
 
         function changeTheme(themeName) {
+            // Remove all theme classes from body
             document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark');
             document.body.classList.add('theme-' + themeName);
+
+            // FIX: sync Tailwind's `dark:` class system with our theme
+            // Tailwind v4 CDN reads `dark` class on <html> element
+            if (themeName === 'dark' || themeName === 'slate') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
             state.currentTheme = themeName;
             localStorage.setItem('trip_theme_v5', themeName);
             renderAll();
