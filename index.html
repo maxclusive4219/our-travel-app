@@ -11,7 +11,7 @@
     
     <style>
         /* ==========================================================================
-           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ชี้หาไฟล์ใน GitHub โฟลเดอร์เดียวกัน
+           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ชี้หาไฟล์ใน GitHub โฟลเดอร์เดียวกัน[cite: 5]
            ========================================================================== */
         @font-face {
             font-family: 'EkkamaiVibe';
@@ -30,7 +30,7 @@
             font-family: 'EkkamaiVibe', sans-serif !important;
         }
         
-        /* Advanced Web Animations System */
+        /* Advanced Web Animations System[cite: 5] */
         .view-panel {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
@@ -41,7 +41,7 @@
             transform: translateY(0) scale(1);
         }
         
-        /* Place Cards Animations */
+        /* Place Cards Animations[cite: 5] */
         .place-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -53,7 +53,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
         }
 
-        /* Micro Interactive Click Feedback */
+        /* Micro Interactive Click Feedback[cite: 5] */
         .click-bounce {
             transition: transform 0.1s ease;
         }
@@ -61,7 +61,7 @@
             transform: scale(0.94);
         }
 
-        /* Checkbox dynamic pop */
+        /* Checkbox dynamic pop[cite: 5] */
         @keyframes popCheck {
             0% { transform: scale(0.8); }
             50% { transform: scale(1.2); }
@@ -71,7 +71,7 @@
             animation: popCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* Theme Configurations */
+        /* Theme Configurations[cite: 5] */
         body.theme-light { background-color: #F3F4F6; color: #1F2937; }
         body.theme-light .card-bg { background-color: #FFFFFF; border-color: #E5E7EB; }
         
@@ -93,7 +93,7 @@
 </head>
 <body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- MOBILE TOP BAR -->
+    <!-- MOBILE TOP BAR[cite: 5] -->
     <div class="md:hidden card-bg border-b px-4 py-3 flex items-center justify-between shrink-0 z-10 shadow-2xs">
         <div class="flex items-center gap-2">
             <div class="w-7 h-7 bg-rose-500 rounded-lg flex items-center justify-center text-white text-xs">
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <!-- DESKTOP SIDEBAR -->
+    <!-- DESKTOP SIDEBAR[cite: 5] -->
     <aside class="hidden md:flex w-64 card-bg border-r flex-col justify-between p-6 shrink-0 h-full z-10 shadow-2xs">
         <div>
             <div class="flex items-center gap-3 px-2 mb-8">
@@ -158,7 +158,7 @@
         </div>
     </aside>
 
-    <!-- MAIN DASHBOARD CONTENT -->
+    <!-- MAIN DASHBOARD CONTENT[cite: 5] -->
     <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         
         <header class="card-bg border-b p-4 md:px-8 md:py-0 md:h-16 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
@@ -199,9 +199,8 @@
 
         <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/50 dark:bg-zinc-950/20 relative">
             
-            <!-- VIEW 1: ITINERARY PLANNER (SECTION GROUPED LOOKS) -->
+            <!-- VIEW 1: ITINERARY PLANNER[cite: 5] -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
-                <!-- Top Statistics Widget Bar -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                     <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
                         <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="จำนวนจุดเช็คอิน" data-lang-en="Total Places">จำนวนจุดเช็คอิน</p>
@@ -226,7 +225,7 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
                     
-                    <!-- Left: Sectional Container (เรนเดอร์แยกกลุ่มการเดินทาง อาหาร ที่พัก) -->
+                    <!-- Left: Sectional Container -->
                     <div class="lg:col-span-7 space-y-5">
                         <div class="flex items-center justify-between">
                             <h2 class="font-bold text-xs md:text-sm flex items-center gap-2">
@@ -242,7 +241,7 @@
                         <div id="sections-render-root" class="space-y-6"></div>
                     </div>
 
-                    <!-- Right Window Component Frame Layout -->
+                    <!-- Right Window Component Frame Layout[cite: 5] -->
                     <div class="lg:col-span-5 card-bg p-3.5 rounded-xl border shadow-3xs sticky top-4">
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-[11px] font-bold flex items-center gap-1"><i class="fa-solid fa-location-dot text-rose-500"></i> Google Maps Live Frame</span>
@@ -259,7 +258,7 @@
                 </div>
             </div>
 
-            <!-- VIEW 2: EXPENSES SYSTEM -->
+            <!-- VIEW 2: EXPENSES SYSTEM[cite: 5] -->
             <div id="view-expenses" class="view-panel hidden space-y-4 md:space-y-6">
                 <div class="grid grid-cols-3 gap-3">
                     <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
@@ -328,7 +327,7 @@
                 </div>
             </div>
 
-            <!-- VIEW 3: CLOUD SYNC PAGE -->
+            <!-- VIEW 3: CLOUD CONFIG[cite: 5] -->
             <div id="view-cloud-config" class="view-panel hidden space-y-6">
                 <div class="max-w-xl card-bg p-5 rounded-xl border shadow-3xs space-y-4">
                     <div class="flex items-center gap-3">
@@ -351,7 +350,7 @@
         </div>
     </main>
 
-    <!-- FLOATING DYNAMIC FORM MODAL -->
+    <!-- FLOATING DYNAMIC FORM MODAL[cite: 5] -->
     <div id="modal-add-place" class="fixed inset-0 bg-black/50 backdrop-blur-md hidden items-center justify-center z-50 p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 transform scale-95 transition-transform duration-300" id="modal-box shadow">
             <div class="flex justify-between items-center">
@@ -431,7 +430,7 @@
         </div>
     </div>
 
-    <!-- CORE LOGIC ENGINE CONTROLLER -->
+    <!-- CORE LOGIC ENGINE CONTROLLER[cite: 5] -->
     <script>
         let state = {
             currentLang: "th",
@@ -665,14 +664,15 @@
                 const subItemsContainer = document.getElementById(`sub-box-${catName.replace(/[^a-zA-Z0-9]/g, '')}`);
 
                 if(sectionalItems.length === 0) {
-                    subItemsContainer.innerHTML = `<p class="text-[10px] text-gray-400 italic py-1 pl-2">ไม่มีรายการ</p>`;
+                    subItemsContainer.innerHTML = `<p class="text-[10px] text-gray-400 italic py-1 pl-2">ไม่มีรายการในหมวดหมู่นี้</p>`;
                     return;
                 }
 
                 sectionalItems.forEach((item, index) => {
                     const card = document.createElement('div');
-                    card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2 relative overflow-hidden ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
-                    
+                    card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
+                    card.style.animation = `fadeIn 0.4s ease forwards ${index * 0.05}s`;
+
                     const finalImg = item.img ? item.img : generateSmartImageUrl(item.title, item.link);
 
                     let mapBtnHtml = "";
@@ -688,7 +688,7 @@
 
                     let noteBoxHtml = "";
                     if(item.note && item.note.trim() !== "") {
-                        noteBoxHtml = `<div class="bg-gray-50/80 dark:bg-zinc-900/60 p-2 rounded-lg text-[10px] text-gray-500 dark:text-zinc-400 border border-gray-100 dark:border-zinc-800/80 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
+                        noteBoxHtml = `<div class="bg-gray-50/80 dark:bg-zinc-900/60 p-2 rounded-lg text-[11px] text-gray-500 dark:text-zinc-400 border border-gray-100 dark:border-zinc-800/80 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
                     }
 
                     const catC = getStyleByCat(item.category);
@@ -713,7 +713,6 @@
                                     <div class="flex items-center gap-1.5 flex-wrap">
                                         <h4 class="font-bold text-xs truncate ${item.visited ? 'line-through text-gray-400' : ''}">${item.title}</h4>
                                         ${innerBadgeHtml}
-                                        <!-- เพิ่มไอคอนปุ่มดูภาพด่วน -->
                                         <button onclick="openLightbox('${finalImg}', '${item.title}')" class="text-gray-400 hover:text-gray-900 dark:hover:text-white text-[10px]" title="คลิกดูรูปใหญ่"><i class="fa-regular fa-image"></i></button>
                                     </div>
                                     <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium">
