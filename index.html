@@ -3,322 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CouplesTrip // Ultimate Travel Engine (V5)</title>
+    <title>CouplesTrip // Neo-Modern Suite (V6)</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* FONTS SYSTEM INTEGRATION */
+        /* ทำระบบ fallback ฟอนต์แบบเสถียร หากต้องการชี้ไฟล์ตรง สามารถเปลี่ยน url เป็น path บนเซิร์ฟเวอร์ของคุณได้เลย */
+        @font-face {
+            font-family: 'EkkamaiVibe';
+            src: local('Ekkamai Vibe Regular'), local('EkkamaiVibe-Regular'), url('EkkamaiVibe-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SOV_Swadee';
+            src: local('SOV_Swadee'), url('SOV_Swadee.ttf') format('truetype');
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'NoisyWalk';
+            src: local('NoisyWalk'), url('NoisyWalk.ttf') format('truetype');
+            font-weight: normal;
+        }
+
+        /* FALLBACK SYSTEM & CORE TYPOGRAPHY (Pilo & Beba Style) */
         body {
-            font-family: 'Plus Jakarta Sans', 'Noto Sans Thai', sans-serif;
-            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: 'EkkamaiVibe', 'Plus Jakarta Sans', 'Noto Sans Thai', sans-serif;
+            transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* Advanced Web Animations System */
+        .header-font {
+            font-family: 'SOV_Swadee', 'NoisyWalk', 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Pilo Dark & Beba Light Theme Configurations */
+        body.theme-light { 
+            background-color: #F8F9FC; 
+            color: #111317; 
+        }
+        body.theme-light .card-bg { 
+            background-color: #FFFFFF; 
+            border-color: #EFF1F6; 
+            box-shadow: 0 4px 20px -2px rgba(147, 159, 181, 0.08);
+        }
+        body.theme-light .accent-pill { background-color: #F0F3F9; color: #3B4252; }
+        
+        /* Pilo Autonomous App Dark Premium Tone */
+        body.theme-dark { 
+            background-color: #0B0B0E; 
+            color: #E4E4E9; 
+        }
+        body.theme-dark .card-bg { 
+            background-color: #14141C; 
+            border-color: #1F1F2E; 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+        body.theme-dark input, body.theme-dark select, body.theme-dark textarea { 
+            background-color: #1A1A26; 
+            border-color: #26263B; 
+            color: #FFF; 
+        }
+        body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, body.theme-dark h4 { color: #FFF; }
+        body.theme-dark .accent-pill { background-color: #1C1C28; color: #A0A5B5; }
+
+        /* Smooth Layout Switchers */
         .view-panel {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-            transform: translateY(12px) scale(0.99);
         }
-        .view-panel.active-view {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        /* Place Cards Animations */
         .place-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .place-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px) scale(1.01);
         }
-        body.theme-dark .place-card:hover, body.theme-slate .place-card:hover {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Micro Interactive Click Feedback */
-        .click-bounce {
-            transition: transform 0.1s ease;
-        }
-        .click-bounce:active {
-            transform: scale(0.94);
-        }
-
-        /* Checkbox dynamic pop */
-        @keyframes popCheck {
-            0% { transform: scale(0.8); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .check-pop-active {
-            animation: popCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        /* Theme Configurations */
-        body.theme-light { background-color: #F3F4F6; color: #1F2937; }
-        body.theme-light .card-bg { background-color: #FFFFFF; border-color: #E5E7EB; }
         
-        body.theme-slate { background-color: #1E293B; color: #F8FAFC; }
-        body.theme-slate .card-bg { background-color: #0F172A; border-color: #334155; color: #F8FAFC; }
-        body.theme-slate input, body.theme-slate select, body.theme-slate textarea { background-color: #020617; border-color: #334155; color: #FFF; }
-        body.theme-slate h1, body.theme-slate h2, body.theme-slate h3, body.theme-slate h4 { color: #FFF; }
+        /* Dynamic Grid System */
+        .grid-layout-active {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
 
-        body.theme-dark { background-color: #09090B; color: #E4E4E7; }
-        body.theme-dark .card-bg { background-color: #141417; border-color: #27272A; color: #E4E4E7; }
-        body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #030303; border-color: #27272A; color: #FFF; }
-        body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, body.theme-dark h4 { color: #FFF; }
-
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-        body.theme-dark ::-webkit-scrollbar-thumb { background: #3F3F46; }
+        .click-bounce { transition: transform 0.1s ease; }
+        .click-bounce:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
+<body class="theme-dark antialiased h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <div class="md:hidden card-bg border-b px-4 py-3 flex items-center justify-between shrink-0 z-10 shadow-2xs">
-        <div class="flex items-center gap-2">
-            <div class="w-7 h-7 bg-rose-500 rounded-lg flex items-center justify-center text-white text-xs">
-                <i class="fa-solid fa-heart"></i>
-            </div>
-            <span class="font-bold text-sm tracking-tight" id="mobile-app-title">OurSpace V5</span>
-        </div>
-        <div class="flex bg-gray-100 dark:bg-zinc-800/80 p-0.5 rounded-lg text-xs font-semibold">
-            <button onclick="switchTab('itinerary')" id="m-btn-itinerary" class="px-2.5 py-1 rounded-md bg-white text-gray-900 shadow-3xs click-bounce">ทริป</button>
-            <button onclick="switchTab('expenses')" id="m-btn-expenses" class="px-2.5 py-1 rounded-md text-gray-500 click-bounce">เงิน</button>
-            <button onclick="switchTab('cloud-config')" id="m-btn-cloud" class="px-2.5 py-1 rounded-md text-gray-500 click-bounce"><i class="fa-solid fa-cloud"></i></button>
+    <div class="md:hidden card-bg border-b px-4 py-3 flex items-center justify-between shrink-0 z-10">
+        <span class="header-font font-bold text-base text-amber-500 tracking-wider">PILO // ENGINE</span>
+        <div class="flex bg-gray-100 dark:bg-zinc-800 p-0.5 rounded-lg text-xs">
+            <button onclick="switchTab('itinerary')" id="m-btn-itinerary" class="px-2.5 py-1 rounded-md bg-zinc-900 text-white shadow-3xs click-bounce">Trip</button>
+            <button onclick="switchTab('expenses')" id="m-btn-expenses" class="px-2.5 py-1 rounded-md text-gray-500 click-bounce">Money</button>
         </div>
     </div>
 
-    <aside class="hidden md:flex w-64 card-bg border-r flex-col justify-between p-6 shrink-0 h-full z-10 shadow-2xs">
-        <div>
-            <div class="flex items-center gap-3 px-2 mb-8">
-                <div class="w-9 h-9 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-heart text-sm"></i>
-                </div>
+    <aside class="hidden md:flex w-64 card-bg border-r flex-col justify-between p-6 shrink-0 h-full z-10">
+        <div class="space-y-8">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center text-black font-bold">P</div>
                 <div>
-                    <span class="font-bold text-base tracking-tight block">OurSpace</span>
-                    <span class="text-xs text-gray-400 font-medium">Smart-Engine V5</span>
+                    <span class="header-font font-bold text-sm tracking-widest block text-amber-500">PILO TRAVEL</span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-tight">Neo-Modern Studio</span>
                 </div>
             </div>
 
-            <nav class="space-y-1.5">
-                <button onclick="switchTab('itinerary')" id="btn-itinerary" class="sidebar-link active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-500 hover:text-white transition-all duration-300 cursor-pointer click-bounce">
-                    <i class="fa-solid fa-route text-base w-5 text-center"></i>
-                    <span data-lang-th="แผนการเดินทาง" data-lang-en="Trip Planner">แผนการเดินทาง</span>
+            <nav class="space-y-1">
+                <button onclick="switchTab('itinerary')" id="btn-itinerary" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-gray-400 hover:bg-amber-500 hover:text-black transition-all cursor-pointer click-bounce">
+                    <i class="fa-solid fa-compass text-base w-5 text-center"></i> แผนจัดหมวดหมู่ Section
                 </button>
-                <button onclick="switchTab('expenses')" id="btn-expenses" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-500 hover:text-white transition-all duration-300 cursor-pointer click-bounce">
-                    <i class="fa-solid fa-wallet text-base w-5 text-center"></i>
-                    <span data-lang-th="บันทึกค่าใช้จ่าย" data-lang-en="Expenses & Split">บันทึกค่าใช้จ่าย</span>
+                <button onclick="switchTab('expenses')" id="btn-expenses" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-gray-400 hover:bg-amber-500 hover:text-black transition-all cursor-pointer click-bounce">
+                    <i class="fa-solid fa-wallet text-base w-5 text-center"></i> สรุปบัญชีแยกคน
                 </button>
-                <button onclick="switchTab('cloud-config')" id="btn-cloud" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-500 hover:text-white transition-all duration-300 cursor-pointer click-bounce">
-                    <i class="fa-solid fa-cloud text-base w-5 text-center"></i>
-                    <span data-lang-th="เชื่อมต่อคลาวด์" data-lang-en="Google Cloud Sync">เชื่อมต่อคลาวด์</span>
+                <button onclick="switchTab('cloud-config')" id="btn-cloud" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-gray-400 hover:bg-amber-500 hover:text-black transition-all cursor-pointer click-bounce">
+                    <i class="fa-solid fa-cloud text-base w-5 text-center"></i> Google Cloud Sync
                 </button>
             </nav>
         </div>
 
-        <div class="space-y-3">
-            <div class="p-2.5 bg-gray-50 dark:bg-zinc-800/40 rounded-xl space-y-1.5 border border-gray-100 dark:border-zinc-800">
-                <span class="text-[10px] font-bold text-gray-400 block uppercase" data-lang-th="ธีมสีเว็บ" data-lang-en="Display Theme">ธีมสีเว็บ</span>
-                <div class="grid grid-cols-3 gap-1 text-[10px] font-bold text-center">
-                    <button onclick="changeTheme('light')" class="bg-white text-gray-800 p-1 rounded border border-gray-200 cursor-pointer click-bounce">Light</button>
-                    <button onclick="changeTheme('slate')" class="bg-slate-700 text-white p-1 rounded cursor-pointer click-bounce">Slate</button>
-                    <button onclick="changeTheme('dark')" class="bg-zinc-900 text-zinc-300 p-1 rounded cursor-pointer click-bounce">Dark</button>
+        <div class="space-y-4">
+            <div class="p-3 bg-zinc-100 dark:bg-zinc-900/60 rounded-xl border border-gray-200/50 dark:border-zinc-800">
+                <span class="text-[9px] font-bold text-gray-400 block uppercase tracking-wider mb-2">Display Mode</span>
+                <div class="grid grid-cols-2 gap-1.5 text-[11px] font-bold text-center">
+                    <button onclick="changeTheme('light')" class="bg-white text-gray-900 py-1 rounded-md border shadow-3xs cursor-pointer click-bounce"><i class="fa-solid fa-sun text-amber-500"></i> Light</button>
+                    <button onclick="changeTheme('dark')" class="bg-zinc-800 text-white py-1 rounded-md cursor-pointer click-bounce"><i class="fa-solid fa-moon text-indigo-400"></i> Dark</button>
                 </div>
             </div>
-            <div id="sync-indicator" class="bg-amber-50/60 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 p-3 rounded-2xl flex flex-col gap-1 transition-all duration-300">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
-                        <span class="text-xs font-bold text-amber-800 dark:text-amber-400" id="sync-status-title">Local Storage</span>
-                    </div>
-                </div>
-                <p class="text-[10px] text-amber-600 dark:text-amber-500 leading-relaxed" id="sync-status-desc">ระบบเซฟข้อมูลชั่วคราว</p>
+            <div id="sync-indicator" class="p-3 rounded-xl border border-amber-500/20 bg-amber-500/5 flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></div>
+                <span class="text-[10px] font-bold text-amber-500" id="sync-status-title">Local Engine Ready</span>
             </div>
         </div>
     </aside>
 
     <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         
-        <header class="card-bg border-b p-4 md:px-8 md:py-0 md:h-16 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
-            <div class="flex flex-wrap items-center justify-between md:justify-start gap-4">
-                <div class="flex items-center gap-1.5">
-                    <h1 class="text-base md:text-lg font-bold max-w-[140px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
-                    <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce"><i class="fa-solid fa-pen text-[10px]"></i></button>
-                </div>
-                
-                <div class="bg-gray-100 dark:bg-zinc-800/80 p-0.5 rounded-xl flex border border-gray-200/50 dark:border-zinc-700 items-center">
-                    <div id="plan-buttons-container" class="flex gap-0.5"></div>
-                    <button onclick="addNewPlanPrompt()" class="w-6 h-6 ml-1 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 flex items-center justify-center text-gray-500 text-xs cursor-pointer click-bounce"><i class="fa-solid fa-plus"></i></button>
-                    <button onclick="editCurrentPlanName()" class="w-6 h-6 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 flex items-center justify-center text-gray-400 text-xs cursor-pointer click-bounce"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deleteCurrentPlan()" class="w-6 h-6 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 flex items-center justify-center text-gray-400 hover:text-rose-500 text-xs cursor-pointer click-bounce"><i class="fa-solid fa-trash-can"></i></button>
-                </div>
+        <header class="card-bg border-b px-6 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between shrink-0">
+            <div class="flex items-center gap-3">
+                <h1 class="header-font text-lg md:text-xl font-bold tracking-tight" id="main-trip-title">Pilo Journey Plan</h1>
+                <button onclick="editTripTitle()" class="text-gray-400 hover:text-amber-500 cursor-pointer text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
             </div>
 
-            <div class="flex items-center justify-between md:justify-end gap-3 border-t border-gray-50 dark:border-zinc-800/60 pt-2.5 md:pt-0 md:border-0">
-                <div class="flex items-center gap-1.5 bg-gray-50 dark:bg-zinc-800/60 px-2 py-1 rounded-xl border border-gray-100 dark:border-zinc-800">
-                    <span class="text-[10px] font-bold text-gray-400 block uppercase">Members:</span>
-                    <div id="members-list-badges" class="flex gap-1 flex-wrap"></div>
-                    <button onclick="promptAddMember()" class="w-5 h-5 bg-gray-900 text-white dark:bg-zinc-700 rounded-md text-[10px] flex items-center justify-center hover:bg-rose-500 cursor-pointer click-bounce"><i class="fa-solid fa-plus"></i></button>
+            <div class="flex items-center gap-3 justify-between sm:justify-end">
+                <div class="bg-zinc-200 dark:bg-zinc-800 p-0.5 rounded-lg flex items-center gap-0.5 text-xs">
+                    <button onclick="toggleLayoutMode('list')" id="layout-btn-list" class="px-2.5 py-1 rounded-md bg-white dark:bg-zinc-700 font-bold click-bounce"><i class="fa-solid fa-bars"></i> List</button>
+                    <button onclick="toggleLayoutMode('grid')" id="layout-btn-grid" class="px-2.5 py-1 rounded-md text-gray-400 font-bold click-bounce"><i class="fa-solid fa-table-cells-large"></i> Grid Image</button>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleLanguage()" class="bg-gray-100 dark:bg-zinc-800 hover:bg-rose-500 hover:text-white px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer border border-gray-200 dark:border-zinc-700 click-bounce">
-                        <i class="fa-solid fa-language"></i> <span id="lang-btn-text">EN</span>
-                    </button>
-                    <div class="text-right">
-                        <p class="text-[9px] text-gray-400 font-bold leading-none uppercase">Est. Budget</p>
-                        <p class="text-xs md:text-sm font-bold" id="header-total-budget">฿0</p>
-                    </div>
-                    <button onclick="triggerManualSync()" class="bg-gray-900 dark:bg-zinc-700 hover:bg-rose-500 text-white text-[11px] font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1 cursor-pointer click-bounce">
-                        <i class="fa-solid fa-arrows-rotate text-[10px]" id="sync-icon"></i> <span class="hidden sm:inline">Sync</span>
-                    </button>
-                </div>
+                
+                <div class="flex items-center gap-1.5 accent-pill px-2.5 py-1 rounded-lg font-bold text-[11px]" id="members-list-badges"></div>
+                <button onclick="promptAddMember()" class="w-6 h-6 bg-amber-500 text-black rounded-md flex items-center justify-center text-xs font-bold click-bounce"><i class="fa-solid fa-plus"></i></button>
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/50 dark:bg-zinc-950/20 relative">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
             
-            <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
-                        <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="จำนวนจุดเช็คอิน" data-lang-en="Total Places">จำนวนจุดเช็คอิน</p>
-                        <h3 class="text-base md:text-xl font-bold" id="stat-places">0 Places</h3>
-                    </div>
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
-                        <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="ความคืบหน้าทริป" data-lang-en="Visited Progress">ความคืบหน้าทริป</p>
-                        <h3 class="text-base md:text-xl font-bold text-emerald-500 transition-all duration-300" id="stat-progress">0%</h3>
-                    </div>
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
-                        <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="ประมาณการค่าใช้จ่าย" data-lang-en="Est. Place Cost">ประมาณการค่าใช้จ่าย</p>
-                        <h3 class="text-base md:text-xl font-bold" id="stat-est-cost">฿0</h3>
-                    </div>
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs flex items-center justify-between">
-                        <div>
-                            <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="จัดการหมวดหมู่" data-lang-en="Categories Management">จัดการหมวดหมู่</p>
-                            <button onclick="promptManageCategories()" class="text-[10px] text-rose-500 font-bold hover:underline cursor-pointer"><i class="fa-solid fa-gear"></i> Setup</button>
-                        </div>
-                        <i class="fa-solid fa-tags text-gray-200 dark:text-zinc-800 text-lg hidden sm:block"></i>
-                    </div>
+            <div id="view-itinerary" class="view-panel space-y-6">
+                
+                <div class="flex justify-between items-center bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+                    <span class="text-xs font-bold text-amber-500"><i class="fa-solid fa-circle-nodes"></i> Smart Dynamic Multi-Sections Plan Block</span>
+                    <button onclick="openModal('add')" class="bg-amber-500 text-black font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm click-bounce">
+                        <i class="fa-solid fa-plus-circle"></i> เพิ่มบันทึกในทริป
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
-                    <div class="lg:col-span-7 space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h2 class="font-bold text-xs md:text-sm flex items-center gap-2">
-                                <span data-lang-th="รายการจุดเช็คอิน" data-lang-en="Destination Checklist">รายการจุดเช็คอิน</span>
-                                <span class="bg-rose-50 text-rose-600 text-[10px] px-2 py-0.5 rounded-full font-bold border border-rose-100" id="plan-badge">Plan A</span>
-                            </h2>
-                            <button onclick="openModal('add')" class="text-xs text-rose-500 font-bold hover:underline flex items-center gap-1 cursor-pointer click-bounce">
-                                <i class="fa-solid fa-plus"></i> <span data-lang-th="เพิ่มสถานที่" data-lang-en="Add Place">เพิ่มสถานที่</span>
-                            </button>
-                        </div>
-
-                        <div id="places-container" class="space-y-2.5"></div>
+                <div id="sections-container" class="space-y-8">
                     </div>
-
-                    <div class="lg:col-span-5 card-bg p-3.5 rounded-xl border shadow-3xs sticky top-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-[11px] font-bold flex items-center gap-1"><i class="fa-solid fa-location-dot text-rose-500"></i> Google Maps Live Frame</span>
-                            <span class="text-[10px] text-gray-400 truncate max-w-[150px]" id="map-target-name">None Selected</span>
-                        </div>
-                        <div class="rounded-xl overflow-hidden h-64 md:h-80 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800/80 relative flex items-center justify-center">
-                            <iframe id="google-maps-iframe" class="w-full h-full border-0 hidden" allowfullscreen="" loading="lazy"></iframe>
-                            <div id="map-placeholder" class="text-center p-4 space-y-1.5">
-                                <i class="fa-solid fa-map-location-dot text-gray-300 dark:text-zinc-700 text-3xl animate-bounce"></i>
-                                <p class="text-[11px] text-gray-400 max-w-[200px] mx-auto" data-lang-th="กดปุ่มส่องแผนที่เพื่อนำทางหรือปักหมุดสด" data-lang-en="Click Map button on destination cards to active map window">กดปุ่มส่องแผนที่เพื่อนำทางหรือปักหมุดสด</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div id="view-expenses" class="view-panel hidden space-y-4 md:space-y-6">
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
-                        <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="เงินใช้จริงรวมทั้งหมด" data-lang-en="Total Actual Spent">เงินใช้จริงรวมทั้งหมด</p>
-                        <h3 class="text-sm md:text-lg font-bold" id="exp-total-spent">฿0</h3>
+            <div id="view-expenses" class="view-panel hidden space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="card-bg p-4 rounded-xl border">
+                        <span class="text-[10px] text-gray-400 font-bold block uppercase tracking-wider mb-1">Total Actual Spent</span>
+                        <h2 class="text-2xl font-bold text-amber-500" id="exp-total-spent">฿0</h2>
                     </div>
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs col-span-2 bg-linear-to-r from-gray-900 to-gray-800 text-white border-0">
-                        <p class="text-[10px] font-medium text-gray-300 mb-0.5" data-lang-th="ระบบคำนวณแบ่งบิลสมาชิก" data-lang-en="Dynamic Auto Calculation Formulas">ระบบคำนวณแบ่งบิลสมาชิก</p>
-                        <div id="split-formula-badge" class="text-[11px] font-bold text-emerald-400 truncate">Split System Active</div>
+                    <div class="card-bg p-4 rounded-xl border md:col-span-2">
+                        <span class="text-[10px] text-gray-400 font-bold block uppercase tracking-wider mb-2">Ledger Split Fairness Board (ดุลบัญชีประมวลผลสด)</span>
+                        <div id="settlement-board-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
                     </div>
                 </div>
 
-                <div class="card-bg p-4 rounded-xl border shadow-3xs space-y-2">
-                    <h4 class="text-xs font-bold flex items-center gap-1.5"><i class="fa-solid fa-scale-balanced text-emerald-500"></i> <span data-lang-th="สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)" data-lang-en="Fair-share Ledger Status Board">สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)</span></h4>
-                    <div id="settlement-board-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
-                    <div class="lg:col-span-5 card-bg p-4 rounded-xl border shadow-3xs space-y-3">
-                        <h3 class="font-bold text-xs md:text-sm" data-lang-th="จดบันทึกบิลค่าใช้จ่ายจริง" data-lang-en="Add Actual Transaction Bill">จดบันทึกบิลค่าใช้จ่ายจริง</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <div class="lg:col-span-5 card-bg p-4 rounded-xl border space-y-3">
+                        <h3 class="font-bold text-xs uppercase tracking-wider text-amber-500">จดบันทึกค่าใช้จ่ายด่วน</h3>
                         <div class="space-y-2.5 text-xs">
-                            <div>
-                                <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="ชื่อรายการ" data-lang-en="Bill Item Title">ชื่อรายการ</label>
-                                <input type="text" id="expense-title" placeholder="เช่น ค่าที่พัก, ค่ากินมื้อเย็น" class="w-full text-xs rounded-lg px-3 py-2 border focus:outline-hidden">
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-rose-500 font-bold block mb-0.5"><i class="fa-solid fa-link"></i> <span data-lang-th="เชื่อมโยงค่าใช้จ่ายกับสถานที่ในแผน" data-lang-en="Link expense to trip place">เชื่อมโยงค่าใช้จ่ายกับสถานที่ในแผน</span></label>
-                                <select id="expense-linked-place" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-900"></select>
+                            <input type="text" id="expense-title" placeholder="ชื่อรายการ เช่น ค่าตั๋วรถไฟตู้เลนอน" class="w-full text-xs rounded-lg px-3 py-2 border">
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="expense-category" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-800">
+                                    <option value="✈️ การเดินทาง">✈️ การเดินทาง</option>
+                                    <option value="🏨 ที่พัก">🏨 ที่พัก</option>
+                                    <option value="🍽️ อาหาร">🍽️ อาหาร</option>
+                                    <option value="🎟️ ท่องเที่ยวทั่วไป">🎟️ ท่องเที่ยวทั่วไป</option>
+                                </select>
+                                <input type="number" id="expense-amount" placeholder="จำนวนเงินจริง (฿)" class="w-full text-xs rounded-lg px-3 py-2 border">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="หมวดหมู่บิล" data-lang-en="Category">หมวดหมู่บิล</label>
-                                    <select id="expense-category" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-900"></select>
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="จำนวนเงินจ่ายจริง (฿)" data-lang-en="Amount (฿)">จำนวนเงินจ่ายจริง (฿)</label>
-                                    <input type="number" id="expense-amount" placeholder="0.00" class="w-full text-xs rounded-lg px-3 py-2 border">
-                                </div>
+                                <select id="expense-payer" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-800"></select>
+                                <select id="expense-split" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-800">
+                                    <option value="split">หารเท่ากันทุกคน</option>
+                                    <option value="nosplit">จ่ายแยกส่วนตัว</option>
+                                </select>
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="ใครสำรองจ่าย?" data-lang-en="Who Paid?">ใครสำรองจ่าย?</label>
-                                    <select id="expense-payer" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-900"></select>
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="รูปแบบการหาร" data-lang-en="Split Condition">รูปแบบการหาร</label>
-                                    <select id="expense-split" class="w-full text-xs rounded-lg px-2.5 py-2 border bg-white dark:bg-zinc-900">
-                                        <option value="split">หารเท่ากันทุกคนในทริป</option>
-                                        <option value="nosplit">จ่ายแยกส่วนตัว (ไม่หารหนี้)</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <button onclick="addExpense()" class="w-full bg-amber-500 text-black text-xs font-bold py-2 rounded-lg cursor-pointer click-bounce">บันทึกประวัติการเงิน</button>
                         </div>
-                        <button onclick="addExpense()" class="w-full bg-gray-900 dark:bg-zinc-700 text-white text-xs font-semibold py-2 rounded-lg cursor-pointer click-bounce">
-                            บันทึกธุรกรรมการเงิน
-                        </button>
                     </div>
 
-                    <div class="lg:col-span-7 card-bg p-4 rounded-xl border shadow-3xs space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-xs md:text-sm" data-lang-th="บันทึกประวัติธุรกรรม" data-lang-en="Transaction Ledgers Log">บันทึกประวัติธุรกรรม</h3>
-                            <span class="text-[10px] text-gray-400 font-bold" id="log-count">0 Items</span>
-                        </div>
-                        <div id="expense-log-list" class="space-y-2 max-h-80 overflow-y-auto pr-0.5"></div>
+                    <div class="lg:col-span-7 card-bg p-4 rounded-xl border space-y-3">
+                        <h3 class="font-bold text-xs uppercase tracking-wider text-gray-400">ประวัติค่าใช้จ่ายทั้งหมด</h3>
+                        <div id="expense-log-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
                     </div>
                 </div>
             </div>
 
-            <div id="view-cloud-config" class="view-panel hidden space-y-6">
-                <div class="max-w-xl card-bg p-5 rounded-xl border shadow-3xs space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl flex items-center justify-center text-emerald-600"><i class="fa-solid fa-cloud"></i></div>
-                        <div>
-                            <h2 class="font-bold text-sm">Google Sheets Cloud Config v5</h2>
-                            <p class="text-[11px] text-gray-400">วางรหัสผ่านคลาวด์เว็บแอปส่วนตัวของคุณเพื่อใช้งานออนไลน์</p>
-                        </div>
-                    </div>
-                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-3 space-y-3">
-                        <input type="url" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs rounded-lg px-3 py-2.5 border">
-                        <div class="flex gap-2">
-                            <button onclick="saveCloudConfig()" class="bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer click-bounce">เปิดระบบโหมดออนไลน์</button>
-                            <button onclick="disconnectCloud()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer click-bounce">ปิดการเชื่อมต่อ</button>
-                        </div>
+            <div id="view-cloud-config" class="view-panel hidden">
+                <div class="max-w-md card-bg p-5 rounded-2xl border space-y-4">
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-amber-500">Google Sheets Connection Hub</h3>
+                    <input type="url" id="cloud-script-url" placeholder="วางลิงก์ Web App URL ของคุณที่นี่..." class="w-full text-xs rounded-lg px-3 py-2.5 border">
+                    <div class="flex gap-2">
+                        <button onclick="saveCloudConfig()" class="bg-amber-500 text-black font-bold text-xs px-4 py-2 rounded-xl cursor-pointer click-bounce">เชื่อมต่อระบบคลาวด์</button>
                     </div>
                 </div>
             </div>
@@ -326,571 +229,367 @@
         </div>
     </main>
 
-    <div id="modal-add-place" class="fixed inset-0 bg-black/50 backdrop-blur-md hidden items-center justify-center z-50 p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 transform scale-95 transition-transform duration-300" id="modal-box shadow">
+    <div id="modal-add-place" class="fixed inset-0 bg-black/70 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4">
             <div class="flex justify-between items-center">
-                <h3 class="font-bold text-sm md:text-base" id="modal-title-text">เพิ่มจุดเช็คอินใหม่</h3>
-                <button onclick="closeModal()" class="w-6 h-6 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 flex items-center justify-center text-gray-400 cursor-pointer click-bounce"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="font-bold text-sm text-amber-500 uppercase tracking-wider" id="modal-title-text">ระบุข้อมูลทริป</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
-            <div class="space-y-2.5 text-xs text-gray-700 dark:text-zinc-300">
+            <div class="space-y-3 text-xs">
                 <input type="hidden" id="edit-place-id">
+                
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ชื่อสถานที่" data-lang-en="Destination Title">ชื่อสถานที่</label>
-                    <input type="text" id="p-title" placeholder="เช่น วัดพระแก้ว, คาเฟ่ม่อนแจ่ม" class="w-full border rounded-lg px-3 py-1.5 focus:outline-hidden">
+                    <label class="text-[10px] text-gray-400 font-bold block mb-1">เลือกประเภทหมวดหมู่ (Section แยกเด่นชัด)</label>
+                    <select id="p-category" onchange="handleModalSectionToggle()" class="w-full border rounded-lg px-2 py-1.5 bg-gray-50 dark:bg-zinc-800">
+                        <option value="✈️ การเดินทาง">✈️ การเดินทาง (ซ่อนฟิลด์ที่ไม่จำเป็นโดยอัตโนมัติ)</option>
+                        <option value="🏨 ที่พัก">🏨 ที่พัก</option>
+                        <option value="🍽️ อาหาร">🍽️ อาหาร</option>
+                        <option value="🎟️ ท่องเที่ยวทั่วไป">🎟️ ท่องเที่ยวทั่วไป</option>
+                    </select>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="เลือกหมวดหมู่" data-lang-en="Category">เลือกหมวดหมู่</label>
-                        <select id="p-category" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900"></select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ระดับความสำคัญ" data-lang-en="Priority Selection">ระดับความสำคัญ</label>
-                        <select id="p-priority" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900">
-                            <option value="⭐ High">⭐ High (ต้องไป)</option>
-                            <option value="Medium">Medium (น่าไป)</option>
-                            <option value="Low">Low (สำรอง)</option>
+
+                <div>
+                    <label id="label-p-title" class="text-[10px] text-gray-400 font-bold block mb-1">ชื่อจุดหมาย / แหล่งท่องเที่ยว</label>
+                    <input type="text" id="p-title" placeholder="เช่น โรงแรมมิลเลนเนียม, ร้านอาหารริมน้ำ" class="w-full border rounded-lg px-3 py-1.5">
+                </div>
+
+                <div id="transport-options-block" class="hidden">
+                    <label class="text-[10px] text-amber-500 font-bold block mb-1">ยานพาหนะ / รูปแบบการเดินทาง</label>
+                    <select id="p-transport-type" class="w-full border rounded-lg px-2 py-1.5 bg-gray-50 dark:bg-zinc-800">
+                        <option value="เครื่องบิน ✈️">เครื่องบิน ✈️</option>
+                        <option value="รถไฟ 🚂">รถไฟ 🚂</option>
+                        <option value="เช่ารถคันใหญ่ 🚗">เช่ารถคันใหญ่ 🚗</option>
+                        <option value="ขับรถส่วนตัว 🚘">ขับรถส่วนตัว 🚘</option>
+                        <option value="รถตู้/บัส 🚌">รถตู้/บัส 🚌</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2" id="priority-cost-row">
+                    <div id="priority-sub-block">
+                        <label class="text-[10px] text-gray-400 font-bold block mb-1">ความสำคัญ</label>
+                        <select id="p-priority" class="w-full border rounded-lg px-2 py-1.5 bg-gray-50 dark:bg-zinc-800">
+                            <option value="⭐ High">⭐ High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
                         </select>
                     </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="งบประมาณ (฿)" data-lang-en="Budget Estimation (฿)">งบประมาณ (฿)</label>
-                        <input type="number" id="p-cost" class="w-full border rounded-lg px-3 py-1.5">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ลิงก์เว็บไซต์/จองตั๋ว" data-lang-en="Website URL Link">ลิงก์เว็บไซต์/จองตั๋ว</label>
-                        <input type="url" id="p-website" placeholder="https://..." class="w-full border rounded-lg px-3 py-1.5">
+                    <div class="col-span-2" id="cost-sub-block">
+                        <label class="text-[10px] text-gray-400 font-bold block mb-1">งบประมาณค่าใช้จ่าย (฿)</label>
+                        <input type="number" id="p-cost" placeholder="0" class="w-full border rounded-lg px-3 py-1.5">
                     </div>
                 </div>
+
                 <div>
-                    <label class="text-[10px] font-bold text-rose-500 block mb-0.5" data-lang-th="ลิงก์แผนที่ Google Maps (ระบบจะดึงรูปให้อัตโนมัติ)" data-lang-en="Google Maps Sharing Link (Auto smart image active)">ลิงก์แผนที่ Google Maps (ระบบจะดึงรูปให้อัตโนมัติ)</label>
-                    <input type="url" id="p-link" placeholder="https://goo.gl/maps/..." class="w-full border rounded-lg px-3 py-1.5">
+                    <label class="text-[10px] text-gray-400 font-bold block mb-1">ลิงก์ Google Maps / ลิงก์จองตั๋วภายนอก</label>
+                    <input type="url" id="p-link" placeholder="https://..." class="w-full border rounded-lg px-3 py-1.5">
                 </div>
+
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ระบุลิงก์รูปภาพเอง (หากไม่ใช้รูปอัตโนมัติ)" data-lang-en="Custom Image Link Override">ระบุลิงก์รูปภาพเอง (หากไม่ใช้รูปอัตโนมัติ)</label>
-                    <input type="url" id="p-img" placeholder="https://..." class="w-full border rounded-lg px-3 py-1.5">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="บันทึกเพิ่มเติม (Note)" data-lang-en="Additional Travel Note">บันทึกเพิ่มเติม (Note)</label>
-                    <textarea id="p-note" rows="2" placeholder="เช่น ต้องไปถึงก่อนกี่โมง..." class="w-full border rounded-lg px-3 py-1.5 bg-white dark:bg-zinc-900"></textarea>
+                    <label class="text-[10px] text-gray-400 font-bold block mb-1">รายละเอียดเพิ่มเติม หรือ Note บันทึกความจำ</label>
+                    <textarea id="p-note" rows="2" placeholder="เช่น เบอร์โทรศัพท์ติดต่อ, เลขรหัสการจองบุ๊คกิ้งเวลาสว่าง" class="w-full border rounded-lg px-3 py-1.5 bg-gray-50 dark:bg-zinc-800"></textarea>
                 </div>
             </div>
 
-            <button onclick="submitPlaceForm()" id="modal-submit-btn" class="w-full bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold py-2.5 rounded-lg cursor-pointer click-bounce shadow-md">
-                บันทึกข้อมูล
+            <button onclick="submitPlaceForm()" class="w-full bg-amber-500 text-black text-xs font-bold py-2.5 rounded-lg cursor-pointer click-bounce shadow-md">
+                บันทึกการปรับเปลี่ยนโครงสร้าง
             </button>
         </div>
     </div>
 
     <script>
         let state = {
-            currentLang: "th",
-            currentTheme: "light",
-            tripTitle: "Our Dream Trip",
+            currentTheme: "dark",
+            layoutMode: "list", // 'list' หรือ 'grid'
+            tripTitle: "Pilo Journey Hub",
             members: ["คุณเอง", "แฟน"],
-            categories: ["✈️ เดินทาง", "🏨 ที่พัก", "🍽️ อาหาร", "🛍️ ช้อปปิ้ง", "🎟️ ท่องเที่ยว"],
-            plans: ["Plan A", "Plan B"],
-            currentPlan: "Plan A",
-            tripData: { "Plan A": [], "Plan B": [] },
+            tripData: [],
             expenses: []
         };
 
         let cloudScriptUrl = "";
         let modalMode = "add";
 
-        function getCloudUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let p = urlParams.get('db');
-            if (p) { try { return atob(p); } catch(e) { return p; } }
-            return localStorage.getItem('trip_cloud_url_v5') || "";
-        }
-
-        function updateBrowserUrl(url) {
-            if (url) {
-                const b64 = btoa(url);
-                const nUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?db=' + b64;
-                window.history.pushState({path: nUrl}, '', nUrl);
-            }
-        }
-
         function init() {
-            const localTheme = localStorage.getItem('trip_theme_v5') || "light";
-            changeTheme(localTheme);
-
-            const localLang = localStorage.getItem('trip_lang_v5') || "th";
-            state.currentLang = localLang;
-
-            cloudScriptUrl = getCloudUrl();
-            if (cloudScriptUrl) {
-                document.getElementById('cloud-script-url').value = cloudScriptUrl;
-                updateBrowserUrl(cloudScriptUrl);
-                updateSyncUI(true, "Cloud Sync Active", "ออนไลน์เชื่อมโยงฐานข้อมูลแล้ว");
+            const cacheUrl = localStorage.getItem('pilo_cloud_url_v6') || "";
+            if(cacheUrl) {
+                cloudScriptUrl = cacheUrl;
+                document.getElementById('cloud-script-url').value = cacheUrl;
                 pullFromCloud();
             } else {
-                const local = localStorage.getItem('trip_local_db_v5');
-                if (local) state = JSON.parse(local);
-                state.currentLang = localLang;
-                updateSyncUI(false, "Local Mode", "ระบบเซฟข้อมูลในเครื่องชั่วคราว");
+                const local = localStorage.getItem('pilo_local_db_v6');
+                if(local) state = JSON.parse(local);
                 renderAll();
             }
+            changeTheme(state.currentTheme || 'dark');
         }
 
         function saveState() {
-            if (cloudScriptUrl) pushToCloud();
-            else localStorage.setItem('trip_local_db_v5', JSON.stringify(state));
-        }
-
-        async function pushToCloud() {
-            if (!cloudScriptUrl) return;
-            setSyncLoading(true);
-            try {
-                await fetch(cloudScriptUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(state)
-                });
-                setTimeout(() => setSyncLoading(false), 600);
-            } catch(e) { console.error(e); setSyncLoading(false); }
+            if (cloudScriptUrl) {
+                fetch(cloudScriptUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(state) });
+            } else {
+                localStorage.setItem('pilo_local_db_v6', JSON.stringify(state));
+            }
         }
 
         async function pullFromCloud() {
-            if (!cloudScriptUrl) return;
-            setSyncLoading(true);
+            if(!cloudScriptUrl) return;
             try {
                 let res = await fetch(cloudScriptUrl);
                 let data = await res.json();
-                if (data && data.plans) {
-                    const langCache = state.currentLang;
-                    state = data;
-                    state.currentLang = langCache;
-                    renderAll();
-                }
-            } catch(e) {
-                console.error(e);
-                const local = localStorage.getItem('trip_local_db_v5');
-                if (local) state = JSON.parse(local);
-                renderAll();
-            } finally { setSyncLoading(false); }
+                if(data && data.members) { state = data; renderAll(); }
+            } catch(e) { console.error(e); }
         }
 
-        function triggerManualSync() {
-            if (cloudScriptUrl) pullFromCloud();
-            else alert(state.currentLang === "th" ? "คุณอยู่ในโหมดออฟไลน์ กรุณาเชื่อมคลาวด์ก่อน" : "Offline mode active.");
+        function changeTheme(theme) {
+            document.body.classList.remove('theme-light', 'theme-dark');
+            document.body.classList.add('theme-' + theme);
+            state.currentTheme = theme;
+            localStorage.setItem('pilo_theme_v6', theme);
         }
 
-        function changeTheme(themeName) {
-            document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark');
-            document.body.classList.add('theme-' + themeName);
-            state.currentTheme = themeName;
-            localStorage.setItem('trip_theme_v5', themeName);
-        }
-
-        function toggleLanguage() {
-            state.currentLang = state.currentLang === "th" ? "en" : "th";
-            localStorage.setItem('trip_lang_v5', state.currentLang);
-            renderAll();
-        }
-
-        function applyLanguageStrings() {
-            const isEn = state.currentLang === "en";
-            document.getElementById('lang-btn-text').innerText = isEn ? "TH" : "EN";
-            document.querySelectorAll('[data-lang-th]').forEach(el => {
-                el.innerText = isEn ? el.getAttribute('data-lang-en') : el.getAttribute('data-lang-th');
-            });
+        function toggleLayoutMode(mode) {
+            state.layoutMode = mode;
+            document.getElementById('layout-btn-list').className = mode === 'list' ? "px-2.5 py-1 rounded-md bg-white dark:bg-zinc-700 font-bold click-bounce" : "px-2.5 py-1 rounded-md text-gray-400 font-bold click-bounce";
+            document.getElementById('layout-btn-grid').className = mode === 'grid' ? "px-2.5 py-1 rounded-md bg-white dark:bg-zinc-700 font-bold click-bounce" : "px-2.5 py-1 rounded-md text-gray-400 font-bold click-bounce";
+            renderItinerary();
         }
 
         function switchTab(tab) {
-            // Elegant Tab Change Animation Flow
-            const panels = ['view-itinerary', 'view-expenses', 'view-cloud-config'];
-            panels.forEach(p => {
-                const el = document.getElementById(p);
-                el.classList.add('hidden');
-                el.classList.remove('active-view');
-            });
-
-            document.getElementById('m-btn-itinerary').className = "px-2.5 py-1 rounded-md text-gray-500 click-bounce";
-            document.getElementById('m-btn-expenses').className = "px-2.5 py-1 rounded-md text-gray-500 click-bounce";
-            document.getElementById('m-btn-cloud').className = "px-2.5 py-1 rounded-md text-gray-500 click-bounce";
-
-            let targetId = "view-itinerary";
-            if (tab === 'expenses') targetId = "view-expenses";
-            if (tab === 'cloud-config') targetId = "view-cloud-config";
-
-            const targetEl = document.getElementById(targetId);
-            targetEl.classList.remove('hidden');
-            // Trigger animation frame layout reflow
-            setTimeout(() => { targetEl.classList.add('active-view'); }, 20);
-
-            if(tab === 'itinerary') document.getElementById('m-btn-itinerary').className = "px-2.5 py-1 rounded-md bg-white text-gray-900 shadow-3xs click-bounce";
-            if(tab === 'expenses') document.getElementById('m-btn-expenses').className = "px-2.5 py-1 rounded-md bg-white text-gray-900 shadow-3xs click-bounce";
-            if(tab === 'cloud-config') document.getElementById('m-btn-cloud').className = "px-2.5 py-1 rounded-md bg-white text-gray-900 shadow-3xs click-bounce";
+            document.getElementById('view-itinerary').classList.add('hidden');
+            document.getElementById('view-expenses').classList.add('hidden');
+            document.getElementById('view-cloud-config').classList.add('hidden');
+            document.getElementById('view-' + tab).classList.remove('hidden');
         }
 
-        // SMART IMAGE HUB GENERATOR (แปลงลิงก์แมพเป็นรูปที่แม่นยำที่สุดแบบออโต้)
-        function generateSmartImageUrl(placeTitle, googleMapLink) {
-            if (!googleMapLink || googleMapLink.trim() === "") {
-                // Fallback เผื่อไม่มีลิงก์แผนที่ ให้ดึงภาพตามชื่อหมวดหมู่หรือคีย์เวิร์ดชื่อสถานที่
-                return `https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&q=80`;
+        function handleModalSectionToggle() {
+            const cat = document.getElementById('p-category').value;
+            const transportBlock = document.getElementById('transport-options-block');
+            const prioritySubBlock = document.getElementById('priority-sub-block');
+            const costSubBlock = document.getElementById('cost-sub-block');
+            const labelTitle = document.getElementById('label-p-title');
+
+            if (cat === "✈️ การเดินทาง") {
+                transportBlock.classList.remove('hidden');
+                prioritySubBlock.classList.add('hidden');
+                costSubBlock.className = "col-span-2";
+                labelTitle.innerText = "ชื่อเส้นทางการจัดส่ง/เดินทาง (เช่น กรุงเทพ - เชียงใหม่)";
+            } else {
+                transportBlock.classList.add('hidden');
+                prioritySubBlock.classList.remove('hidden');
+                costSubBlock.className = "col-span-1";
+                labelTitle.innerText = "ชื่อจุดหมาย / แหล่งท่องเที่ยว / ร้านค้า";
             }
-            
-            // ใช้เทคนิค Clean Search Query จากคำค้นหาสถานที่จริงเพื่อให้ได้ภาพที่ตรงกับวิวสถานที่นั้นจริงที่สุด
-            const cleanKeyword = encodeURIComponent(placeTitle.replace(/\s+/g, ','));
-            return `https://source.unsplash.com/featured/150x150/?${cleanKeyword},landscape,building`;
         }
 
         function renderItinerary() {
-            const container = document.getElementById('places-container');
+            const container = document.getElementById('sections-container');
             container.innerHTML = '';
-            const list = state.tripData[state.currentPlan] || [];
+
+            const sections = ["✈️ การเดินทาง", "🏨 ที่พัก", "🍽️ อาหาร", "🎟️ ท่องเที่ยวทั่วไป"];
             
-            const totalEstCost = list.reduce((s, i) => s + i.cost, 0);
-            const progress = list.length ? Math.round((list.filter(i=>i.visited).length / list.length)*100) : 0;
+            sections.forEach(secName => {
+                const secItems = state.tripData.filter(i => i.category === secName) || [];
+                
+                const secBlock = document.createElement('div');
+                secBlock.className = "space-y-3";
+                
+                let totalSecCost = secItems.reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
 
-            document.getElementById('stat-places').innerText = `${list.length} Places`;
-            document.getElementById('stat-progress').innerText = `${progress}%`;
-            document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
-            
-            const totalActual = state.expenses.reduce((s, i) => s + i.amount, 0);
-            document.getElementById('header-total-budget').innerText = `฿${(totalEstCost + totalActual).toLocaleString()}`;
+                secBlock.innerHTML = `
+                    <div class="flex items-center justify-between border-b pb-1.5 border-zinc-200 dark:border-zinc-800">
+                        <h3 class="header-font font-bold text-sm text-gray-800 dark:text-zinc-200">${secName} <span class="text-[11px] text-gray-400">(${secItems.length} รายการ)</span></h3>
+                        <span class="text-xs font-bold text-amber-500">รวม: ฿${totalSecCost.toLocaleString()}</span>
+                    </div>
+                    <div id="box-list-${secName.replace(/[^a-zA-Z0-9]/g, '')}" class="${state.layoutMode === 'grid' ? 'grid-layout-active' : 'space-y-2.5'}"></div>
+                `;
+                
+                container.appendChild(secBlock);
+                const itemsSubBox = document.getElementById(`box-list-${secName.replace(/[^a-zA-Z0-9]/g, '')}`);
 
-            if(list.length === 0) {
-                container.innerHTML = `<p class="text-[11px] text-gray-400 py-8 text-center card-bg rounded-xl border border-dashed">ยังไม่มีจุดแวะเที่ยวในแผนนี้</p>`;
-                return;
-            }
-
-            list.forEach((item, index) => {
-                const card = document.createElement('div');
-                // ผูก Class อนิเมชันแบบสะดุดตา
-                card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
-                card.style.animation = `fadeIn 0.4s ease forwards ${index * 0.05}s`;
-
-                // การทำงานของ Smart Image Hub (ถ้ารูปเองว่าง ให้เจนภาพออโต้ที่ดึงจากพิกัดข้อมูลสิ่งปลูกสร้าง)
-                const finalImg = item.img ? item.img : generateSmartImageUrl(item.title, item.link);
-
-                let mapBtnHtml = "";
-                if(item.link) {
-                    const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(item.title)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-                    mapBtnHtml = `<button onclick="loadLiveMap('${embedUrl}', '${item.title}')" class="text-blue-500 hover:underline text-[11px] font-bold cursor-pointer inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-map-location"></i> ส่องแผนที่</button>`;
+                if (secItems.length === 0) {
+                    itemsSubBox.innerHTML = `<p class="text-[11px] text-gray-500 italic py-4">ไม่มีข้อมูลในเซกชันนี้</p>`;
+                    return;
                 }
 
-                let webBtnHtml = "";
-                if(item.website) {
-                    webBtnHtml = `<a href="${item.website}" target="_blank" class="text-rose-500 hover:underline text-[11px] font-bold inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Info Web</a>`;
-                }
+                secItems.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = `place-card card-bg p-3.5 rounded-xl border flex ${state.layoutMode === 'grid' ? 'flex-col' : 'items-center justify-between'} gap-3 relative`;
+                    
+                    // ระบบดึงภาพ Unsplash ตาม Keyword แบบอัตโนมัติ
+                    const fallbackImgKeyword = encodeURIComponent(item.title);
+                    const dynamicImgSrc = `https://source.unsplash.com/featured/300x200/?${fallbackImgKeyword},travel`;
 
-                let noteBoxHtml = "";
-                if(item.note && item.note.trim() !== "") {
-                    noteBoxHtml = `<div class="bg-gray-50/80 dark:bg-zinc-900/60 p-2 rounded-lg text-[11px] text-gray-500 dark:text-zinc-400 border border-gray-100 dark:border-zinc-800/80 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
-                }
+                    let subDetailsHtml = item.link ? `<a href="${item.link}" target="_blank" class="text-amber-500 font-bold text-[10px] hover:underline"><i class="fa-solid fa-diamond-turn-right"></i> เปิดแผนที่นำทาง</a>` : "";
+                    
+                    let transportBadge = item.transportType ? `<span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[10px] font-bold">${item.transportType}</span>` : "";
+                    let priorityBadge = item.priority && item.category !== "✈️ การเดินทาง" ? `<span class="bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] font-bold">${item.priority}</span>` : "";
 
-                const catC = getStyleByCat(item.category);
-
-                card.innerHTML = `
-                    <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
-                        <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                            <button onclick="toggleVisited(${item.id}, this)" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white check-pop-active' : 'border-gray-300 bg-white dark:bg-zinc-900'}">
-                                ${item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
-                            </button>
-                            <img class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 transition-transform duration-500 hover:scale-110" src="${finalImg}" alt="Place" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=80&q=80'">
-                            <div class="min-w-0 flex-1">
+                    if (state.layoutMode === 'grid') {
+                        // หน้าตาแบบตารางโชว์ภาพขนาดใหญ่พรีเมียมตามสั่ง
+                        card.innerHTML = `
+                            <img src="${dynamicImgSrc}" class="w-full h-32 object-cover rounded-lg bg-zinc-800" onerror="this.style.display='none'">
+                            <div class="space-y-1.5 flex-1">
                                 <div class="flex items-center gap-1.5 flex-wrap">
-                                    <h4 class="font-bold text-xs truncate ${item.visited ? 'line-through text-gray-400' : ''}">${item.title}</h4>
-                                    <span class="text-[9px] px-1.5 py-0.2 font-bold rounded border ${catC}">${item.category || '🎟️ กิจกรรม'}</span>
-                                    <span class="text-[9px] px-1.5 py-0.2 rounded font-medium bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400">${item.priority}</span>
+                                    ${transportBadge} ${priorityBadge}
                                 </div>
-                                <div class="flex items-center gap-3 mt-0.5 text-[11px] text-gray-400 font-medium">
-                                    <span class="text-gray-900 dark:text-white font-bold">฿${item.cost.toLocaleString()}</span>
-                                    ${mapBtnHtml}
-                                    ${webBtnHtml}
+                                <h4 class="font-bold text-xs text-white">${item.title}</h4>
+                                <p class="text-[11px] text-gray-400 line-clamp-2">${item.note || '-'}</p>
+                                <div class="flex justify-between items-center pt-2">
+                                    <span class="font-bold text-sm text-amber-500">฿${(item.cost || 0).toLocaleString()}</span>
+                                    ${subDetailsHtml}
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-1 shrink-0">
-                            <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-gray-900 dark:hover:text-white p-1.5 cursor-pointer click-bounce"><i class="fa-solid fa-pencil text-xs"></i></button>
-                            <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 p-1.5 cursor-pointer click-bounce"><i class="fa-regular fa-trash-can text-xs"></i></button>
-                        </div>
-                    </div>
-                    ${noteBoxHtml}
-                `;
-                container.appendChild(card);
+                            <div class="absolute top-2 right-2 flex bg-black/60 rounded-lg p-0.5 backdrop-blur-xs">
+                                <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-white p-1"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                <button onclick="deletePlace(${item.id})" class="text-gray-400 hover:text-rose-500 p-1"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        // หน้าตาแบบ List Minimal คลีนๆ สไตล์เรียบหรู
+                        card.innerHTML = `
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <div class="w-2 h-2 rounded-full ${item.category === '✈️ การเดินทาง' ? 'bg-blue-400' : 'bg-emerald-400'}"></div>
+                                <div class="truncate">
+                                    <h4 class="font-bold text-xs text-gray-900 dark:text-white flex items-center gap-2">
+                                        ${item.title} ${transportBadge} ${priorityBadge}
+                                    </h4>
+                                    <p class="text-[11px] text-gray-400 truncate">${item.note || 'ไม่มีโน้ตข้อความ'}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 shrink-0">
+                                <span class="font-bold text-xs text-amber-500">฿${(item.cost || 0).toLocaleString()}</span>
+                                ${subDetailsHtml}
+                                <div class="flex items-center gap-1">
+                                    <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-zinc-200 p-1"><i class="fa-solid fa-pencil text-xs"></i></button>
+                                    <button onclick="deletePlace(${item.id})" class="text-gray-400 hover:text-rose-500 p-1"><i class="fa-regular fa-trash-can text-xs"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    itemsSubBox.appendChild(card);
+                });
             });
         }
 
         function openModal(mode, targetId = null) {
             modalMode = mode;
-            updateSelectDropdowns();
             const modal = document.getElementById('modal-add-place');
-            const innerBox = modal.querySelector('div');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
             
             if(mode === 'edit' && targetId) {
-                document.getElementById('modal-title-text').innerText = state.currentLang === "th" ? "แก้ไขข้อมูลสถานที่" : "Edit Destination Details";
-                const list = state.tripData[state.currentPlan] || [];
-                const item = list.find(p => p.id === targetId);
+                const item = state.tripData.find(i => i.id === targetId);
                 if(item) {
                     document.getElementById('edit-place-id').value = item.id;
+                    document.getElementById('p-category').value = item.category;
                     document.getElementById('p-title').value = item.title || "";
-                    document.getElementById('p-category').value = item.category || state.categories[0];
                     document.getElementById('p-priority').value = item.priority || "⭐ High";
                     document.getElementById('p-cost').value = item.cost || 0;
-                    document.getElementById('p-website').value = item.website || "";
                     document.getElementById('p-link').value = item.link || "";
-                    document.getElementById('p-img').value = item.img || "";
                     document.getElementById('p-note').value = item.note || "";
+                    if(item.transportType) document.getElementById('p-transport-type').value = item.transportType;
                 }
             } else {
-                document.getElementById('modal-title-text').innerText = state.currentLang === "th" ? "เพิ่มจุดเช็คอินใหม่" : "Add New Destination";
                 document.getElementById('edit-place-id').value = "";
                 document.getElementById('p-title').value = "";
                 document.getElementById('p-cost').value = "";
-                document.getElementById('p-website').value = "";
                 document.getElementById('p-link').value = "";
-                document.getElementById('p-img').value = "";
                 document.getElementById('p-note').value = "";
             }
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            // Trigger beautiful zoom animation
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                innerBox.classList.remove('scale-95');
-            }, 20);
+            handleModalSectionToggle();
         }
-        
+
         function closeModal() {
             const modal = document.getElementById('modal-add-place');
-            const innerBox = modal.querySelector('div');
-            modal.classList.add('opacity-0');
-            innerBox.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 250);
-        }
-
-        function toggleVisited(id, btnEl) {
-            const list = state.tripData[state.currentPlan] || [];
-            const i = list.find(p => p.id === id); 
-            if(i) {
-                i.visited = !i.visited;
-                if(i.visited) {
-                    btnEl.classList.add('check-pop-active');
-                }
-                saveState();
-                // หน่วงดีเลย์รีเรนเดอร์เล็กน้อยเพื่อให้มองเห็นอนิเมชันติ๊กถูกเด้งสู้มือ
-                setTimeout(() => { renderAll(); }, 200);
-            }
-        }
-
-        function loadLiveMap(u, t) {
-            document.getElementById('map-placeholder').classList.add('hidden');
-            const f = document.getElementById('google-maps-iframe');
-            f.classList.remove('hidden'); f.src = u;
-            document.getElementById('map-target-name').innerText = t;
-        }
-        function deletePlace(id) {
-            state.tripData[state.currentPlan] = (state.tripData[state.currentPlan] || []).filter(p => p.id !== id);
-            saveState(); renderAll();
-        }
-        function editTripTitle() {
-            const t = prompt("แก้ไขชื่อทริปหลัก:", state.tripTitle);
-            if (t && t.trim() !== "") { state.tripTitle = t.trim(); saveState(); renderAll(); }
-        }
-        function promptAddMember() {
-            const m = prompt("ระบุชื่อสมาชิกใหม่:");
-            if(m && m.trim() !== "") {
-                if(state.members.includes(m.trim())) return;
-                state.members.push(m.trim()); saveState(); renderAll();
-            }
-        }
-        function removeMember(name) {
-            if(state.members.length <= 1) return;
-            if(confirm(`ลบคุณ ${name}?`)) { state.members = state.members.filter(m => m !== name); saveState(); renderAll(); }
-        }
-        function promptManageCategories() {
-            const act = prompt("พิมพ์ 'เพิ่ม' เพื่อสร้างใหม่ หรือพิมพ์ชื่อหมวดหมู่เดิมเพื่อ 'ลบ'");
-            if(!act) return;
-            if(act.trim() === "เพิ่ม") {
-                const n = prompt("พิมพ์ชื่อหมวดหมู่ใหม่:");
-                if(n && n.trim() !== "") { state.categories.push(n.trim()); saveState(); renderAll(); }
-            } else {
-                if(state.categories.includes(act.trim())) { state.categories = state.categories.filter(c => c !== act.trim()); saveState(); renderAll(); }
-            }
-        }
-        function editCurrentPlanName() {
-            const old = state.currentPlan; const n = prompt("ระบุชื่อใหม่ของแผนนี้:", old);
-            if(!n || n.trim() === "" || n.trim() === old) return;
-            state.plans = state.plans.map(p => p === old ? n.trim() : p);
-            state.tripData[n.trim()] = state.tripData[old] || []; delete state.tripData[old];
-            state.currentPlan = n.trim(); saveState(); renderAll();
-        }
-        function deleteCurrentPlan() {
-            if(state.plans.length <= 1) return alert("ต้องเหลืออย่างน้อย 1 แผนหลัก");
-            if(confirm(`ยืนยันการลบแผน "${state.currentPlan}"?`)) {
-                const old = state.currentPlan; state.plans = state.plans.filter(p => p !== old);
-                delete state.tripData[old]; state.currentPlan = state.plans[0]; saveState(); renderAll();
-            }
-        }
-        function addNewPlanPrompt() {
-            const n = prompt("ระบุชื่อแผนการเดินทางใหม่:");
-            if (!n || n.trim() === "") return;
-            if (state.plans.includes(n.trim())) return;
-            state.plans.push(n.trim()); state.tripData[n.trim()] = []; state.currentPlan = n.trim(); saveState(); renderAll();
-        }
-        function updateSyncUI(isCloud, title, desc) {
-            const t = document.getElementById('sync-status-title'); const d = document.getElementById('sync-status-desc');
-            if(t && d) { t.innerText = title; d.innerText = desc; }
-        }
-        function setSyncLoading(l) {
-            const icon = document.getElementById('sync-icon'); if(icon) { if(l) icon.classList.add('animate-spin'); else icon.classList.remove('animate-spin'); }
-        }
-        function saveCloudConfig() {
-            const u = document.getElementById('cloud-script-url').value.trim(); if(!u) return alert("Please specify URL");
-            cloudScriptUrl = u; localStorage.setItem('trip_cloud_url_v5', u); updateBrowserUrl(u);
-            updateSyncUI(true, "Cloud Active", "ระบบผูกคลาวด์ v5 สำเร็จ"); pushToCloud().then(() => pullFromCloud());
-        }
-        function disconnectCloud() {
-            cloudScriptUrl = ""; localStorage.removeItem('trip_cloud_url_v5');
-            const cUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.pushState({path: cUrl}, '', cUrl);
-            updateSyncUI(false, "Local Mode", "สลับกลับสู่ระบบออฟไลน์"); saveState(); renderAll();
-        }
-        function updateSelectDropdowns() {
-            const pCat = document.getElementById('p-category'); const eCat = document.getElementById('expense-category');
-            const ePayer = document.getElementById('expense-payer'); const eLinked = document.getElementById('expense-linked-place');
-            if(pCat) pCat.innerHTML = state.categories.map(c => `<option value="${c}">${c}</option>`).join('');
-            if(eCat) eCat.innerHTML = state.categories.map(c => `<option value="${c}">${c}</option>`).join('');
-            if(ePayer) ePayer.innerHTML = state.members.map(m => `<option value="${m}">${m}</option>`).join('');
-            if(eLinked) {
-                const currentPlaces = state.tripData[state.currentPlan] || [];
-                let baseHtml = `<option value="">-- ไม่ระบุ / ค่าใช้จ่ายทั่วไป --</option>`;
-                currentPlaces.forEach(p => { baseHtml += `<option value="${p.id}">${p.title} (฿${p.cost})</option>`; });
-                eLinked.innerHTML = baseHtml;
-            }
-        }
-        function getStyleByCat(cat) {
-            if(!cat) return 'bg-gray-50 text-gray-600 border-gray-100 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700';
-            if (cat.includes('เดินทาง')) return 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800';
-            if (cat.includes('ที่พัก')) return 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800';
-            if (cat.includes('อาหาร')) return 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800';
-            if (cat.includes('ช้อปปิ้ง')) return 'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800';
-            return 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800';
-        }
-
-        function renderAll() {
-            document.getElementById('main-trip-title').innerText = state.tripTitle || "Our Dream Trip";
-            const mBadgeBox = document.getElementById('members-list-badges');
-            mBadgeBox.innerHTML = state.members.map(m => `
-                <span class="bg-gray-900 text-white dark:bg-zinc-700 dark:text-zinc-200 font-semibold text-[10px] px-2 py-0.5 rounded-md inline-flex items-center gap-1 hover:bg-rose-500 transition-colors duration-200">
-                    ${m} <i onclick="removeMember('${m}')" class="fa-solid fa-circle-xmark text-gray-400 hover:text-white cursor-pointer text-[9px]"></i>
-                </span>
-            `).join('');
-            updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); applyLanguageStrings();
-        }
-
-        function renderPlansBar() {
-            const container = document.getElementById('plan-buttons-container'); container.innerHTML = '';
-            state.plans.forEach(p => {
-                const isActive = state.currentPlan === p;
-                container.innerHTML += `<button onclick="state.currentPlan='${p}'; renderAll();" class="px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-semibold rounded-lg transition-all cursor-pointer click-bounce ${isActive ? 'bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-2xs' : 'text-gray-400'}">${p}</button>`;
-            });
-            document.getElementById('plan-badge').innerText = state.currentPlan;
+            modal.classList.add('hidden'); modal.classList.remove('flex');
         }
 
         function submitPlaceForm() {
-            const title = document.getElementById('p-title').value.trim();
+            const id = document.getElementById('edit-place-id').value;
             const category = document.getElementById('p-category').value;
+            const title = document.getElementById('p-title').value.trim();
             const priority = document.getElementById('p-priority').value;
             const cost = parseFloat(document.getElementById('p-cost').value) || 0;
-            const website = document.getElementById('p-website').value.trim();
             const link = document.getElementById('p-link').value.trim();
-            const img = document.getElementById('p-img').value.trim();
             const note = document.getElementById('p-note').value.trim();
+            const transportType = category === "✈️ การเดินทาง" ? document.getElementById('p-transport-type').value : "";
 
-            if(!title) return alert('กรุณาระบุชื่อสถานที่');
+            if(!title) return alert('กรุณากรอกหัวข้อข้อมูล');
 
-            if(modalMode === 'edit') {
-                const id = parseInt(document.getElementById('edit-place-id').value);
-                const list = state.tripData[state.currentPlan] || [];
-                const item = list.find(p => p.id === id);
-                if(item) {
-                    item.title = title; item.category = category; item.priority = priority;
-                    item.cost = cost; item.website = website; item.link = link; item.img = img; item.note = note;
-                }
+            if(id) {
+                const i = state.tripData.find(item => item.id == id);
+                if(i) { Object.assign(i, { category, title, priority, cost, link, note, transportType }); }
             } else {
-                if(!state.tripData[state.currentPlan]) state.tripData[state.currentPlan] = [];
-                state.tripData[state.currentPlan].push({ id: Date.now(), title, category, priority, cost, website, link, img, note, visited: false });
+                state.tripData.push({ id: Date.now(), category, title, priority, cost, link, note, transportType });
             }
             closeModal(); saveState(); renderAll();
+        }
+
+        function deletePlace(id) {
+            state.tripData = state.tripData.filter(i => i.id !== id);
+            saveState(); renderAll();
         }
 
         function renderExpenses() {
             const totalSpent = state.expenses.reduce((s, i) => s + i.amount, 0);
             document.getElementById('exp-total-spent').innerText = `฿${totalSpent.toLocaleString()}`;
-            document.getElementById('split-formula-badge').innerText = state.currentLang === "th" ? `แชร์บิลหารเท่ากันตามจริง (${state.members.length} คน)` : `Equally shared billings among (${state.members.length} members)`;
 
             let ledger = {}; state.members.forEach(m => { ledger[m] = 0; });
             state.expenses.forEach(e => {
-                const payer = e.payer; const amt = e.amount;
-                const validPayer = state.members.includes(payer) ? payer : state.members[0];
                 if(e.split === 'split') {
-                    const sharePerPerson = amt / state.members.length;
-                    state.members.forEach(m => { if(m === validPayer) ledger[m] += (amt - sharePerPerson); else ledger[m] -= sharePerPerson; });
+                    const share = e.amount / state.members.length;
+                    state.members.forEach(m => { if(m === e.payer) ledger[m] += (e.amount - share); else ledger[m] -= share; });
                 }
             });
 
             const board = document.getElementById('settlement-board-container'); board.innerHTML = '';
             state.members.forEach(m => {
-                const balance = ledger[m]; let cardClass = "bg-gray-50 dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 text-gray-700 dark:text-zinc-300";
-                let statusText = "ลงตัวพอดี";
-                if(balance > 0.01) {
-                    cardClass = "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900 text-emerald-800 dark:text-emerald-400";
-                    statusText = `เป็นเจ้าหนี้ (+฿${Math.round(balance).toLocaleString()})`;
-                } else if(balance < -0.01) {
-                    cardClass = "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900 text-rose-800 dark:text-rose-400";
-                    statusText = `เป็นลูกหนี้ (-฿${Math.round(Math.abs(balance)).toLocaleString()})`;
-                }
-                board.innerHTML += `<div class="p-2.5 rounded-lg border text-xs font-semibold ${cardClass} flex justify-between items-center transition-all duration-300"><span><i class="fa-solid fa-user opacity-60"></i> ${m}</span><span class="text-[11px] font-bold">${statusText}</span></div>`;
+                const bal = ledger[m];
+                let txt = bal > 0 ? `เป็นเจ้าหนี้ (+฿${Math.round(bal)})` : (bal < 0 ? `ต้องจ่ายคืน (-฿${Math.round(Math.abs(bal))})` : "เคลียร์ครบแล้ว");
+                board.innerHTML += `<div class="p-2 bg-zinc-800 text-white border border-zinc-700 rounded-lg flex justify-between text-xs font-bold"><span>${m}</span><span class="text-amber-500">${txt}</span></div>`;
             });
 
-            const listContainer = document.getElementById('expense-log-list');
-            document.getElementById('log-count').innerText = `${state.expenses.length} Items`;
-            listContainer.innerHTML = '';
-
-            if(state.expenses.length === 0) {
-                listContainer.innerHTML = `<p class="text-[11px] text-gray-400 py-6 text-center">ยังไม่มีประวัติค่าใช้จ่าย</p>`; return;
-            }
+            const logList = document.getElementById('expense-log-list'); logList.innerHTML = '';
             state.expenses.forEach((e, idx) => {
-                const log = document.createElement('div');
-                const catStyle = getStyleByCat(e.category);
-                let linkedLabelHtml = e.linkedPlaceId ? `<span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-500 px-1 py-0.2 rounded"><i class="fa-solid fa-paperclip"></i> Linked</span>` : "";
-                log.className = "flex items-center justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 text-xs shadow-3xs";
-                log.innerHTML = `<div class="min-w-0 flex-1 mr-2"><div class="flex items-center gap-1.5 flex-wrap"><p class="font-bold truncate">${e.title}</p><span class="text-[9px] px-1.5 py-0.2 font-bold rounded border ${catStyle}">${e.category}</span> ${linkedLabelHtml}</div><p class="text-[10px] text-gray-400 mt-0.5">Paid by: <span class="font-bold">${e.payer}</span> • ${e.split === 'split' ? 'หารเท่ากัน' : 'ส่วนตัว'}</p></div><div class="flex items-center gap-2.5 shrink-0"><span class="font-bold">฿${e.amount.toLocaleString()}</span><button onclick="deleteExpense(${idx})" class="text-gray-300 hover:text-rose-500 cursor-pointer click-bounce"><i class="fa-regular fa-circle-xmark text-sm"></i></button></div>`;
-                listContainer.appendChild(log);
+                logList.innerHTML += `
+                    <div class="flex justify-between items-center bg-zinc-900 p-2.5 rounded-xl border border-zinc-800 text-xs">
+                        <div>
+                            <p class="font-bold text-white">${e.title} <span class="text-[10px] text-gray-400">(${e.category})</span></p>
+                            <p class="text-[10px] text-gray-500">ผู้จ่าย: ${e.payer} (${e.split === 'split' ? 'หารเท่า' : 'ส่วนตัว'})</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-amber-500">฿${e.amount}</span>
+                            <button onclick="deleteExpense(${idx})" class="text-zinc-600 hover:text-rose-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                    </div>
+                `;
             });
         }
 
         function addExpense() {
             const title = document.getElementById('expense-title').value.trim();
             const category = document.getElementById('expense-category').value;
-            const amount = parseFloat(document.getElementById('expense-amount').value);
+            const amount = parseFloat(document.getElementById('expense-amount').value) || 0;
             const payer = document.getElementById('expense-payer').value;
             const split = document.getElementById('expense-split').value;
-            const linkedPlaceId = document.getElementById('expense-linked-place').value;
 
-            if(!title || !amount) return alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-            if(linkedPlaceId) {
-                const currentPlaces = state.tripData[state.currentPlan] || [];
-                const matchedPlace = currentPlaces.find(p => p.id === parseInt(linkedPlaceId));
-                if(matchedPlace) matchedPlace.cost = amount;
-            }
-            state.expenses.unshift({ title, category, amount, payer, split, linkedPlaceId: linkedPlaceId ? parseInt(linkedPlaceId) : null });
+            if(!title || !amount) return alert('ระบุข้อมูลการเงินให้ครบ');
+            state.expenses.unshift({ title, category, amount, payer, split });
             saveState(); renderAll();
             document.getElementById('expense-title').value = ''; document.getElementById('expense-amount').value = '';
         }
+
         function deleteExpense(idx) { state.expenses.splice(idx, 1); saveState(); renderAll(); }
+        function editTripTitle() { const t = prompt("ชื่อทริปหลัก:", state.tripTitle); if(t) { state.tripTitle = t; saveState(); renderAll(); } }
+        function promptAddMember() { const m = prompt("ระบุชื่อคนในทริป:"); if(m) { state.members.push(m); saveState(); renderAll(); } }
+        function saveCloudConfig() { const u = document.getElementById('cloud-script-url').value; if(u) { cloudScriptUrl = u; localStorage.setItem('pilo_cloud_url_v6', u); pullFromCloud(); } }
+
+        function renderAll() {
+            document.getElementById('main-trip-title').innerText = state.tripTitle;
+            document.getElementById('members-list-badges').innerHTML = state.members.map(m => `<span>${m}</span>`).join(' • ');
+            document.getElementById('expense-payer').innerHTML = state.members.map(m => `<option value="${m}">${m}</option>`).join('');
+            renderItinerary(); renderExpenses();
+        }
 
         window.onload = init;
     </script>
