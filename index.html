@@ -11,7 +11,7 @@
     
     <style>
         /* ==========================================================================
-           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ตามที่ตั้งค่าไว้
+           FONTS SYSTEM
            ========================================================================== */
         @font-face {
             font-family: 'PK Uttaradit';
@@ -31,43 +31,19 @@
         }
         
         /* Advanced Web Animations System */
-        .view-panel {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-            transform: translateY(12px) scale(0.99);
-        }
-        .view-panel.active-view {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        /* Place Cards Animations & Custom Color Borders */
-        .place-card {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border-left-width: 5px !important; 
-        }
-        .place-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
-        }
+        .view-panel { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(12px) scale(0.99); }
+        .view-panel.active-view { opacity: 1; transform: translateY(0) scale(1); }
+        .place-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border-left-width: 5px !important; }
+        .place-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05); }
+        .click-bounce { transition: transform 0.1s ease; }
+        .click-bounce:active { transform: scale(0.94); }
 
-        /* Micro Interactive Click Feedback */
-        .click-bounce {
-            transition: transform 0.1s ease;
-        }
-        .click-bounce:active {
-            transform: scale(0.94);
-        }
-
-        /* Checkbox dynamic pop */
         @keyframes popCheck {
             0% { transform: scale(0.8); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-        .check-pop-active {
-            animation: popCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+        .check-pop-active { animation: popCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         /* ==========================================================================
            DYNAMIC THEME ENGINE SYSTEM
@@ -115,6 +91,7 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         body.theme-dark ::-webkit-scrollbar-thumb, body.theme-slate ::-webkit-scrollbar-thumb { background: #3F3F46; }
 
+        /* FONT SIZE SCALING */
         html { font-size: 18px; } 
         [class*="text-[9px]"] { font-size: 11px !important; }
         [class*="text-[10px]"] { font-size: 12.5px !important; }
@@ -123,52 +100,22 @@
         .text-sm { font-size: 16px !important; }
         .text-base { font-size: 18px !important; }
 
+        /* DARK THEME FIXES */
         body.theme-slate [class*="bg-blue-100"], body.theme-dark [class*="bg-blue-100"] { background-color: rgba(59, 130, 246, 0.15) !important; color: #93C5FD !important; }
         body.theme-slate [class*="bg-purple-100"], body.theme-dark [class*="bg-purple-100"] { background-color: rgba(168, 85, 247, 0.15) !important; color: #D8B4FE !important; }
         body.theme-slate [class*="bg-amber-100"], body.theme-dark [class*="bg-amber-100"] { background-color: rgba(245, 158, 11, 0.15) !important; color: #FCD34D !important; }
         body.theme-slate [class*="bg-rose-100"], body.theme-dark [class*="bg-rose-100"] { background-color: rgba(225, 29, 72, 0.15) !important; color: #FDA4AF !important; }
         body.theme-slate [class*="bg-emerald-100"], body.theme-dark [class*="bg-emerald-100"] { background-color: rgba(16, 185, 129, 0.15) !important; color: #6EE7B7 !important; }
         body.theme-slate [class*="bg-gray-100"], body.theme-dark [class*="bg-gray-100"] { background-color: rgba(156, 163, 175, 0.15) !important; color: #D1D5DB !important; }
-
-        /* ป้าย Plan A, B ในหน้าแผนเดินทาง */
-        body.theme-slate #plan-badge, body.theme-dark #plan-badge { 
-            background-color: rgba(225, 29, 72, 0.15) !important; 
-            border-color: rgba(225, 29, 72, 0.3) !important; 
-            color: #FDA4AF !important; 
-        }
-        body.theme-slate .bg-indigo-50, body.theme-dark .bg-indigo-50 { 
-            background-color: rgba(99, 102, 241, 0.15) !important; 
-            border-color: rgba(99, 102, 241, 0.2) !important; 
-            color: #818CF8 !important; 
-        }
-        /* พื้นหลังหลอดเปอร์เซ็นต์ใน Dashboard ค่าใช้จ่าย */
-        body.theme-slate [class*="bg-gray-200"], body.theme-dark [class*="bg-gray-200"] { 
-            background-color: #334155 !important; 
-        }
-
-        /* กรอบรายชื่อในบอร์ดสรุปดุลบัญชี (ใครโอนใคร) */
-        body.theme-slate .bg-gray-50, body.theme-dark .bg-gray-50 { 
-            background-color: #1E293B !important; 
-            border-color: #334155 !important; 
-            color: #E2E8F0 !important; 
-        }
-        body.theme-slate .bg-emerald-50, body.theme-dark .bg-emerald-50 { 
-            background-color: rgba(16, 185, 129, 0.1) !important; 
-            border-color: rgba(16, 185, 129, 0.2) !important; 
-            color: #34D399 !important; 
-        }
-        body.theme-slate .bg-rose-50, body.theme-dark .bg-rose-50 { 
-            background-color: rgba(244, 63, 94, 0.1) !important; 
-            border-color: rgba(244, 63, 94, 0.2) !important; 
-            color: #FB7185 !important; 
-        }
         
-        /* แท็กแสดงคำว่า Linked ในบิล */
-        body.theme-slate .bg-zinc-100, body.theme-dark .bg-zinc-100 { 
-            background-color: #27272A !important; 
-            color: #A1A1AA !important; 
-        }
-
+        body.theme-slate #plan-badge, body.theme-dark #plan-badge { background-color: rgba(225, 29, 72, 0.15) !important; border-color: rgba(225, 29, 72, 0.3) !important; color: #FDA4AF !important; }
+        body.theme-slate .bg-indigo-50, body.theme-dark .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; border-color: rgba(99, 102, 241, 0.2) !important; color: #818CF8 !important; }
+        body.theme-slate [class*="bg-gray-200"], body.theme-dark [class*="bg-gray-200"] { background-color: #334155 !important; }
+        
+        body.theme-slate .bg-gray-50, body.theme-dark .bg-gray-50 { background-color: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+        body.theme-slate .bg-emerald-50, body.theme-dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.1) !important; border-color: rgba(16, 185, 129, 0.2) !important; color: #34D399 !important; }
+        body.theme-slate .bg-rose-50, body.theme-dark .bg-rose-50 { background-color: rgba(244, 63, 94, 0.1) !important; border-color: rgba(244, 63, 94, 0.2) !important; color: #FB7185 !important; }
+        body.theme-slate .bg-zinc-100, body.theme-dark .bg-zinc-100 { background-color: #27272A !important; color: #A1A1AA !important; }
     </style>
 </head>
 <body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
@@ -314,9 +261,7 @@
                     </div>
                 </div>
 
-                <div id="color-legend-box" class="card-bg p-2.5 rounded-xl border shadow-3xs flex flex-wrap gap-3 text-[10px] font-bold items-center">
-                    <!-- โหลดแถบสีหมวดหมู่แบบไดนามิก -->
-                </div>
+                <div id="color-legend-box" class="card-bg p-2.5 rounded-xl border shadow-3xs flex flex-wrap gap-3 text-[10px] font-bold items-center"></div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
                     <div class="lg:col-span-7 space-y-5">
@@ -357,7 +302,6 @@
             <!-- VIEW 2: EXPENSES SYSTEM -->
             <div id="view-expenses" class="view-panel hidden space-y-4 md:space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- ส่วนแสดงผลรวมคลังเงิน -->
                     <div class="card-bg p-4 rounded-xl border shadow-3xs flex flex-col justify-between">
                         <div>
                             <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="เงินใช้จริงรวมทั้งหมด" data-lang-en="Total Actual Spent">เงินใช้จริงรวมทั้งหมด</p>
@@ -366,16 +310,12 @@
                         <div class="mt-2 text-[10px] text-gray-400 font-bold border-t pt-2 dark:border-zinc-800" id="split-formula-badge">Split System Active</div>
                     </div>
                     
-                    <!-- ส่วนแสดงแดชบอร์ดกราฟแท่งสรุปค่าใช้จ่ายแยกหมวดหมู่ตามสั่ง -->
                     <div class="card-bg p-4 rounded-xl border shadow-3xs md:col-span-2 space-y-2">
                         <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-chart-pie text-indigo-500"></i> แดชบอร์ดสรุปยอดจ่ายแยกตามหมวดหมู่ (Dashboard Overview)</h4>
-                        <div id="category-budget-charts-root" class="space-y-2 text-xs">
-                            <!-- แท่งกราฟแสดงผลสรุปเงินจะรันขึ้นออโต้จากตรงนี้ -->
-                        </div>
+                        <div id="category-budget-charts-root" class="space-y-2 text-xs"></div>
                     </div>
                 </div>
 
-                <!-- บอร์ดสรุปดุลบัญชีรายบุคคล -->
                 <div class="card-bg p-4 rounded-xl border shadow-3xs space-y-2">
                     <h4 class="text-xs font-bold flex items-center gap-1.5"><i class="fa-solid fa-scale-balanced text-emerald-500"></i> <span data-lang-th="สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)" data-lang-en="Fair-share Ledger Status Board">สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)</span></h4>
                     <div id="settlement-board-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
@@ -387,7 +327,7 @@
                         <div class="space-y-2.5 text-xs">
                             <div>
                                 <label class="text-[10px] text-gray-400 font-bold block mb-0.5" data-lang-th="ชื่อรายการ" data-lang-en="Bill Item Title">ชื่อรายการ</label>
-                                <input type="text" id="expense-title" placeholder="เช่น ค่าที่พัก, ค่ากินมื้อเย็น" class="w-full text-xs rounded-lg px-3 py-2 border focus:outline-hidden">
+                                <input type="text" id="expense-title" placeholder="เช่น ค่าที่พัก, ค่ากินมื้อเย็น" class="w-full text-xs rounded-lg px-3 py-2 border focus:outline-none">
                             </div>
                             <div>
                                 <label class="text-[10px] text-rose-500 font-bold block mb-0.5"><i class="fa-solid fa-link"></i> <span data-lang-th="เชื่อมโยงค่าใช้จ่ายกับสถานที่ในแผน" data-lang-en="Link expense to trip place">เชื่อมโยงค่าใช้จ่ายกับสถานที่ในแผน</span></label>
@@ -498,7 +438,7 @@
 
                 <div>
                     <label id="label-p-title" class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ชื่อสถานที่ / จุดหมาย" data-lang-en="Destination Title">ชื่อสถานที่ / จุดหมาย</label>
-                    <input type="text" id="p-title" placeholder="เช่น วัดพระแก้ว, คาเฟ่ม่อนแจ่ม" class="w-full border rounded-lg px-3 py-1.5 focus:outline-hidden">
+                    <input type="text" id="p-title" placeholder="เช่น วัดพระแก้ว, คาเฟ่ม่อนแจ่ม" class="w-full border rounded-lg px-3 py-1.5 focus:outline-none">
                 </div>
 
                 <div id="modal-transport-type-wrapper" class="hidden">
@@ -512,6 +452,7 @@
                     </select>
                 </div>
 
+                <!-- ✨ เพิ่มประเภทงบประมาณตรงนี้ -->
                 <div class="grid grid-cols-2 gap-2" id="modal-flex-row">
                     <div id="modal-priority-wrapper">
                         <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="ระดับความสำคัญ" data-lang-en="Priority Selection">ระดับความสำคัญ</label>
@@ -522,8 +463,14 @@
                         </select>
                     </div>
                     <div id="modal-cost-wrapper">
-                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="งบประมาณคร่าวๆ (฿)" data-lang-en="Budget Estimation (฿)">งบประมาณคร่าวๆ (฿)</label>
-                        <input type="number" id="p-cost" class="w-full border rounded-lg px-3 py-1.5">
+                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5">งบประมาณคร่าวๆ (฿)</label>
+                        <div class="flex gap-1">
+                            <input type="number" id="p-cost" class="w-3/5 border rounded-lg px-2 py-1.5 focus:outline-none">
+                            <select id="p-cost-type" class="w-2/5 border rounded-lg px-1 py-1.5 bg-white dark:bg-zinc-900 text-[10px] font-bold text-indigo-500 focus:outline-none">
+                                <option value="total">รวมทุกคน</option>
+                                <option value="per_person">ต่อ 1 คน</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -609,32 +556,21 @@
 
         let modalMode = "add";
 
-        // 1. ระบบเปลี่ยนแท็บเมนู
         function switchTab(tabId) {
-            document.querySelectorAll('.view-panel').forEach(el => {
-                el.classList.remove('active-view');
-                el.classList.add('hidden');
-            });
-            
+            document.querySelectorAll('.view-panel').forEach(el => { el.classList.remove('active-view'); el.classList.add('hidden'); });
             const targetView = document.getElementById('view-' + tabId);
-            if(targetView) {
-                targetView.classList.remove('hidden');
-                setTimeout(() => targetView.classList.add('active-view'), 10);
-            }
-
+            if(targetView) { targetView.classList.remove('hidden'); setTimeout(() => targetView.classList.add('active-view'), 10); }
             document.querySelectorAll('.tab-btn-active, .sidebar-link.active').forEach(btn => {
                 btn.classList.remove('tab-btn-active', 'text-gray-900', 'shadow-3xs', 'bg-rose-500', 'text-white', 'active');
                 if(btn.tagName === 'BUTTON' && btn.id.startsWith('m-btn')) btn.classList.add('text-gray-400');
                 if(btn.tagName === 'BUTTON' && btn.id.startsWith('btn')) btn.classList.add('text-gray-500');
             });
-
             const mBtn = document.getElementById('m-btn-' + tabId.replace('-config', ''));
             const dBtn = document.getElementById('btn-' + tabId.replace('-config', ''));
             if(mBtn) { mBtn.classList.remove('text-gray-400'); mBtn.classList.add('tab-btn-active', 'text-gray-900', 'shadow-3xs'); }
             if(dBtn) { dBtn.classList.remove('text-gray-500'); dBtn.classList.add('bg-rose-500', 'text-white', 'active'); }
         }
 
-        // 2. ระบบดึงสีและ Badge ตามหมวดหมู่
         function getStyleByCat(cat) {
             const map = {
                 "เดินทาง": { border: "border-l-blue-500", badge: "bg-blue-100 text-blue-700" },
@@ -646,24 +582,15 @@
             return map[cat] || { border: "border-l-gray-400", badge: "bg-gray-100 text-gray-700 dark:bg-zinc-800 dark:text-zinc-300" };
         }
 
-        // 3. ระบบแปลภาษา
         function applyLanguageStrings() {
-            document.querySelectorAll('[data-lang-th]').forEach(el => {
-                el.innerText = state.currentLang === 'th' ? el.getAttribute('data-lang-th') : el.getAttribute('data-lang-en');
-            });
+            document.querySelectorAll('[data-lang-th]').forEach(el => { el.innerText = state.currentLang === 'th' ? el.getAttribute('data-lang-th') : el.getAttribute('data-lang-en'); });
             const langBtn = document.getElementById('lang-btn-text');
             if(langBtn) langBtn.innerText = state.currentLang === 'th' ? 'TH' : 'EN';
         }
 
-        function toggleLanguage() {
-            state.currentLang = state.currentLang === 'th' ? 'en' : 'th';
-            saveState(); renderAll();
-        }
-
-        // 4. ระบบจัดการรูปภาพ / ป็อปอัพ / หมวดหมู่เบื้องต้น
-        function generateSmartImageUrl(title, link) {
-            return "https://placehold.co/400x300/f3f4f6/a1a1aa?text=" + encodeURIComponent(title.charAt(0));
-        }
+        function toggleLanguage() { state.currentLang = state.currentLang === 'th' ? 'en' : 'th'; saveState(); renderAll(); }
+        function generateSmartImageUrl(title, link) { return "https://placehold.co/400x300/f3f4f6/a1a1aa?text=" + encodeURIComponent(title.charAt(0)); }
+        
         function openLightbox(imgUrl, title) {
             document.getElementById('lightbox-target-img').src = imgUrl;
             document.getElementById('lightbox-target-title').innerText = title;
@@ -679,13 +606,11 @@
         function handleModalCategoryFormToggle() {
             const cat = document.getElementById('p-category').value;
             const transWrap = document.getElementById('modal-transport-type-wrapper');
-            if(cat === "เดินทาง") transWrap.classList.remove('hidden');
-            else transWrap.classList.add('hidden');
+            if(cat === "เดินทาง") transWrap.classList.remove('hidden'); else transWrap.classList.add('hidden');
         }
+        
         function openCategoryManagerModal() {
-            const holder = document.getElementById('category-inputs-list-holder');
-            holder.innerHTML = '';
-            // ดึงข้อมูลหมวดหมู่มาสร้างช่องกรอกอัตโนมัติ
+            const holder = document.getElementById('category-inputs-list-holder'); holder.innerHTML = '';
             Object.keys(state.categoriesMap).forEach(key => {
                 holder.innerHTML += `
                     <div>
@@ -700,99 +625,56 @@
         }
 
         function closeCategoryManagerModal() {
-            const modal = document.getElementById('modal-category-manager');
-            modal.classList.add('opacity-0');
+            const modal = document.getElementById('modal-category-manager'); modal.classList.add('opacity-0');
             setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 250);
         }
 
-        // ฟังก์ชันสำหรับกดบันทึกการเปลี่ยนไอคอน
         function submitCategoryIconsUpdate() {
             Object.keys(state.categoriesMap).forEach(key => {
                 const el = document.getElementById(`cat-icon-${key}`);
-                if(el && el.value.trim() !== '') {
-                    state.categoriesMap[key] = el.value.trim();
-                }
+                if(el && el.value.trim() !== '') state.categoriesMap[key] = el.value.trim();
             });
-            closeCategoryManagerModal();
-            saveState();
-            renderAll();
-        }
-        // --- ระบบดึงและรับ URL ของคลาวด์ ---
-        function getCloudUrl() {
-            return localStorage.getItem('trip_cloud_url_v5') || "";
+            closeCategoryManagerModal(); saveState(); renderAll();
         }
 
-        function updateBrowserUrl(url) {
-            if (url) {
-                try {
-                    const b64 = btoa(url);
-                    const nUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?db=' + b64;
-                    window.history.pushState({path: nUrl}, '', nUrl);
-                } catch(e) {}
-            }
-        }
+        function getCloudUrl() { return localStorage.getItem('trip_cloud_url_v5') || ""; }
 
-        // --- ระบบ Initialize ของแอปพลิเคชัน ---
         function init() {
             const localTheme = localStorage.getItem('trip_theme_v5') || "light";
             const localLang = localStorage.getItem('trip_lang_v5') || "th";
-
             const localSaved = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
             if (localSaved) {
                 try {
-                    const parsed = JSON.parse(localSaved);
-                    state = { ...state, ...parsed };
+                    const parsed = JSON.parse(localSaved); state = { ...state, ...parsed };
                 } catch(e) { console.warn('Could not parse local state'); }
             }
             state.currentLang = localLang;
-            if (!state.categoriesMap) {
-                state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
-            }
-
+            if (!state.categoriesMap) { state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" }; }
             changeTheme(state.currentTheme || localTheme);
 
             let savedUrl = "";
-            
-            // เช็กว่ามีการเปิดจากลิงก์แชร์ (?db=...) หรือไม่
             const urlParams = new URLSearchParams(window.location.search);
             const dbParam = urlParams.get('db');
-            if (dbParam) { 
-                try { 
-                    savedUrl = decodeURIComponent(escape(atob(dbParam))); // ถอดรหัสลิงก์
-                } catch(e) { 
-                    savedUrl = dbParam; 
-                } 
-            }
+            if (dbParam) { try { savedUrl = decodeURIComponent(escape(atob(dbParam))); } catch(e) { savedUrl = dbParam; } }
             if (!savedUrl) savedUrl = localStorage.getItem('trip_cloud_url_v5') || "";
 
-            // ถ้ามี URL ไม่ว่าจะเปิดจากลิงก์ หรือเซฟไว้ในเครื่อง ให้เชื่อมต่อ
             if (savedUrl) {
                 const urlInput = document.getElementById('cloud-script-url');
                 if (urlInput) urlInput.value = savedUrl;
                 localStorage.setItem('trip_cloud_url_v5', savedUrl);
             }
-
             renderAll();
             
-            // เริ่มต้นระบบซิงค์ (แก้ไขการเรียกซ้ำซ้อนแล้ว)
             const activeUrl = getCloudUrl(); 
             if (activeUrl) {
                 updateSyncUI(true, "กำลังโหลด...", "กำลังซิงค์ข้อมูลล่าสุดจากคลาวด์");
-                pullFromCloud(); // ดึงข้อมูลครั้งแรก
-                
-                // ตั้งเวลาดึงข้อมูลอัตโนมัติทุกๆ 15 วินาที
-                setInterval(() => {
-                    pullFromCloudSilent();
-                }, 15000); 
-            } else {
-                updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า");
-            }
+                pullFromCloud(); 
+                setInterval(() => { pullFromCloudSilent(); }, 15000); 
+            } else { updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า"); }
         }
 
-        // --- ฟังก์ชันดึงข้อมูลแบบเงียบๆ (Auto-Polling) ---
         async function pullFromCloudSilent() {
-            const url = getCloudUrl();
-            if (!url) return;
+            const url = getCloudUrl(); if (!url) return;
             try {
                 const data = await fetchViaJsonp(url);
                 if (data && data.tripData) {
@@ -801,19 +683,12 @@
                         const localTime = new Date(state._lastSynced).getTime();
                         if (cloudTime <= localTime) return; 
                     }
-                    
-                    const langCache = state.currentLang;
-                    const themeCache = state.currentTheme;
-                    state = { ...data };
-                    state.currentLang = langCache;
-                    state.currentTheme = themeCache;
+                    const langCache = state.currentLang; const themeCache = state.currentTheme;
+                    state = { ...data }; state.currentLang = langCache; state.currentTheme = themeCache;
                     localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-                    renderAll(); 
-                    updateSyncUI(true, 'Live Synced ✓', 'อัปเดตตรงกับเพื่อนแล้ว');
+                    renderAll(); updateSyncUI(true, 'Live Synced ✓', 'อัปเดตตรงกับเพื่อนแล้ว');
                 }
-            } catch(e) {
-                console.warn('Silent pull failed:', e);
-            }
+            } catch(e) { console.warn('Silent pull failed:', e); }
         }
 
         function saveState() {
@@ -825,83 +700,45 @@
         }
 
         async function pushToCloud() {
-            const url = getCloudUrl();
-            if (!url) return;
+            const url = getCloudUrl(); if (!url) return;
             setPushLoading(true);
             try {
-                await fetch(url, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(state)
-                });
+                await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(state) });
                 updateSyncUI(true, 'Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
-            } catch(e) {
-                console.error('pushToCloud error:', e);
-                updateSyncUI(false, 'Sync Error', 'ไม่สามารถส่งข้อมูลได้ (' + e.message + ')');
-            } finally {
-                setPushLoading(false);
-            }
+            } catch(e) { updateSyncUI(false, 'Sync Error', 'ไม่สามารถส่งข้อมูลได้ (' + e.message + ')'); } finally { setPushLoading(false); }
         }
 
         async function pullFromCloud() {
-            const url = getCloudUrl();
-            if (!url) return;
-            setPullLoading(true);
-            updateSyncUI(true, 'กำลังโหลด...', 'กำลังดึงข้อมูลจาก Cloud');
+            const url = getCloudUrl(); if (!url) return;
+            setPullLoading(true); updateSyncUI(true, 'กำลังโหลด...', 'กำลังดึงข้อมูลจาก Cloud');
             try {
                 const data = await fetchViaJsonp(url);
                 if (data && data.tripData) {
-                    const langCache = state.currentLang;
-                    const themeCache = state.currentTheme;
-                    state = { ...data };
-                    state.currentLang = langCache;
-                    state.currentTheme = themeCache;
+                    const langCache = state.currentLang; const themeCache = state.currentTheme;
+                    state = { ...data }; state.currentLang = langCache; state.currentTheme = themeCache;
                     if (!state.timelineGroups) state.timelineGroups = ["ตลอดทั้งทริป", "Day 1", "Day 2"];
                     if (!state.categoriesMap) state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
                     localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-                    updateSyncUI(true, 'Cloud Synced ✓', 'โหลดข้อมูลล่าสุดแล้ว');
-                    renderAll();
+                    updateSyncUI(true, 'Cloud Synced ✓', 'โหลดข้อมูลล่าสุดแล้ว'); renderAll();
                 } else if (data && data.status === 'empty') {
-                    updateSyncUI(true, 'Cloud Ready', 'Sheet ว่าง — กำลัง push ข้อมูลขึ้น...');
-                    await pushToCloud();
-                } else {
-                    throw new Error('ข้อมูลจาก Cloud ไม่ถูกต้อง');
-                }
-            } catch(e) {
-                console.error('pullFromCloud error:', e);
-                updateSyncUI(false, 'Pull Failed', e.message);
-            } finally {
-                setPullLoading(false);
-            }
+                    updateSyncUI(true, 'Cloud Ready', 'Sheet ว่าง — กำลัง push ข้อมูลขึ้น...'); await pushToCloud();
+                } else { throw new Error('ข้อมูลจาก Cloud ไม่ถูกต้อง'); }
+            } catch(e) { updateSyncUI(false, 'Pull Failed', e.message); } finally { setPullLoading(false); }
         }
 
         function fetchViaJsonp(baseUrl) {
             return new Promise((resolve, reject) => {
-                const cbName = 'ppp_cb_' + Date.now();
-                const script = document.createElement('script');
-                const timeout = setTimeout(() => {
-                    cleanup();
-                    reject(new Error('Timeout — ไม่ได้รับข้อมูลภายใน 10 วินาที'));
-                }, 5000);
-
+                const cbName = 'ppp_cb_' + Date.now(); const script = document.createElement('script');
+                const timeout = setTimeout(() => { cleanup(); reject(new Error('Timeout — ไม่ได้รับข้อมูลภายใน 10 วินาที')); }, 5000);
                 window[cbName] = function(data) { cleanup(); resolve(data); };
                 function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
                 script.onerror = function() { cleanup(); reject(new Error('ไม่สามารถโหลดข้อมูลจาก Apps Script ได้')); };
-                script.src = baseUrl + '?callback=' + cbName + '&t=' + Date.now();
-                document.head.appendChild(script);
+                script.src = baseUrl + '?callback=' + cbName + '&t=' + Date.now(); document.head.appendChild(script);
             });
         }
 
-        function setPushLoading(on) {
-            const icon = document.getElementById('push-icon');
-            if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-cloud-arrow-up text-[10px]';
-        }
-        function setPullLoading(on) {
-            const icon = document.getElementById('pull-icon');
-            if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-rotate text-[10px]';
-        }
-
+        function setPushLoading(on) { const icon = document.getElementById('push-icon'); if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-cloud-arrow-up text-[10px]'; }
+        function setPullLoading(on) { const icon = document.getElementById('pull-icon'); if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-rotate text-[10px]'; }
         function triggerManualPush() { if (getCloudUrl()) pushToCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
         function triggerManualPull() { if (getCloudUrl()) pullFromCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
         function triggerManualSync() { triggerManualPush(); }
@@ -909,70 +746,48 @@
         function setSyncLoading(l) { setPushLoading(l); }
 
         function changeTheme(themeName) {
-            document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark');
-            document.body.classList.add('theme-' + themeName);
-
-            if (themeName === 'dark' || themeName === 'slate') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-
-            state.currentTheme = themeName;
-            localStorage.setItem('trip_theme_v5', themeName);
-            renderAll();
+            document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark'); document.body.classList.add('theme-' + themeName);
+            if (themeName === 'dark' || themeName === 'slate') { document.documentElement.classList.add('dark'); } else { document.documentElement.classList.remove('dark'); }
+            state.currentTheme = themeName; localStorage.setItem('trip_theme_v5', themeName); renderAll();
         }
 
         function updateSyncUI(isCloud, title, desc) {
-            const dot = document.querySelector('#sync-indicator .rounded-full');
-            const t = document.getElementById('sync-status-title');
-            const d = document.getElementById('sync-status-desc');
+            const dot = document.querySelector('#sync-indicator .rounded-full'); const t = document.getElementById('sync-status-title'); const d = document.getElementById('sync-status-desc');
             if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
-            if (t) t.innerText = title;
-            if (d) d.innerText = desc;
+            if (t) t.innerText = title; if (d) d.innerText = desc;
         }
 
         function promptAddNewGroup() {
             const gName = prompt("กรุณาระบุชื่อกลุ่มแถบตารางใหม่ (เช่น Day 3, ร้านเด็ด):");
             if(gName && gName.trim() !== "") {
-                const clean = gName.trim();
-                if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้มีในระบบแล้ว");
-                state.timelineGroups.push(clean);
-                saveState(); renderAll();
+                const clean = gName.trim(); if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้มีในระบบแล้ว");
+                state.timelineGroups.push(clean); saveState(); renderAll();
             }
         }
 
         function editTimelineGroupName(oldName) {
             const newName = prompt(`กรุณาระบุชื่อใหม่สำหรับกลุ่ม "${oldName}":`, oldName);
             if(newName && newName.trim() !== "" && newName.trim() !== oldName) {
-                const clean = newName.trim();
-                if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้ซ้ำกับกลุ่มอื่นที่มีอยู่แล้ว");
+                const clean = newName.trim(); if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้ซ้ำกับกลุ่มอื่นที่มีอยู่แล้ว");
                 const rawList = state.tripData[state.currentPlan] || [];
                 rawList.forEach(item => { if((item.group || "ตลอดทั้งทริป") === oldName) item.group = clean; });
-                state.timelineGroups = state.timelineGroups.map(g => g === oldName ? clean : g);
-                saveState(); renderAll();
+                state.timelineGroups = state.timelineGroups.map(g => g === oldName ? clean : g); saveState(); renderAll();
             }
         }
 
         function removeTimelineGroup(gName) {
             if(state.timelineGroups.length <= 1) return alert("ต้องมีกลุ่มตารางกำหนดการขั้นต่ำอย่างน้อย 1 กลุ่มหลักครับ");
             if(confirm(`ลบกลุ่ม "${gName}"? (การ์ดด้านในจะย้ายไปกลุ่มแรกอัตโนมัติ)`)) {
-                const rawList = state.tripData[state.currentPlan] || [];
-                const fallbackGroup = state.timelineGroups.find(g => g !== gName) || "ตลอดทั้งทริป";
+                const rawList = state.tripData[state.currentPlan] || []; const fallbackGroup = state.timelineGroups.find(g => g !== gName) || "ตลอดทั้งทริป";
                 rawList.forEach(item => { if(item.group === gName) item.group = fallbackGroup; });
-                state.timelineGroups = state.timelineGroups.filter(g => g !== gName);
-                saveState(); renderAll();
+                state.timelineGroups = state.timelineGroups.filter(g => g !== gName); saveState(); renderAll();
             }
         }
 
         function moveCardOrder(id, direction) {
-            const rawList = state.tripData[state.currentPlan] || [];
-            const index = rawList.findIndex(item => item.id === id);
-            if(index === -1) return;
+            const rawList = state.tripData[state.currentPlan] || []; const index = rawList.findIndex(item => item.id === id); if(index === -1) return;
             const currentCard = rawList[index];
-            const groupFilteredIndices = rawList
-                .map((item, idx) => ({ item, idx }))
-                .filter(entry => (entry.item.group || "ตลอดทั้งทริป") === (currentCard.group || "ตลอดทั้งทริป"));
+            const groupFilteredIndices = rawList.map((item, idx) => ({ item, idx })).filter(entry => (entry.item.group || "ตลอดทั้งทริป") === (currentCard.group || "ตลอดทั้งทริป"));
             const positionInGroup = groupFilteredIndices.findIndex(entry => entry.idx === index);
             if(direction === 'up' && positionInGroup > 0) {
                 const targetEntry = groupFilteredIndices[positionInGroup - 1];
@@ -985,21 +800,25 @@
         }
 
         function changeCardGroupAssociation(id, nextGroup) {
-            const rawList = state.tripData[state.currentPlan] || [];
-            const item = rawList.find(i => i.id === id);
+            const rawList = state.tripData[state.currentPlan] || []; const item = rawList.find(i => i.id === id);
             if(item) { item.group = nextGroup; saveState(); renderAll(); }
         }
 
         function renderItinerary() {
-            const rootContainer = document.getElementById('itinerary-groups-root');
-            rootContainer.innerHTML = '';
+            const rootContainer = document.getElementById('itinerary-groups-root'); rootContainer.innerHTML = '';
             const rawList = state.tripData[state.currentPlan] || [];
             
             state.timelineGroups.forEach(gName => {
                 const groupSpecificCards = rawList.filter(item => (item.group || "ตลอดทั้งทริป") === gName);
                 const groupWrapper = document.createElement('div');
                 groupWrapper.className = "space-y-2.5 group-wrapper-bg p-3 rounded-2xl border transition-colors duration-300";
-                let groupSumCost = groupSpecificCards.reduce((sum, item) => sum + item.cost, 0);
+                
+                // ✨ อัปเดตสูตรคำนวณยอดเงินของกลุ่ม โดยคิดตามประเภทการจ่าย (ต่อคน หรือ รวมทั้งหมด)
+                let groupSumCost = groupSpecificCards.reduce((sum, item) => {
+                    if (item.bypass) return sum; 
+                    const actualCost = item.costType === 'per_person' ? (item.cost * state.members.length) : item.cost;
+                    return sum + actualCost;
+                }, 0);
 
                 groupWrapper.innerHTML = `
                     <div class="flex items-center justify-between pb-1">
@@ -1019,10 +838,7 @@
                 rootContainer.appendChild(groupWrapper);
                 const itemsSubRoot = document.getElementById(`sub-group-items-${gName.replace(/[^a-zA-Z0-9]/g, '')}`);
 
-                if(groupSpecificCards.length === 0) {
-                    itemsSubRoot.innerHTML = `<p class="text-[10px] text-gray-400 italic py-2 text-center">ไม่มีรายการในกลุ่มนี้</p>`;
-                    return;
-                }
+                if(groupSpecificCards.length === 0) { itemsSubRoot.innerHTML = `<p class="text-[10px] text-gray-400 italic py-2 text-center">ไม่มีรายการในกลุ่มนี้</p>`; return; }
 
                 groupSpecificCards.forEach((item, index) => {
                     const card = document.createElement('div');
@@ -1032,25 +848,18 @@
                     const bypassOpacityClass = isBypassed ? 'opacity-50 grayscale' : (item.visited ? 'opacity-45 scale-[0.98]' : '');
                     const bypassBadgeHtml = isBypassed ? `<span class="text-[9px] px-1.5 py-0.2 rounded font-bold bg-gray-200 text-gray-500 dark:bg-zinc-800 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700"><i class="fa-solid fa-eye-slash"></i> สำรอง (Bypass)</span>` : '';
 
-                    card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${themeColor.border} ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
+                    card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${themeColor.border} ${bypassOpacityClass} transition-all duration-300`;
 
                     const finalImg = item.img ? item.img : generateSmartImageUrl(item.title, item.link);
 
                     let mapBtnHtml = "";
-                    if(item.link) {
-                        const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(item.title)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-                        mapBtnHtml = `<button onclick="loadLiveMap('${embedUrl}', '${item.title}')" class="text-blue-500 hover:underline text-[10px] font-bold cursor-pointer inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-map-location"></i> ส่องแผนที่</button>`;
-                    }
-
+                    if(item.link) mapBtnHtml = `<button onclick="loadLiveMap('${`https://maps.google.com/maps?q=${encodeURIComponent(item.title)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}', '${item.title}')" class="text-blue-500 hover:underline text-[10px] font-bold cursor-pointer inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-map-location"></i> ส่องแผนที่</button>`;
+                    
                     let webBtnHtml = "";
-                    if(item.website) {
-                        webBtnHtml = `<a href="${item.website}" target="_blank" class="text-rose-500 hover:underline text-[10px] font-bold inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Info Web</a>`;
-                    }
-
+                    if(item.website) webBtnHtml = `<a href="${item.website}" target="_blank" class="text-rose-500 hover:underline text-[10px] font-bold inline-flex items-center gap-0.5 click-bounce"><i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Info Web</a>`;
+                    
                     let noteBoxHtml = "";
-                    if(item.note && item.note.trim() !== "") {
-                        noteBoxHtml = `<div class="inner-widget-bg p-2 rounded-lg text-[10px] text-gray-400 border border-gray-200 dark:border-zinc-800 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
-                    }
+                    if(item.note && item.note.trim() !== "") noteBoxHtml = `<div class="inner-widget-bg p-2 rounded-lg text-[10px] text-gray-400 border border-gray-200 dark:border-zinc-800 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
                     
                     let innerBadgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded font-medium inner-widget-bg border dark:border-zinc-800">${item.priority}</span>`;
                     if (item.category === "เดินทาง" && item.transportType) {
@@ -1058,20 +867,20 @@
                     }
 
                     let groupOptionsOptions = state.timelineGroups.map(g => `<option value="${g}" ${g === (item.group || 'ตลอดทั้งทริป') ? 'selected' : ''}>${g}</option>`).join('');
-                    let groupSelectorDropdownHtml = `
-                        <select onchange="changeCardGroupAssociation(${item.id}, this.value)" class="text-[9px] card-bg border px-1 py-0.5 rounded font-bold cursor-pointer focus:outline-hidden">
-                            ${groupOptionsOptions}
-                        </select>
-                    `;
+                    let groupSelectorDropdownHtml = `<select onchange="changeCardGroupAssociation(${item.id}, this.value)" class="text-[9px] card-bg border px-1 py-0.5 rounded font-bold cursor-pointer focus:outline-hidden">${groupOptionsOptions}</select>`;
 
                     let starRatingHtml = "";
-                    if(item.rating) {
-                        starRatingHtml = `<span class="text-amber-500 font-bold inline-flex items-center gap-0.5 ml-1 text-[10px] bg-amber-500/10 px-1 rounded border border-amber-500/20"><i class="fa-solid fa-star text-[9px]"></i> ${item.rating}</span>`;
-                    }
+                    if(item.rating) starRatingHtml = `<span class="text-amber-500 font-bold inline-flex items-center gap-0.5 ml-1 text-[10px] bg-amber-500/10 px-1 rounded border border-amber-500/20"><i class="fa-solid fa-star text-[9px]"></i> ${item.rating}</span>`;
 
                     const displayCategoryLabelName = state.categoriesMap[item.category] || item.category;
                     const isChecked = item.visited ? 'checked-active' : '';
                     const checkIcon = item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : '';
+
+                    // ✨ คำนวณยอดเงินที่จะแสดงบนการ์ดใบนี้
+                    const actualCost = item.costType === 'per_person' ? (item.cost * state.members.length) : item.cost;
+                    const costDisplay = item.costType === 'per_person' 
+                        ? `฿${actualCost.toLocaleString()} <span class="font-normal text-gray-400 text-[9px]">(฿${item.cost.toLocaleString()}/คน)</span>` 
+                        : `฿${actualCost.toLocaleString()}`;
 
                     card.innerHTML = `
                         <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
@@ -1079,40 +888,28 @@
                                 <button onclick="toggleVisited(${item.id}, this)" class="custom-check-bg ${isChecked} w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all">
                                     ${checkIcon}
                                 </button>
-                                
                                 <img onclick="openLightbox('${finalImg}', '${item.title}')" class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 cursor-zoom-in transition-transform duration-300 hover:scale-105" src="${finalImg}" alt="Place">
-                                
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-1.5 flex-wrap">
                                         <h4 class="font-bold text-xs truncate ${isBypassed ? 'line-through text-gray-400' : ''}">${item.title}</h4>
                                         <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${themeColor.badge}">${displayCategoryLabelName}</span>
-                                        ${bypassBadgeHtml}
-                                        ${innerBadgeHtml}
-                                        ${starRatingHtml}
-                                        ${groupSelectorDropdownHtml}
+                                        ${bypassBadgeHtml} ${innerBadgeHtml} ${starRatingHtml} ${groupSelectorDropdownHtml}
                                     </div>
                                     <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium">
-                                        <span class="text-amber-500 font-bold ${isBypassed ? 'line-through' : ''}">฿${item.cost.toLocaleString()}</span>
-                                        ${mapBtnHtml}
-                                        ${webBtnHtml}
+                                        <span class="text-amber-500 font-bold ${isBypassed ? 'line-through opacity-70' : ''}">${costDisplay}</span>
+                                        ${mapBtnHtml} ${webBtnHtml}
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- กล่องเครื่องมือ (ปุ่มเลื่อน, Bypass, ก๊อปปี้, แก้ไข, ลบ) -->
                             <div class="flex items-center gap-0.5 shrink-0 inner-widget-bg rounded-lg p-0.5 border">
-                                <button onclick="moveCardOrder(${item.id}, 'up')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนขึ้น"><i class="fa-solid fa-chevron-up"></i></button>
-                                <button onclick="moveCardOrder(${item.id}, 'down')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนลง"><i class="fa-solid fa-chevron-down"></i></button>
+                                <button onclick="moveCardOrder(${item.id}, 'up')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-chevron-up"></i></button>
+                                <button onclick="moveCardOrder(${item.id}, 'down')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-chevron-down"></i></button>
                                 <div class="w-[1px] h-3 bg-gray-200 dark:bg-zinc-700 mx-0.5"></div>
-                                
-                                <!-- ✨ ปุ่ม Bypass รูปดวงตา -->
                                 <button onclick="toggleBypass(${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ข้ามรายการนี้ (Bypass)"><i class="fa-solid ${isBypassed ? 'fa-eye-slash text-amber-500' : 'fa-eye'}"></i></button>
-                                
-                                <!-- ✨ ปุ่มทำสำเนา -->
                                 <button onclick="duplicatePlace(${item.id})" class="text-gray-400 hover:text-emerald-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ทำสำเนาการ์ด"><i class="fa-regular fa-copy"></i></button>
-                                
-                                <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="แก้ไข"><i class="fa-solid fa-pencil"></i></button>
-                                <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ลบ"><i class="fa-regular fa-trash-can"></i></button>
+                                <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-regular fa-trash-can"></i></button>
                             </div>
                         </div>
                         ${noteBoxHtml}
@@ -1125,13 +922,11 @@
         function openModal(mode, targetId = null) {
             modalMode = mode;
             updateSelectDropdowns();
-            const modal = document.getElementById('modal-add-place');
-            const innerBox = modal.querySelector('div');
+            const modal = document.getElementById('modal-add-place'); const innerBox = modal.querySelector('div');
             
             if(mode === 'edit' && targetId) {
                 document.getElementById('modal-title-text').innerText = state.currentLang === "th" ? "แก้ไขข้อมูลสถานที่" : "Edit Destination Details";
-                const list = state.tripData[state.currentPlan] || [];
-                const item = list.find(p => p.id === targetId);
+                const list = state.tripData[state.currentPlan] || []; const item = list.find(p => p.id === targetId);
                 if(item) {
                     document.getElementById('edit-place-id').value = item.id;
                     document.getElementById('p-category').value = item.category || "เดินทาง";
@@ -1139,6 +934,7 @@
                     document.getElementById('p-title').value = item.title || "";
                     document.getElementById('p-priority').value = item.priority || "⭐ High";
                     document.getElementById('p-cost').value = item.cost || 0;
+                    document.getElementById('p-cost-type').value = item.costType || "total"; // ✨ ดึงข้อมูลประเภทยอดเงินมาแสดง
                     document.getElementById('p-rating').value = item.rating || "";
                     document.getElementById('p-website').value = item.website || "";
                     document.getElementById('p-link').value = item.link || "";
@@ -1147,14 +943,10 @@
                 }
             } else {
                 document.getElementById('modal-title-text').innerText = state.currentLang === "th" ? "เพิ่มจุดเช็คอินใหม่" : "Add New Destination";
-                document.getElementById('edit-place-id').value = "";
-                document.getElementById('p-title').value = "";
-                document.getElementById('p-cost').value = "";
-                document.getElementById('p-rating').value = "";
-                document.getElementById('p-website').value = "";
-                document.getElementById('p-link').value = "";
-                document.getElementById('p-img').value = "";
-                document.getElementById('p-note').value = "";
+                document.getElementById('edit-place-id').value = ""; document.getElementById('p-title').value = "";
+                document.getElementById('p-cost').value = ""; document.getElementById('p-cost-type').value = "total"; // ค่าเริ่มต้น
+                document.getElementById('p-rating').value = ""; document.getElementById('p-website').value = "";
+                document.getElementById('p-link').value = ""; document.getElementById('p-img').value = ""; document.getElementById('p-note').value = "";
             }
 
             modal.classList.remove('hidden'); modal.classList.add('flex');
@@ -1169,119 +961,64 @@
         }
 
         function toggleVisited(id, btnEl) {
-            const list = state.tripData[state.currentPlan] || [];
-            const i = list.find(p => p.id === id); 
-            if(i) {
-                i.visited = !i.visited;
-                if(i.visited) btnEl.classList.add('check-pop-active');
-                saveState(); setTimeout(() => { renderAll(); }, 200);
-            }
+            const list = state.tripData[state.currentPlan] || []; const i = list.find(p => p.id === id); 
+            if(i) { i.visited = !i.visited; if(i.visited) btnEl.classList.add('check-pop-active'); saveState(); setTimeout(() => { renderAll(); }, 200); }
         }
 
         function toggleExpenseSettled(index, btnEl) {
-            if(state.expenses[index]) {
-                state.expenses[index].settled = !state.expenses[index].settled;
-                saveState();
-                renderAll();
-            }
+            if(state.expenses[index]) { state.expenses[index].settled = !state.expenses[index].settled; saveState(); renderAll(); }
         }
 
         function loadLiveMap(u, t) {
             document.getElementById('map-placeholder').classList.add('hidden');
-            const f = document.getElementById('google-maps-iframe');
-            f.classList.remove('hidden'); f.src = u;
-            document.getElementById('map-target-name').innerText = t;
+            const f = document.getElementById('google-maps-iframe'); f.classList.remove('hidden'); f.src = u; document.getElementById('map-target-name').innerText = t;
         }
-        function deletePlace(id) {
-            state.tripData[state.currentPlan] = (state.tripData[state.currentPlan] || []).filter(p => p.id !== id);
-            saveState(); renderAll();
-        }
+        
+        function deletePlace(id) { state.tripData[state.currentPlan] = (state.tripData[state.currentPlan] || []).filter(p => p.id !== id); saveState(); renderAll(); }
+        
         function duplicatePlace(id) {
-            const list = state.tripData[state.currentPlan] || [];
-            const item = list.find(p => p.id === id);
-            if (item) {
-                // สร้างสำเนาข้อมูลใหม่ และกำหนด ID ใหม่ให้ไม่ซ้ำของเดิม
-                const newItem = { ...item, id: Date.now(), visited: false, bypass: false };
-                newItem.title = newItem.title + " (Copy)"; // เติมคำว่า Copy ต่อท้ายชื่อ
-                list.push(newItem);
-                saveState();
-                renderAll();
-            }
+            const list = state.tripData[state.currentPlan] || []; const item = list.find(p => p.id === id);
+            if (item) { const newItem = { ...item, id: Date.now(), visited: false, bypass: false }; newItem.title = newItem.title + " (Copy)"; list.push(newItem); saveState(); renderAll(); }
         }
 
-        // ฟังก์ชันเปิด/ปิด Bypass (ข้ามการคำนวณ)
         function toggleBypass(id) {
-            const list = state.tripData[state.currentPlan] || [];
-            const item = list.find(p => p.id === id);
-            if (item) {
-                item.bypass = !item.bypass; // สลับสถานะ
-                saveState();
-                renderAll();
-            }
+            const list = state.tripData[state.currentPlan] || []; const item = list.find(p => p.id === id);
+            if (item) { item.bypass = !item.bypass; saveState(); renderAll(); }
         }
-        function editTripTitle() {
-            const t = prompt("แก้ไขชื่อทริปหลัก:", state.tripTitle);
-            if (t && t.trim() !== "") { state.tripTitle = t.trim(); saveState(); renderAll(); }
-        }
-        function promptAddMember() {
-            const m = prompt("ระบุชื่อสมาชิกใหม่:");
-            if(m && m.trim() !== "") {
-                if(state.members.includes(m.trim())) return;
-                state.members.push(m.trim()); saveState(); renderAll();
-            }
-        }
-        function removeMember(name) {
-            if(state.members.length <= 1) return;
-            if(confirm(`ลบคุณ ${name}?`)) { state.members = state.members.filter(m => m !== name); saveState(); renderAll(); }
-        }
+        
+        function editTripTitle() { const t = prompt("แก้ไขชื่อทริปหลัก:", state.tripTitle); if (t && t.trim() !== "") { state.tripTitle = t.trim(); saveState(); renderAll(); } }
+        
+        function promptAddMember() { const m = prompt("ระบุชื่อสมาชิกใหม่:"); if(m && m.trim() !== "") { if(state.members.includes(m.trim())) return; state.members.push(m.trim()); saveState(); renderAll(); } }
+        
+        function removeMember(name) { if(state.members.length <= 1) return; if(confirm(`ลบคุณ ${name}?`)) { state.members = state.members.filter(m => m !== name); saveState(); renderAll(); } }
 
         function editMemberName(oldName) {
             const newName = prompt(`แก้ไขชื่อสมาชิก "${oldName}":`, oldName);
             if (!newName || newName.trim() === "" || newName.trim() === oldName) return;
-            
-            const cleanName = newName.trim();
-            if (state.members.includes(cleanName)) return alert("ชื่อนี้มีอยู่แล้วในทริปครับ");
-
-            // 1. อัปเดตชื่อในรายชื่อสมาชิก
-            const mIndex = state.members.indexOf(oldName);
-            if (mIndex !== -1) state.members[mIndex] = cleanName;
-
-            // 2. ตามไปอัปเดตชื่อคนจ่ายในบิลเก่าๆ ทั้งหมดเพื่อไม่ให้ระบบคำนวณเงินรวน
-            state.expenses.forEach(e => {
-                if (e.payer === oldName) e.payer = cleanName;
-            });
-
+            const cleanName = newName.trim(); if (state.members.includes(cleanName)) return alert("ชื่อนี้มีอยู่แล้วในทริปครับ");
+            const mIndex = state.members.indexOf(oldName); if (mIndex !== -1) state.members[mIndex] = cleanName;
+            state.expenses.forEach(e => { if (e.payer === oldName) e.payer = cleanName; });
             saveState(); renderAll();
         }
 
         function promptManageCategories() {
-            const act = prompt("พิมพ์ 'เพิ่ม' เพื่อสร้างใหม่ หรือพิมพ์ชื่อหมวดหมู่เดิมเพื่อ 'ลบ'");
-            if(!act) return;
-            if(act.trim() === "เพิ่ม") {
-                const n = prompt("พิมพ์ชื่อหมวดหมู่ใหม่:");
-                if(n && n.trim() !== "") { state.categories.push(n.trim()); saveState(); renderAll(); }
-            } else {
-                if(state.categories.includes(act.trim())) { state.categories = state.categories.filter(c => c !== act.trim()); saveState(); renderAll(); }
-            }
+            const act = prompt("พิมพ์ 'เพิ่ม' เพื่อสร้างใหม่ หรือพิมพ์ชื่อหมวดหมู่เดิมเพื่อ 'ลบ'"); if(!act) return;
+            if(act.trim() === "เพิ่ม") { const n = prompt("พิมพ์ชื่อหมวดหมู่ใหม่:"); if(n && n.trim() !== "") { state.categories.push(n.trim()); saveState(); renderAll(); }
+            } else { if(state.categories.includes(act.trim())) { state.categories = state.categories.filter(c => c !== act.trim()); saveState(); renderAll(); } }
         }
+        
         function editCurrentPlanName() {
-            const old = state.currentPlan; const n = prompt("ระบุชื่อใหม่ของแผนนี้:", old);
-            if(!n || n.trim() === "" || n.trim() === old) return;
-            state.plans = state.plans.map(p => p === old ? n.trim() : p);
-            state.tripData[n.trim()] = state.tripData[old] || []; delete state.tripData[old];
-            state.currentPlan = n.trim(); saveState(); renderAll();
+            const old = state.currentPlan; const n = prompt("ระบุชื่อใหม่ของแผนนี้:", old); if(!n || n.trim() === "" || n.trim() === old) return;
+            state.plans = state.plans.map(p => p === old ? n.trim() : p); state.tripData[n.trim()] = state.tripData[old] || []; delete state.tripData[old]; state.currentPlan = n.trim(); saveState(); renderAll();
         }
+        
         function deleteCurrentPlan() {
             if(state.plans.length <= 1) return alert("ต้องเหลืออย่างน้อย 1 แผนหลัก");
-            if(confirm(`ยืนยันการลบแผน "${state.currentPlan}"?`)) {
-                const old = state.currentPlan; state.plans = state.plans.filter(p => p !== old);
-                delete state.tripData[old]; state.currentPlan = state.plans[0]; saveState(); renderAll();
-            }
+            if(confirm(`ยืนยันการลบแผน "${state.currentPlan}"?`)) { const old = state.currentPlan; state.plans = state.plans.filter(p => p !== old); delete state.tripData[old]; state.currentPlan = state.plans[0]; saveState(); renderAll(); }
         }
+        
         function addNewPlanPrompt() {
-            const n = prompt("ระบุชื่อแผนการเดินทางใหม่:");
-            if (!n || n.trim() === "") return;
-            if (state.plans.includes(n.trim())) return;
+            const n = prompt("ระบุชื่อแผนการเดินทางใหม่:"); if (!n || n.trim() === "") return; if (state.plans.includes(n.trim())) return;
             state.plans.push(n.trim()); state.tripData[n.trim()] = []; state.currentPlan = n.trim(); saveState(); renderAll();
         }
         
@@ -1298,49 +1035,36 @@
             if(eLinked) {
                 const currentPlaces = state.tripData[state.currentPlan] || [];
                 let baseHtml = `<option value="">-- ไม่ระบุ / ค่าใช้จ่ายทั่วไป --</option>`;
-                currentPlaces.forEach(p => { baseHtml += `<option value="${p.id}">${p.title} (฿${p.cost})</option>`; });
+                currentPlaces.forEach(p => { 
+                    // ✨ แสดงยอดเงินคำนวณจริงใน Dropdown ของหน้าบันทึกรายจ่าย
+                    const actualCost = p.costType === 'per_person' ? (p.cost * state.members.length) : p.cost;
+                    baseHtml += `<option value="${p.id}">${p.title} (฿${actualCost})</option>`; 
+                });
                 eLinked.innerHTML = baseHtml;
             }
         }
 
         function renderColorLegendBlock() {
-            const legendBox = document.getElementById('color-legend-box');
-            if(!legendBox) return;
+            const legendBox = document.getElementById('color-legend-box'); if(!legendBox) return;
             let html = `<span class="text-gray-400 uppercase">สัญลักษณ์แถบสีหมวดหมู่:</span>`;
             const colorMap = { "เดินทาง": "bg-blue-500", "ที่พัก": "bg-purple-500", "อาหาร": "bg-amber-500", "ช้อปปิ้ง": "bg-rose-500", "ท่องเที่ยว": "bg-emerald-500" };
-            Object.keys(state.categoriesMap).forEach(key => {
-                html += `<span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded ${colorMap[key] || 'bg-gray-400'}"></span> ${state.categoriesMap[key]}</span>`;
-            });
+            Object.keys(state.categoriesMap).forEach(key => { html += `<span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded ${colorMap[key] || 'bg-gray-400'}"></span> ${state.categoriesMap[key]}</span>`; });
             legendBox.innerHTML = html;
         }
 
         function renderFinancialDashboardProgressCharts() {
-            const chartsRoot = document.getElementById('category-budget-charts-root');
-            if(!chartsRoot) return;
-            chartsRoot.innerHTML = '';
-
+            const chartsRoot = document.getElementById('category-budget-charts-root'); if(!chartsRoot) return; chartsRoot.innerHTML = '';
             const totalSpent = state.expenses.reduce((s, i) => s + i.amount, 0);
             const colorMap = { "เดินทาง": "bg-blue-500", "ที่พัก": "bg-purple-500", "อาหาร": "bg-amber-500", "ช้อปปิ้ง": "bg-rose-500", "ท่องเที่ยว": "bg-emerald-500" };
 
             Object.keys(state.categoriesMap).forEach(key => {
-                const catExpenses = state.expenses.filter(e => e.category === key);
-                const catSum = catExpenses.reduce((sum, e) => sum + e.amount, 0);
-                
-                const pct = totalSpent > 0 ? Math.round((catSum / totalSpent) * 100) : 0;
-                const barColor = colorMap[key] || "bg-zinc-500";
-                const displayLabel = state.categoriesMap[key];
-
+                const catExpenses = state.expenses.filter(e => e.category === key); const catSum = catExpenses.reduce((sum, e) => sum + e.amount, 0);
+                const pct = totalSpent > 0 ? Math.round((catSum / totalSpent) * 100) : 0; const barColor = colorMap[key] || "bg-zinc-500"; const displayLabel = state.categoriesMap[key];
                 chartsRoot.innerHTML += `
                     <div class="space-y-1">
-                        <div class="flex justify-between text-[11px] font-bold">
-                            <span class="text-gray-700 dark:text-zinc-300">${displayLabel}</span>
-                            <span class="text-gray-900 dark:text-zinc-100">฿${catSum.toLocaleString()} (${pct}%)</span>
-                        </div>
-                        <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
-                            <div class="${barColor} h-full transition-all duration-500" style="width: ${pct}%"></div>
-                        </div>
-                    </div>
-                `;
+                        <div class="flex justify-between text-[11px] font-bold"><span class="text-gray-700 dark:text-zinc-300">${displayLabel}</span><span class="text-gray-900 dark:text-zinc-100">฿${catSum.toLocaleString()} (${pct}%)</span></div>
+                        <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden"><div class="${barColor} h-full transition-all duration-500" style="width: ${pct}%"></div></div>
+                    </div>`;
             });
         }
 
@@ -1355,27 +1079,24 @@
             `).join('');
             
             const rawList = state.tripData[state.currentPlan] || [];
-            
-            // ✨ นำรายการมาคัดกรอง: เอาเฉพาะที่ไม่ได้กด Bypass (bypass = false หรือ ไม่มีค่า)
             const activeList = rawList.filter(item => !item.bypass); 
             
-            // ใช้ activeList ในการคำนวณทั้งหมด
-            const totalEstCost = activeList.reduce((sum, item) => sum + item.cost, 0);
+            // ✨ อัปเดตสูตรคำนวณเงินรวมของทริป โดยประมวลผลจากราคา "ต่อคน" หรือ "รวมทั้งหมด"
+            const totalEstCost = activeList.reduce((sum, item) => {
+                const actualCost = item.costType === 'per_person' ? (item.cost * state.members.length) : item.cost;
+                return sum + actualCost;
+            }, 0);
+
             document.getElementById('header-total-budget').innerText = `฿${totalEstCost.toLocaleString()}`;
-            if(document.getElementById('stat-est-cost')) {
-                document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
-            }
-            if(document.getElementById('stat-places')) {
-                document.getElementById('stat-places').innerText = `${activeList.length} Places`;
-            }
+            if(document.getElementById('stat-est-cost')) document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
+            if(document.getElementById('stat-places')) document.getElementById('stat-places').innerText = `${activeList.length} Places`;
+            
             if(document.getElementById('stat-progress')) {
                 if (activeList.length > 0) {
                     const visitedCount = activeList.filter(item => item.visited).length;
                     const percentage = Math.round((visitedCount / activeList.length) * 100);
                     document.getElementById('stat-progress').innerText = `${percentage}%`;
-                } else {
-                    document.getElementById('stat-progress').innerText = `0%`;
-                }
+                } else { document.getElementById('stat-progress').innerText = `0%`; }
             }
 
             updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); renderColorLegendBlock(); renderFinancialDashboardProgressCharts(); applyLanguageStrings();
@@ -1396,6 +1117,7 @@
             const group = document.getElementById('p-group-assignment').value;
             const priority = document.getElementById('p-priority').value;
             const cost = parseFloat(document.getElementById('p-cost').value) || 0;
+            const costType = document.getElementById('p-cost-type').value; // ✨ รับค่าประเภทงบประมาณ
             const rating = document.getElementById('p-rating').value;
             const website = document.getElementById('p-website').value.trim();
             const link = document.getElementById('p-link').value.trim();
@@ -1407,16 +1129,15 @@
 
             if(modalMode === 'edit') {
                 const id = parseInt(document.getElementById('edit-place-id').value);
-                const list = state.tripData[state.currentPlan] || [];
-                const item = list.find(p => p.id === id);
+                const list = state.tripData[state.currentPlan] || []; const item = list.find(p => p.id === id);
                 if(item) {
                     item.title = title; item.category = category; item.group = group; item.priority = priority;
-                    item.cost = cost; item.rating = rating; item.website = website; item.link = link; item.img = img; item.note = note;
-                    item.transportType = transportType;
+                    item.cost = cost; item.costType = costType; item.rating = rating; item.website = website; 
+                    item.link = link; item.img = img; item.note = note; item.transportType = transportType;
                 }
             } else {
                 if(!state.tripData[state.currentPlan]) state.tripData[state.currentPlan] = [];
-                state.tripData[state.currentPlan].push({ id: Date.now(), title, category, group, priority, cost, rating, website, link, img, note, transportType, visited: false });
+                state.tripData[state.currentPlan].push({ id: Date.now(), title, category, group, priority, cost, costType, rating, website, link, img, note, transportType, visited: false, bypass: false });
             }
             closeModal(); saveState(); renderAll();
         }
@@ -1429,7 +1150,6 @@
             let ledger = {}; state.members.forEach(m => { ledger[m] = 0; });
             state.expenses.forEach(e => {
                 if(e.settled === true) return; 
-                
                 const payer = e.payer; const amt = e.amount;
                 const validPayer = state.members.includes(payer) ? payer : state.members[0];
                 if(e.split === 'split') {
@@ -1440,45 +1160,29 @@
 
             const board = document.getElementById('settlement-board-container'); board.innerHTML = '';
             state.members.forEach(m => {
-                const balance = ledger[m]; let cardClass = "bg-gray-50 dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 text-gray-700 dark:text-zinc-300";
-                let statusText = "ลงตัวพอดี";
-                if(balance > 0.01) {
-                    cardClass = "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900 text-emerald-800 dark:text-emerald-400";
-                    statusText = `เป็นเจ้าหนี้ (+฿${Math.round(balance).toLocaleString()})`;
-                } else if(balance < -0.01) {
-                    cardClass = "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900 text-rose-800 dark:text-rose-400";
-                    statusText = `เป็นลูกหนี้ (-฿${Math.round(Math.abs(balance)).toLocaleString()})`;
-                }
+                const balance = ledger[m]; let cardClass = "bg-gray-50 dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 text-gray-700 dark:text-zinc-300"; let statusText = "ลงตัวพอดี";
+                if(balance > 0.01) { cardClass = "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900 text-emerald-800 dark:text-emerald-400"; statusText = `เป็นเจ้าหนี้ (+฿${Math.round(balance).toLocaleString()})`;
+                } else if(balance < -0.01) { cardClass = "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900 text-rose-800 dark:text-rose-400"; statusText = `เป็นลูกหนี้ (-฿${Math.round(Math.abs(balance)).toLocaleString()})`; }
                 board.innerHTML += `<div class="p-2.5 rounded-lg border text-xs font-semibold ${cardClass} flex justify-between items-center transition-all duration-300"><span><i class="fa-solid fa-user opacity-60"></i> ${m}</span><span class="text-[11px] font-bold">${statusText}</span></div>`;
             });
 
-            const listContainer = document.getElementById('expense-log-list');
-            document.getElementById('log-count').innerText = `${state.expenses.length} Items`;
-            listContainer.innerHTML = '';
-
-            if(state.expenses.length === 0) {
-                listContainer.innerHTML = `<p class="text-[11px] text-gray-400 py-6 text-center">ยังไม่มีประวัติค่าใช้จ่าย</p>`; return;
-            }
+            const listContainer = document.getElementById('expense-log-list'); document.getElementById('log-count').innerText = `${state.expenses.length} Items`; listContainer.innerHTML = '';
+            if(state.expenses.length === 0) { listContainer.innerHTML = `<p class="text-[11px] text-gray-400 py-6 text-center">ยังไม่มีประวัติค่าใช้จ่าย</p>`; return; }
+            
             state.expenses.forEach((e, idx) => {
-                const log = document.createElement('div');
-                const catStyle = getStyleByCat(e.category);
+                const log = document.createElement('div'); const catStyle = getStyleByCat(e.category);
                 let linkedLabelHtml = e.linkedPlaceId ? `<span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-500 px-1 py-0.2 rounded"><i class="fa-solid fa-paperclip"></i> Linked</span>` : "";
-                
                 const displayCategoryLabelName = state.categoriesMap[e.category] || e.category;
-                const checkedActive = e.settled ? 'checked-active' : '';
-                const checkIcon = e.settled ? '<i class="fa-solid fa-check text-[8px] text-white"></i>' : '';
+                const checkedActive = e.settled ? 'checked-active' : ''; const checkIcon = e.settled ? '<i class="fa-solid fa-check text-[8px] text-white"></i>' : '';
 
                 log.className = `flex items-center justify-between p-2.5 rounded-lg inner-widget-bg border text-xs shadow-3xs transition-all duration-300 ${e.settled ? 'opacity-40 scale-[0.98]' : ''}`;
                 log.innerHTML = `
                     <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                        <button onclick="toggleExpenseSettled(${idx}, this)" class="w-4.5 h-4.5 rounded border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${checkedActive}">
-                            ${checkIcon}
-                        </button>
+                        <button onclick="toggleExpenseSettled(${idx}, this)" class="w-4.5 h-4.5 rounded border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${checkedActive}">${checkIcon}</button>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-1.5 flex-wrap">
                                 <p class="font-bold truncate ${e.settled ? 'line-through text-gray-400' : ''}">${e.title}</p>
-                                <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${catStyle.badge}">${displayCategoryLabelName}</span> 
-                                ${linkedLabelHtml}
+                                <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${catStyle.badge}">${displayCategoryLabelName}</span> ${linkedLabelHtml}
                             </div>
                             <p class="text-[10px] text-gray-400 mt-0.5">Paid by: <span class="font-bold">${e.payer}</span> • ${e.split === 'split' ? 'หารเท่ากัน' : 'ส่วนตัว'}</p>
                         </div>
@@ -1504,7 +1208,10 @@
             if(linkedPlaceId) {
                 const currentPlaces = state.tripData[state.currentPlan] || [];
                 const matchedPlace = currentPlaces.find(p => p.id === parseInt(linkedPlaceId));
-                if(matchedPlace) matchedPlace.cost = amount;
+                if(matchedPlace) {
+                    matchedPlace.cost = amount;
+                    matchedPlace.costType = 'total'; // ✨ บังคับให้เป็นราคาเหมาทันที เพราะบันทึกบิลจ่ายรวมตามจริงแล้ว
+                }
             }
             state.expenses.unshift({ title, category, amount, payer, split, settled: false, linkedPlaceId: linkedPlaceId ? parseInt(linkedPlaceId) : null });
             saveState(); renderAll();
@@ -1516,54 +1223,28 @@
         window.onload = init;
 
         function saveCloudConfig() {
-            const urlInput = document.getElementById('cloud-script-url');
-            if (!urlInput) return;
-            const url = urlInput.value.trim();
-            
-            if (url === "") {
-                localStorage.removeItem('trip_cloud_url_v5');
-                alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ Local Storage");
-            } else {
-                localStorage.setItem('trip_cloud_url_v5', url);
-                alert("บันทึกการเชื่อมต่อคลาวด์สำเร็จ! ระบบกำลังเริ่มดึงข้อมูลล่าสุด...");
-                pullFromCloud();
-            }
+            const urlInput = document.getElementById('cloud-script-url'); if (!urlInput) return; const url = urlInput.value.trim();
+            if (url === "") { localStorage.removeItem('trip_cloud_url_v5'); alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ Local Storage");
+            } else { localStorage.setItem('trip_cloud_url_v5', url); alert("บันทึกการเชื่อมต่อคลาวด์สำเร็จ! ระบบกำลังเริ่มดึงข้อมูลล่าสุด..."); pullFromCloud(); }
             renderAll();
         }
 
         function disconnectCloud() {
             localStorage.removeItem('trip_cloud_url_v5');
             alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ข้อมูลในเครื่อง (Local Storage)");
-            updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า");
-            renderAll();
+            updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า"); renderAll();
         }
 
         function copyShareLink() {
             const urlInput = document.getElementById('cloud-script-url');
-            if (!urlInput || !urlInput.value.trim()) {
-                alert("❌ ไม่สามารถสร้างลิงก์ได้: กรุณากรอก Web App URL และกดบันทึกการเชื่อมต่อก่อนครับ");
-                return;
-            }
-            
-            const webAppUrl = urlInput.value.trim();
-            // เข้ารหัสแปลง URL ให้เป็นรหัสปลอดภัย (Base64) ป้องกันบราวเซอร์สับสนพารามิเตอร์
-            const encodedUrl = btoa(unescape(encodeURIComponent(webAppUrl)));
-            
-            // สร้างลิงก์สำเร็จรูป (ลิงก์ของเว็บปัจจุบันที่คุณกำลังเปิดอยู่ + รหัสต่อคลาวด์)
+            if (!urlInput || !urlInput.value.trim()) { alert("❌ ไม่สามารถสร้างลิงก์ได้: กรุณากรอก Web App URL และกดบันทึกการเชื่อมต่อก่อนครับ"); return; }
+            const encodedUrl = btoa(unescape(encodeURIComponent(urlInput.value.trim())));
             const shareUrl = window.location.origin + window.location.pathname + "?db=" + encodedUrl;
-            
-            // ทำการสั่งคัดลอกลงคลิปบอร์ดเครื่องอัตโนมัติ
             navigator.clipboard.writeText(shareUrl).then(() => {
                 alert("📋 คัดลอกลิงก์สำเร็จ! คุณสามารถส่งลิงก์นี้เข้ากลุ่ม LINE ให้เพื่อนๆ เปิดในเครื่องอื่น หรือเปิดในมือถือได้เลย ทุกเครื่องจะซิงค์ข้อมูลตรงกันทันทีโดยไม่ต้องตั้งค่าใหม่ครับ");
             }).catch(err => {
-                // แผนสำรองหากบราวเซอร์บางรุ่นบล็อกระบบ clipboard ความปลอดภัยสูง
-                const tempInput = document.createElement("input");
-                tempInput.value = shareUrl;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand("copy");
-                document.body.removeChild(tempInput);
-                alert("📋 คัดลอกลิงก์แชร์สำเร็จ!");
+                const tempInput = document.createElement("input"); tempInput.value = shareUrl; document.body.appendChild(tempInput);
+                tempInput.select(); document.execCommand("copy"); document.body.removeChild(tempInput); alert("📋 คัดลอกลิงก์แชร์สำเร็จ!");
             });
         }
     </script>
