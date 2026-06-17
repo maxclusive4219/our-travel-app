@@ -11,7 +11,7 @@
     
     <style>
         /* ==========================================================================
-           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe 
+           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ตามที่ตั้งค่าไว้[cite: 5]
            ========================================================================== */
         @font-face {
             font-family: 'EkkamaiVibe';
@@ -30,7 +30,7 @@
             font-family: 'EkkamaiVibe', sans-serif !important;
         }
         
-        /* Advanced Web Animations System */
+        /* Advanced Web Animations System[cite: 5] */
         .view-panel {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
@@ -41,7 +41,7 @@
             transform: translateY(0) scale(1);
         }
         
-        /* Place Cards Animations & Custom Color Borders */
+        /* Place Cards Animations & Custom Color Borders[cite: 5] */
         .place-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             border-left-width: 5px !important; 
@@ -51,7 +51,7 @@
             box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
         }
 
-        /* Micro Interactive Click Feedback */
+        /* Micro Interactive Click Feedback[cite: 5] */
         .click-bounce {
             transition: transform 0.1s ease;
         }
@@ -59,7 +59,7 @@
             transform: scale(0.94);
         }
 
-        /* Checkbox dynamic pop */
+        /* Checkbox dynamic pop[cite: 5] */
         @keyframes popCheck {
             0% { transform: scale(0.8); }
             50% { transform: scale(1.2); }
@@ -70,41 +70,44 @@
         }
 
         /* ==========================================================================
-           DYNAMIC THEME ENGINE SYSTEM (แก้ไขครอบคลุมระบบสีหน้าต่างโต้ตอบทั้งหมด)
+           DYNAMIC THEME ENGINE SYSTEM (แก้บั๊กการแสดงผลสีทับซ้อนและช่องติ๊กถูก)
            ========================================================================== */
         /* --- 1. THEME LIGHT --- */
         body.theme-light { background-color: #F3F4F6 !important; color: #1F2937 !important; }
         body.theme-light .main-header, body.theme-light .card-bg, body.theme-light aside, body.theme-light .mobile-bar, body.theme-light .modal-bg-target { background-color: #FFFFFF !important; border-color: #E5E7EB !important; color: #1F2937 !important; }
         body.theme-light input, body.theme-light select, body.theme-light textarea { background-color: #FFFFFF !important; border-color: #D1D5DB !important; color: #1F2937 !important; }
-        body.theme-light .group-wrapper-bg { background-color: rgba(243, 244, 246, 0.5) !important; border-color: rgba(229, 231, 235, 0.8) !important; }
+        body.theme-light .group-wrapper-bg { background-color: rgba(243, 244, 246, 0.6) !important; border-color: rgba(229, 231, 235, 0.9) !important; }
         body.theme-light .dashboard-bg-wrapper { background-color: #F9FAFB !important; }
         body.theme-light .inner-widget-bg { background-color: #F3F4F6 !important; border-color: #E5E7EB !important; color: #1F2937 !important; }
         body.theme-light .tab-pill-bg { background-color: #F3F4F6 !important; border-color: #E5E7EB !important; }
         body.theme-light .tab-btn-active { background-color: #FFFFFF !important; color: #111827 !important; }
+        body.theme-light .custom-check-bg { background-color: #FFFFFF !important; border-color: #D1D5DB !important; }
 
         /* --- 2. THEME SLATE --- */
         body.theme-slate { background-color: #0F172A !important; color: #F1F5F9 !important; }
         body.theme-slate .main-header, body.theme-slate .card-bg, body.theme-slate aside, body.theme-slate .mobile-bar, body.theme-slate .modal-bg-target { background-color: #1E293B !important; border-color: #334155 !important; color: #F1F5F9 !important; }
         body.theme-slate input, body.theme-slate select, body.theme-slate textarea { background-color: #0F172A !important; border-color: #475569 !important; color: #FFFFFF !important; }
         body.theme-slate h1, body.theme-slate h2, body.theme-slate h3, body.theme-slate h4, body.theme-slate span, body.theme-slate p, body.theme-slate label { color: #F1F5F9 !important; }
-        body.theme-slate .group-wrapper-bg { background-color: rgba(30, 41, 59, 0.4) !important; border-color: #334155 !important; }
+        body.theme-slate .group-wrapper-bg { background-color: #151F32 !important; border-color: #334155 !important; }
         body.theme-slate .dashboard-bg-wrapper { background-color: #0F172A !important; }
-        body.theme-slate .inner-widget-bg { background-color: #1E293B !important; border-color: #334155 !important; color: #F1F5F9 !important; }
+        body.theme-slate .inner-widget-bg { background-color: #0F172A !important; border-color: #334155 !important; color: #F1F5F9 !important; }
         body.theme-slate .tab-pill-bg { background-color: #0F172A !important; border-color: #334155 !important; }
         body.theme-slate .tab-btn-active { background-color: #334155 !important; color: #FFFFFF !important; }
         body.theme-slate .text-gray-400, body.theme-slate .text-gray-500 { color: #94A3B8 !important; }
+        body.theme-slate .custom-check-bg { background-color: #0F172A !important; border-color: #475569 !important; }
 
-        /* --- 3. THEME DARK (แก้บั๊กกรอบขาวหน้าต่าง Modal เด้งขึ้นมาเรียบร้อย) --- */
+        /* --- 3. THEME DARK (มืดสนิท ครอบคลุมกรอบป้าย Plan A/B และช่องติ๊กถูก) --- */
         body.theme-dark { background-color: #09090B !important; color: #FAFAFA !important; }
         body.theme-dark .main-header, body.theme-dark .card-bg, body.theme-dark aside, body.theme-dark .mobile-bar, body.theme-dark .modal-bg-target { background-color: #18181B !important; border-color: #27272A !important; color: #FAFAFA !important; }
         body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #09090B !important; border-color: #27272A !important; color: #FFFFFF !important; }
         body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, body.theme-dark h4, body.theme-dark span, body.theme-dark p, body.theme-dark label { color: #FAFAFA !important; }
-        body.theme-dark .group-wrapper-bg { background-color: rgba(24, 24, 27, 0.4) !important; border-color: #27272A !important; }
+        body.theme-dark .group-wrapper-bg { background-color: #111114 !important; border-color: #27272A !important; }
         body.theme-dark .dashboard-bg-wrapper { background-color: #09090B !important; }
-        body.theme-dark .inner-widget-bg { background-color: #18181B !important; border-color: #27272A !important; color: #FAFAFA !important; }
+        body.theme-dark .inner-widget-bg { background-color: #09090B !important; border-color: #27272A !important; color: #FAFAFA !important; }
         body.theme-dark .tab-pill-bg { background-color: #09090B !important; border-color: #27272A !important; }
         body.theme-dark .tab-btn-active { background-color: #27272A !important; color: #FFFFFF !important; }
         body.theme-dark .text-gray-400, body.theme-dark .text-gray-500 { color: #A1A1AA !important; }
+        body.theme-dark .custom-check-bg { background-color: #09090B !important; border-color: #27272A !important; }
 
         /* Scrollbar styling */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -225,9 +228,9 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 relative">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/50 dark:bg-zinc-950/20 relative">
             
-            <!-- VIEW 1: ITINERARY PLANNER -->
+            <!-- VIEW 1: ITINERARY PLANNER[cite: 5] -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                     <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
@@ -252,7 +255,7 @@
                 </div>
 
                 <div id="color-legend-box" class="card-bg p-2.5 rounded-xl border shadow-3xs flex flex-wrap gap-3 text-[10px] font-bold items-center">
-                    <!-- จะเรนเดอร์แถบสีสัญลักษณ์ตามไอคอนที่เปลี่ยนสดข้ามสายเรียลไทม์ -->
+                    <!-- โหลดแถบสีหมวดหมู่แบบไดนามิก -->
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
@@ -260,7 +263,7 @@
                         <div class="flex items-center justify-between">
                             <h2 class="font-bold text-xs md:text-sm flex items-center gap-2">
                                 <span data-lang-th="กำหนดการเดินทางตามกลุ่มวัน" data-lang-en="Timeline Schedule Groups">กำหนดการเดินทางตามกลุ่มวัน</span>
-                                <span class="bg-rose-50 text-rose-600 text-[10px] px-2 py-0.5 rounded-full font-bold border border-rose-100" id="plan-badge">Plan A</span>
+                                <span class="bg-rose-50 dark:bg-zinc-800 text-rose-600 text-[10px] px-2 py-0.5 rounded-full font-bold border border-rose-100 dark:border-zinc-700" id="plan-badge">Plan A</span>
                             </h2>
                             <div class="flex gap-2">
                                 <button onclick="promptAddNewGroup()" class="text-xs text-indigo-500 font-bold hover:underline flex items-center gap-1 cursor-pointer click-bounce">
@@ -280,7 +283,7 @@
                             <span class="text-[11px] font-bold flex items-center gap-1"><i class="fa-solid fa-location-dot text-rose-500"></i> Google Maps Live Frame</span>
                             <span class="text-[10px] text-gray-400 truncate max-w-[150px]" id="map-target-name">None Selected</span>
                         </div>
-                        <div class="rounded-xl overflow-hidden h-64 md:h-80 bg-gray-100 dark:bg-zinc-900/40 border border-gray-100 dark:border-zinc-800 relative flex items-center justify-center">
+                        <div class="rounded-xl overflow-hidden h-64 md:h-80 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 relative flex items-center justify-center">
                             <iframe id="google-maps-iframe" class="w-full h-full border-0 hidden" allowfullscreen="" loading="lazy"></iframe>
                             <div id="map-placeholder" class="text-center p-4 space-y-1.5">
                                 <i class="fa-solid fa-map-location-dot text-gray-300 dark:text-zinc-700 text-3xl animate-bounce"></i>
@@ -291,19 +294,28 @@
                 </div>
             </div>
 
-            <!-- VIEW 2: EXPENSES SYSTEM -->
+            <!-- VIEW 2: EXPENSES SYSTEM (เพิ่มแถบกราฟแสดงงบแยกตามหมวดหมู่)[cite: 5] -->
             <div id="view-expenses" class="view-panel hidden space-y-4 md:space-y-6">
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
-                        <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="เงินใช้จริงรวมทั้งหมด" data-lang-en="Total Actual Spent">เงินใช้จริงรวมทั้งหมด</p>
-                        <h3 class="text-sm md:text-lg font-bold text-rose-500" id="exp-total-spent">฿0</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- ส่วนแสดงผลรวมคลังเงิน -->
+                    <div class="card-bg p-4 rounded-xl border shadow-3xs flex flex-col justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 mb-0.5 uppercase" data-lang-th="เงินใช้จริงรวมทั้งหมด" data-lang-en="Total Actual Spent">เงินใช้จริงรวมทั้งหมด</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-rose-500" id="exp-total-spent">฿0</h3>
+                        </div>
+                        <div class="mt-2 text-[10px] text-gray-400 font-bold border-t pt-2 dark:border-zinc-800" id="split-formula-badge">Split System Active</div>
                     </div>
-                    <div class="card-bg p-3.5 rounded-xl border-0 bg-linear-to-r from-gray-900 to-gray-800 text-white col-span-2">
-                        <p class="text-[10px] font-medium text-gray-300 mb-0.5" data-lang-th="ระบบคำนวณแบ่งบิลสมาชิก" data-lang-en="Dynamic Auto Calculation Formulas">ระบบคำนวณแบ่งบิลสมาชิก</p>
-                        <div id="split-formula-badge" class="text-[11px] font-bold text-emerald-400 truncate">Split System Active</div>
+                    
+                    <!-- ส่วนแสดงแดชบอร์ดกราฟแท่งสรุปค่าใช้จ่ายแยกหมวดหมู่ตามสั่ง (Visual Billing Dashboard) -->
+                    <div class="card-bg p-4 rounded-xl border shadow-3xs md:col-span-2 space-y-2">
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-chart-pie text-indigo-500"></i> แดชบอร์ดสรุปยอดจ่ายแยกตามหมวดหมู่ (Dashboard Overview)</h4>
+                        <div id="category-budget-charts-root" class="space-y-2 text-xs">
+                            <!-- แท่งกราฟแสดงผลสรุปเงินจะรันขึ้นออโต้จากตรงนี้ -->
+                        </div>
                     </div>
                 </div>
 
+                <!-- บอร์ดสรุปดุลบัญชีรายบุคคล -->
                 <div class="card-bg p-4 rounded-xl border shadow-3xs space-y-2">
                     <h4 class="text-xs font-bold flex items-center gap-1.5"><i class="fa-solid fa-scale-balanced text-emerald-500"></i> <span data-lang-th="สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)" data-lang-en="Fair-share Ledger Status Board">สรุปดุลบัญชีรายบุคคล (ใครต้องโอนคืนใคร)</span></h4>
                     <div id="settlement-board-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
@@ -383,9 +395,9 @@
         </div>
     </main>
 
-    <!-- FLOATING POPUP INPUT FORM MODAL (แก้ไขคลาสครอบสีให้มืดสนิทตามธีมเรียบร้อย) -->
+    <!-- FLOATING POPUP INPUT FORM MODAL -->
     <div id="modal-add-place" class="fixed inset-0 bg-black/50 backdrop-blur-md hidden items-center justify-center z-50 p-4 opacity-0 transition-opacity duration-300">
-        <div class="modal-bg-target rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 transform scale-95 transition-transform duration-300 border" id="modal-box-shadow">
+        <div class="modal-bg-target rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 transform scale-95 transition-transform duration-300 border border-gray-200 dark:border-zinc-800" id="modal-box shadow">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-sm md:text-base text-rose-500" id="modal-title-text">เพิ่มจุดเช็คอินใหม่</h3>
                 <button onclick="closeModal()" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 cursor-pointer click-bounce inner-widget-bg"><i class="fa-solid fa-xmark"></i></button>
@@ -397,7 +409,7 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="text-[10px] font-bold text-gray-400 block mb-0.5">หมวดหมู่สีรายการ</label>
-                        <select id="p-category" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900"></select>
+                        <select id="p-category" onchange="handleModalCategoryFormToggle()" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900"></select>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-indigo-500 block mb-0.5">จัดระเบียบเข้ากลุ่มวัน</label>
@@ -472,20 +484,15 @@
         </div>
     </div>
 
-    <!-- MODERN CATEGORIES ICON MANAGEMENT MODAL (หน้าต่างจัดการปรับแต่งสัญลักษณ์หมวดหมู่หลักสไตล์ Dashboard ตัวจริง) -->
+    <!-- MODERN CATEGORIES ICON MANAGEMENT MODAL -->
     <div id="modal-category-manager" class="fixed inset-0 bg-black/50 backdrop-blur-md hidden items-center justify-center z-50 p-4 opacity-0 transition-opacity duration-300">
         <div class="modal-bg-target rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 border">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-sm text-indigo-500 uppercase tracking-wider"><i class="fa-solid fa-tags"></i> Setup หมวดหมู่ & ไอคอนนำสายตา</h3>
                 <button onclick="closeCategoryManagerModal()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
             <p class="text-[11px] text-gray-400 leading-relaxed">ระบุสัญลักษณ์ Emoji นำสายตาด้านหน้าหมวดหมู่หลักของระบบ เพื่อเปลี่ยนไอคอนแสดงผลบนการ์ดและแถบสี โดยไม่ทำให้ระบบฐานข้อมูลเงินรวน</p>
-            
-            <div id="category-inputs-list-holder" class="space-y-2.5 text-xs">
-                <!-- เจนกล่องอินพุตตามหมวดหมู่หลักโดยอัตโนมัติจากตรงนี้ -->
-            </div>
-
+            <div id="category-inputs-list-holder" class="space-y-2.5 text-xs"></div>
             <button onclick="submitCategoryIconsUpdate()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2.5 rounded-lg cursor-pointer click-bounce shadow-md">
                 อัปเดตไอคอนแสดงผล
             </button>
@@ -507,7 +514,6 @@
             currentTheme: "light",
             tripTitle: "Our Dream Trip",
             members: ["คุณเอง", "แฟน"],
-            // จัดหมวดหมู่หลักแบบคีย์เซฟถาวร (Backend Key)
             categoriesMap: {
                 "เดินทาง": "✈️ เดินทาง",
                 "ที่พัก": "🏨 ที่พัก",
@@ -519,7 +525,7 @@
             plans: ["Plan A", "Plan B"],
             currentPlan: "Plan A",
             tripData: { "Plan A": [], "Plan B": [] },
-            expenses: []
+            expenses: [] // ตระกูลโครงสร้างคลาวด์เวอร์ชัน 5
         };
 
         let cloudScriptUrl = "";
@@ -557,8 +563,6 @@
                 const local = localStorage.getItem('trip_local_db_v5');
                 if (local) state = JSON.parse(local);
                 state.currentLang = localLang;
-                
-                // ตรวจความปลอดภัยโครงสร้างแมพไอคอนเผื่อดึงแคชจากเวอร์ชันเก่า
                 if(!state.categoriesMap) {
                     state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
                 }
@@ -620,6 +624,7 @@
             document.body.classList.add('theme-' + themeName);
             state.currentTheme = themeName;
             localStorage.setItem('trip_theme_v5', themeName);
+            renderAll();
         }
 
         function toggleLanguage() {
@@ -655,6 +660,11 @@
             const targetEl = document.getElementById(targetId);
             targetEl.classList.remove('hidden');
             setTimeout(() => { targetEl.classList.add('active-view'); }, 20);
+
+            const activeBtnClass = "px-2.5 py-1 rounded-md tab-btn-active shadow-3xs click-bounce";
+            if(tab === 'itinerary') document.getElementById('m-btn-itinerary').className = activeBtnClass;
+            if(tab === 'expenses') document.getElementById('m-btn-expenses').className = activeBtnClass;
+            if(tab === 'cloud-config') document.getElementById('m-btn-cloud').className = activeBtnClass;
         }
 
         function generateSmartImageUrl(placeTitle, googleMapLink) {
@@ -698,11 +708,9 @@
             setTimeout(() => { lb.classList.add('hidden'); lb.classList.remove('flex'); }, 250);
         }
 
-        // CONTROL SETUP FOR CUSTOM CATEGORY MANAGEMENT POPUP (เปิดบอร์ดบริหารไอคอน)
         function openCategoryManagerModal() {
             const holder = document.getElementById('category-inputs-list-holder');
             holder.innerHTML = '';
-            
             Object.keys(state.categoriesMap).forEach(key => {
                 const currentDisplayValue = state.categoriesMap[key];
                 holder.innerHTML += `
@@ -712,7 +720,6 @@
                     </div>
                 `;
             });
-
             const m = document.getElementById('modal-category-manager');
             m.classList.remove('hidden'); m.classList.add('flex');
             setTimeout(() => { m.classList.remove('opacity-0'); m.querySelector('div').classList.remove('scale-95'); }, 20);
@@ -732,13 +739,14 @@
             closeCategoryManagerModal(); saveState(); renderAll();
         }
 
+        // ฟังก์ชันกำหนดสีการ์ดตามหมวดหมู่ (แก้บั๊กพื้นหลังป้าย Tag ทับซ้อนในโหมดมืดเรียบร้อย)
         function getStyleByCat(cat) {
             if(!cat) return { border: 'border-l-gray-400', badge: 'bg-gray-100 text-gray-600 dark:bg-zinc-800 dark:text-zinc-400' };
-            if (cat === 'เดินทาง') return { border: 'border-l-blue-500', badge: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-100 dark:border-blue-900/40' };
-            if (cat === 'ที่พัก') return { border: 'border-l-purple-500', badge: 'bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-100 dark:border-purple-800/40' };
-            if (cat === 'อาหาร') return { border: 'border-l-amber-500', badge: 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-100 dark:border-amber-800/40' };
-            if (cat === 'ช้อปปิ้ง') return { border: 'border-l-rose-500', badge: 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-100 dark:border-rose-800/40' };
-            return { border: 'border-l-emerald-500', badge: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/40' };
+            if (cat === 'เดินทาง') return { border: 'border-l-blue-500', badge: 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30' };
+            if (cat === 'ที่พัก') return { border: 'border-l-purple-500', badge: 'bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30' };
+            if (cat === 'อาหาร') return { border: 'border-l-amber-500', badge: 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30' };
+            if (cat === 'ช้อปปิ้ง') return { border: 'border-l-rose-500', badge: 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30' };
+            return { border: 'border-l-emerald-500', badge: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' };
         }
 
         function promptAddNewGroup() {
@@ -756,12 +764,8 @@
             if(newName && newName.trim() !== "" && newName.trim() !== oldName) {
                 const clean = newName.trim();
                 if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้ซ้ำกับกลุ่มอื่นที่มีอยู่แล้ว");
-                
                 const rawList = state.tripData[state.currentPlan] || [];
-                rawList.forEach(item => {
-                    if((item.group || "ตลอดทั้งทริป") === oldName) item.group = clean;
-                });
-
+                rawList.forEach(item => { if((item.group || "ตลอดทั้งทริป") === oldName) item.group = clean; });
                 state.timelineGroups = state.timelineGroups.map(g => g === oldName ? clean : g);
                 saveState(); renderAll();
             }
@@ -811,7 +815,7 @@
             state.timelineGroups.forEach(gName => {
                 const groupSpecificCards = rawList.filter(item => (item.group || "ตลอดทั้งทริป") === gName);
                 const groupWrapper = document.createElement('div');
-                groupWrapper.className = "space-y-2.5 group-wrapper-bg p-3 rounded-2xl border";
+                groupWrapper.className = "space-y-2.5 group-wrapper-bg p-3 rounded-2xl border transition-colors duration-300";
                 let groupSumCost = groupSpecificCards.reduce((sum, item) => sum + item.cost, 0);
 
                 groupWrapper.innerHTML = `
@@ -821,9 +825,9 @@
                             <h3 class="font-bold text-xs uppercase tracking-wider">${gName} <span class="text-[10px] text-gray-400 font-normal">(${groupSpecificCards.length})</span></h3>
                         </div>
                         <div class="flex items-center gap-1.5 text-[10px]">
-                            <span class="font-bold mr-1">รวม: ฿${groupSumCost.toLocaleString()}</span>
-                            <button onclick="editTimelineGroupName('${gName}')" class="text-gray-400 hover:text-indigo-500 p-0.5 cursor-pointer" title="แก้ไขชื่อกลุ่ม"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="removeTimelineGroup('${gName}')" class="text-gray-400 hover:text-rose-500 p-0.5 cursor-pointer" title="ลบกลุ่มบรรทัดนี้"><i class="fa-regular fa-trash-can"></i></button>
+                            <span class="font-bold text-gray-500 mr-1">รวม: ฿${groupSumCost.toLocaleString()}</span>
+                            <button onclick="editTimelineGroupName('${gName}')" class="text-gray-400 hover:text-indigo-500 p-0.5 cursor-pointer" title="แก้ไขชื่อกลุ่ม"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                            <button onclick="removeTimelineGroup('${gName}')" class="text-gray-400 hover:text-rose-500 p-0.5 cursor-pointer" title="ลบกลุ่มบรรทัดนี้"><i class="fa-regular fa-trash-can text-[10px]"></i></button>
                         </div>
                     </div>
                     <div id="sub-group-items-${gName.replace(/[^a-zA-Z0-9]/g, '')}" class="space-y-2"></div>
@@ -857,17 +861,17 @@
 
                     let noteBoxHtml = "";
                     if(item.note && item.note.trim() !== "") {
-                        noteBoxHtml = `<div class="inner-widget-bg p-2 rounded-lg text-[10px] text-gray-500 border leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
+                        noteBoxHtml = `<div class="inner-widget-bg p-2 rounded-lg text-[10px] text-gray-400 border border-gray-200 dark:border-zinc-800 leading-relaxed"><i class="fa-regular fa-comment-dots text-rose-400"></i> ${item.note}</div>`;
                     }
                     
-                    let innerBadgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded font-medium inner-widget-bg border">${item.priority}</span>`;
+                    let innerBadgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded font-medium inner-widget-bg border dark:border-zinc-800">${item.priority}</span>`;
                     if (item.category === "เดินทาง" && item.transportType) {
                         innerBadgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">${item.transportType}</span>`;
                     }
 
                     let groupOptionsOptions = state.timelineGroups.map(g => `<option value="${g}" ${g === (item.group || 'ตลอดทั้งทริป') ? 'selected' : ''}>${g}</option>`).join('');
                     let groupSelectorDropdownHtml = `
-                        <select onchange="changeCardGroupAssociation(${item.id}, this.value)" class="text-[9px] card-bg border px-1 py-0.5 rounded font-bold">
+                        <select onchange="changeCardGroupAssociation(${item.id}, this.value)" class="text-[9px] card-bg border px-1 py-0.5 rounded font-bold cursor-pointer focus:outline-hidden">
                             ${groupOptionsOptions}
                         </select>
                     `;
@@ -877,13 +881,13 @@
                         starRatingHtml = `<span class="text-amber-500 font-bold inline-flex items-center gap-0.5 ml-1 text-[10px] bg-amber-500/10 px-1 rounded border border-amber-500/20"><i class="fa-solid fa-star text-[9px]"></i> ${item.rating}</span>`;
                     }
 
-                    // แสดงผลชื่อไอคอนที่ผู้ใช้ Mapping เปลี่ยนแปลงแบบ Realtime เสมอ
                     const displayCategoryLabelName = state.categoriesMap[item.category] || item.category;
 
                     card.innerHTML = `
                         <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
                             <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                                <button onclick="toggleVisited(${item.id}, this)" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white check-pop-active' : 'border-gray-300 bg-white dark:bg-zinc-900'}">
+                                <!-- แก้บั๊กสีพื้นหลังช่องสี่เหลี่ยมติ๊กถูกในโหมดมืดเรียบร้อย (custom-check-bg) -->
+                                <button onclick="toggleVisited(${item.id}, this)" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white check-pop-active' : ''}">
                                     ${item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
                                 </button>
                                 
@@ -976,6 +980,15 @@
             }
         }
 
+        // ฟังก์ชันสั่ง "ติ๊กถูกเคลียร์บิล/จ่ายเงินครบแล้ว" ของระบบบัญชีกองกลางตามสั่ง
+        function toggleExpenseSettled(index, btnEl) {
+            if(state.expenses[index]) {
+                state.expenses[index].settled = !state.expenses[index].settled;
+                saveState();
+                renderAll();
+            }
+        }
+
         function loadLiveMap(u, t) {
             document.getElementById('map-placeholder').classList.add('hidden');
             const f = document.getElementById('google-maps-iframe');
@@ -1000,6 +1013,16 @@
         function removeMember(name) {
             if(state.members.length <= 1) return;
             if(confirm(`ลบคุณ ${name}?`)) { state.members = state.members.filter(m => m !== name); saveState(); renderAll(); }
+        }
+        function promptManageCategories() {
+            const act = prompt("พิมพ์ 'เพิ่ม' เพื่อสร้างใหม่ หรือพิมพ์ชื่อหมวดหมู่เดิมเพื่อ 'ลบ'");
+            if(!act) return;
+            if(act.trim() === "เพิ่ม") {
+                const n = prompt("พิมพ์ชื่อหมวดหมู่ใหม่:");
+                if(n && n.trim() !== "") { state.categories.push(n.trim()); saveState(); renderAll(); }
+            } else {
+                if(state.categories.includes(act.trim())) { state.categories = state.categories.filter(c => c !== act.trim()); saveState(); renderAll(); }
+            }
         }
         function editCurrentPlanName() {
             const old = state.currentPlan; const n = prompt("ระบุชื่อใหม่ของแผนนี้:", old);
@@ -1045,13 +1068,8 @@
             const ePayer = document.getElementById('expense-payer'); const eLinked = document.getElementById('expense-linked-place');
             const pGroup = document.getElementById('p-group-assignment');
 
-            // ใช้ระบบ Dynamic Mapping Options แยกหลังบ้านกับหน้าตาแสดงผล
-            if(pCat) {
-                pCat.innerHTML = Object.keys(state.categoriesMap).map(key => `<option value="${key}">${state.categoriesMap[key]}</option>`).join('');
-            }
-            if(eCat) {
-                eCat.innerHTML = Object.keys(state.categoriesMap).map(key => `<option value="${key}">${state.categoriesMap[key]}</option>`).join('');
-            }
+            if(pCat) pCat.innerHTML = Object.keys(state.categoriesMap).map(key => `<option value="${key}">${state.categoriesMap[key]}</option>`).join('');
+            if(eCat) eCat.innerHTML = Object.keys(state.categoriesMap).map(key => `<option value="${key}">${state.categoriesMap[key]}</option>`).join('');
             if(ePayer) ePayer.innerHTML = state.members.map(m => `<option value="${m}">${m}</option>`).join('');
             if(pGroup) pGroup.innerHTML = state.timelineGroups.map(g => `<option value="${g}">${g}</option>`).join('');
 
@@ -1066,19 +1084,44 @@
         function renderColorLegendBlock() {
             const legendBox = document.getElementById('color-legend-box');
             if(!legendBox) return;
-            
             let html = `<span class="text-gray-400 uppercase">สัญลักษณ์แถบสีหมวดหมู่:</span>`;
             const colorMap = { "เดินทาง": "bg-blue-500", "ที่พัก": "bg-purple-500", "อาหาร": "bg-amber-500", "ช้อปปิ้ง": "bg-rose-500", "ท่องเที่ยว": "bg-emerald-500" };
-            
             Object.keys(state.categoriesMap).forEach(key => {
-                html += `
-                    <span class="inline-flex items-center gap-1">
-                        <span class="w-2.5 h-2.5 rounded ${colorMap[key] || 'bg-gray-400'}"></span> 
-                        ${state.categoriesMap[key]}
-                    </span>
-                `;
+                html += `<span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded ${colorMap[key] || 'bg-gray-400'}"></span> ${state.categoriesMap[key]}</span>`;
             });
             legendBox.innerHTML = html;
+        }
+
+        // RENDER VISUAL BUDGET DASHBOARD (ฟังก์ชันประมวลผลวาดแท่งกราฟสรุปเงิน)
+        function renderFinancialDashboardProgressCharts() {
+            const chartsRoot = document.getElementById('category-budget-charts-root');
+            if(!chartsRoot) return;
+            chartsRoot.innerHTML = '';
+
+            const totalSpent = state.expenses.reduce((s, i) => s + i.amount, 0);
+            const colorMap = { "เดินทาง": "bg-blue-500", "ที่พัก": "bg-purple-500", "อาหาร": "bg-amber-500", "ช้อปปิ้ง": "bg-rose-500", "ท่องเที่ยว": "bg-emerald-500" };
+
+            Object.keys(state.categoriesMap).forEach(key => {
+                const catExpenses = state.expenses.filter(e => e.category === key);
+                const catSum = catExpenses.reduce((sum, e) => sum + e.amount, 0);
+                
+                // คำนวณหาอัตราเปอร์เซ็นต์สัดส่วนความหนาของกราฟ
+                const pct = totalSpent > 0 ? Math.round((catSum / totalSpent) * 100) : 0;
+                const barColor = colorMap[key] || "bg-zinc-500";
+                const displayLabel = state.categoriesMap[key];
+
+                chartsRoot.innerHTML += `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[11px] font-bold">
+                            <span class="text-gray-700 dark:text-zinc-300">${displayLabel}</span>
+                            <span class="text-gray-900 dark:text-zinc-100">฿${catSum.toLocaleString()} (${pct}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
+                            <div class="${barColor} h-full transition-all duration-500" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
         function renderAll() {
@@ -1107,7 +1150,7 @@
                 document.getElementById('stat-progress').innerText = `0%`;
             }
 
-            updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); renderColorLegendBlock(); applyLanguageStrings();
+            updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); renderColorLegendBlock(); renderFinancialDashboardProgressCharts(); applyLanguageStrings();
         }
 
         function renderPlansBar() {
@@ -1167,13 +1210,13 @@
 
             const board = document.getElementById('settlement-board-container'); board.innerHTML = '';
             state.members.forEach(m => {
-                const balance = ledger[m]; let cardClass = "inner-widget-bg text-gray-700";
+                const balance = ledger[m]; let cardClass = "bg-gray-50 dark:bg-zinc-900 border-gray-100 dark:border-zinc-800 text-gray-700 dark:text-zinc-300";
                 let statusText = "ลงตัวพอดี";
                 if(balance > 0.01) {
-                    cardClass = "bg-emerald-500/10 border-emerald-500/30 text-emerald-500";
+                    cardClass = "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900 text-emerald-800 dark:text-emerald-400";
                     statusText = `เป็นเจ้าหนี้ (+฿${Math.round(balance).toLocaleString()})`;
                 } else if(balance < -0.01) {
-                    cardClass = "bg-rose-500/10 border-rose-500/30 text-rose-500";
+                    cardClass = "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900 text-rose-800 dark:text-rose-400";
                     statusText = `เป็นลูกหนี้ (-฿${Math.round(Math.abs(balance)).toLocaleString()})`;
                 }
                 board.innerHTML += `<div class="p-2.5 rounded-lg border text-xs font-semibold ${cardClass} flex justify-between items-center transition-all duration-300"><span><i class="fa-solid fa-user opacity-60"></i> ${m}</span><span class="text-[11px] font-bold">${statusText}</span></div>`;
@@ -1193,8 +1236,28 @@
                 
                 const displayCategoryLabelName = state.categoriesMap[e.category] || e.category;
                 
-                log.className = "flex items-center justify-between p-2.5 rounded-lg inner-widget-bg border text-xs shadow-3xs";
-                log.innerHTML = `<div class="min-w-0 flex-1 mr-2"><div class="flex items-center gap-1.5 flex-wrap"><p class="font-bold truncate">${e.title}</p><span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${catStyle.badge}">${displayCategoryLabelName}</span> ${linkedLabelHtml}</div><p class="text-[10px] text-gray-400 mt-0.5">Paid by: <span class="font-bold">${e.payer}</span> • ${e.split === 'split' ? 'หารเท่ากัน' : 'ส่วนตัว'}</p></div><div class="flex items-center gap-2.5 shrink-0"><span class="font-bold text-rose-500">฿${e.amount.toLocaleString()}</span><button onclick="deleteExpense(${idx})" class="text-gray-400 hover:text-rose-500 cursor-pointer click-bounce"><i class="fa-regular fa-circle-xmark text-sm"></i></button></div>`;
+                // โครงสร้างประวัติธุรกรรม (เพิ่มกล่อง Checkbox สำหรับติ๊กจ่าย/เคลียร์บิลแล้วถาวรตามสั่ง)
+                log.className = `flex items-center justify-between p-2.5 rounded-lg inner-widget-bg border text-xs shadow-3xs transition-all duration-300 ${e.settled ? 'opacity-40 scale-[0.98]' : ''}`;
+                log.innerHTML = `
+                    <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                        <!-- ปุ่มติ๊กจ่าย/เคลียร์หนี้สินกองกลางแล้วตามสั่ง (Settle Checkbox) -->
+                        <button onclick="toggleExpenseSettled(${idx}, this)" class="w-4.5 h-4.5 rounded border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${e.settled ? 'bg-emerald-500 border-emerald-500 text-white' : ''}">
+                            ${e.settled ? '<i class="fa-solid fa-check text-[8px]"></i>' : ''}
+                        </button>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <p class="font-bold truncate ${e.settled ? 'line-through text-gray-400' : ''}">${e.title}</p>
+                                <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${catStyle.badge}">${displayCategoryLabelName}</span> 
+                                ${linkedLabelHtml}
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-0.5">Paid by: <span class="font-bold">${e.payer}</span> • ${e.split === 'split' ? 'หารเท่ากัน' : 'ส่วนตัว'}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2.5 shrink-0 ml-2">
+                        <span class="font-bold text-rose-500">฿${e.amount.toLocaleString()}</span>
+                        <button onclick="deleteExpense(${idx})" class="text-gray-400 hover:text-rose-500 cursor-pointer click-bounce"><i class="fa-regular fa-circle-xmark text-sm"></i></button>
+                    </div>
+                `;
                 listContainer.appendChild(log);
             });
         }
@@ -1213,7 +1276,8 @@
                 const matchedPlace = currentPlaces.find(p => p.id === parseInt(linkedPlaceId));
                 if(matchedPlace) matchedPlace.cost = amount;
             }
-            state.expenses.unshift({ title, category, amount, payer, split, linkedPlaceId: linkedPlaceId ? parseInt(linkedPlaceId) : null });
+            // เพิ่มสถานะเริ่มต้นของบิลว่า settled: false (ยังไม่ได้เคลียร์กัน)
+            state.expenses.unshift({ title, category, amount, payer, split, settled: false, linkedPlaceId: linkedPlaceId ? parseInt(linkedPlaceId) : null });
             saveState(); renderAll();
             document.getElementById('expense-title').value = ''; document.getElementById('expense-amount').value = '';
         }
