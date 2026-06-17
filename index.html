@@ -228,7 +228,7 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/50 dark:bg-zinc-950/20 relative">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 dashboard-bg-wrapper relative">
             
             <!-- VIEW 1: ITINERARY PLANNER[cite: 5] -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
@@ -528,28 +528,27 @@
             expenses: [] // ตระกูลโครงสร้างคลาวด์เวอร์ชัน 5
         };
 
-        let cloudScriptUrl = "";
         let modalMode = "add";
 
+        // อ่าน Cloud URL จาก input element เสมอ — single source of truth
         function getCloudUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let p = urlParams.get('db');
-            if (p) { try { return atob(p); } catch(e) { return p; } }
-            return localStorage.getItem('trip_cloud_url_v5') || "";
+            const el = document.getElementById('cloud-script-url');
+            return el ? el.value.trim() : '';
         }
 
         function updateBrowserUrl(url) {
             if (url) {
-                const b64 = btoa(url);
-                const nUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?db=' + b64;
-                window.history.pushState({path: nUrl}, '', nUrl);
+                try {
+                    const b64 = btoa(url);
+                    const nUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?db=' + b64;
+                    window.history.pushState({path: nUrl}, '', nUrl);
+                } catch(e) {}
             }
         }
 
         function init() {
             const localTheme = localStorage.getItem('trip_theme_v5') || "light";
             const localLang = localStorage.getItem('trip_lang_v5') || "th";
-            state.currentLang = localLang;
 
             // โหลด state จาก localStorage ก่อนเสมอ
             const localSaved = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
@@ -564,86 +563,46 @@
                 state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
             }
 
-            // Apply theme (ต้องทำหลังโหลด state เพื่อให้ dark class บน <html> ถูกต้อง)
+            // Apply theme
             changeTheme(state.currentTheme || localTheme);
 
-            // ตรวจสอบ cloud URL จาก input element
-            const savedCloudUrl = localStorage.getItem('trip_cloud_url_v5');
-            if (savedCloudUrl) {
-                const urlInput = document.getElementById('cloud-url');
-                if (urlInput) urlInput.value = savedCloudUrl;
+            // Restore cloud URL: ลำดับความสำคัญ — URL param > localStorage
+            let savedUrl = "";
+            const urlParams = new URLSearchParams(window.location.search);
+            const dbParam = urlParams.get('db');
+            if (dbParam) { try { savedUrl = atob(dbParam); } catch(e) { savedUrl = dbParam; } }
+            if (!savedUrl) savedUrl = localStorage.getItem('trip_cloud_url_v5') || "";
+
+            if (savedUrl) {
+                const urlInput = document.getElementById('cloud-script-url');
+                if (urlInput) urlInput.value = savedUrl;
+                localStorage.setItem('trip_cloud_url_v5', savedUrl);
             }
 
             renderAll();
 
-            // ถ้ามี cloud URL — ดึงข้อมูลจาก cloud ด้วย
-            if (getCloudUrl()) {
+            // ถ้ามี cloud URL — ดึงข้อมูลล่าสุดจาก cloud
+            if (savedUrl) {
+                updateSyncUI(true, "กำลังโหลด...", "กำลังดึงข้อมูลจาก Cloud");
                 pullFromCloud();
             }
         }
 
 
         function saveState() {
-            // 1. จำค่าลง Local Storage ในเครื่องทันที
+            // 1. บันทึกลง localStorage ทันที
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-            
-            // 2. บันทึก cloud URL ล่าสุดด้วย
-            const cloudUrl = getCloudUrl();
-            if (cloudUrl) localStorage.setItem('trip_cloud_url_v5', cloudUrl);
 
-            // 3. Auto-Sync ขึ้น Cloud ถ้ามี URL (debounced 1.5 วินาที)
-            if (cloudUrl) {
+            // 2. Auto-sync ขึ้น Cloud ถ้ามี URL (debounced 1.5 วินาที)
+            if (getCloudUrl()) {
                 if (window.autoSyncTimer) clearTimeout(window.autoSyncTimer);
                 window.autoSyncTimer = setTimeout(() => {
-                    syncToCloud();
+                    pushToCloud();
                 }, 1500);
             }
         }
 
-        function syncToCloud() {
-            const cloudUrlInput = document.getElementById('cloud-url');
-            const url = cloudUrlInput ? cloudUrlInput.value.trim() : '';
-            if(!url) return;
-
-            // แสดงสถานะกำลังซิงค์
-            const syncBtn = document.querySelector('[onclick="syncToCloud()"]');
-            if(syncBtn) syncBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-2"></i>Syncing...';
-
-            fetch(url, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    // ใช้ text/plain เพื่อหลีกเลี่ยง CORS preflight ใน Apps Script
-                    'Content-Type': 'text/plain'
-                },
-                body: JSON.stringify(state)
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                return res.json();
-            })
-            .then(data => {
-                if(data.status === 'success') {
-                    updateSyncIndicator(true, data.timestamp || '');
-                    if(syncBtn) {
-                        syncBtn.innerHTML = '<i class="fa-solid fa-cloud-check mr-2 text-green-400"></i>Synced!';
-                        setTimeout(() => { syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync to Cloud'; }, 2500);
-                    }
-                } else {
-                    throw new Error(data.message || 'Sync failed');
-                }
-            })
-            .catch(err => {
-                console.error('Cloud Sync Error:', err);
-                if(syncBtn) {
-                    syncBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2 text-red-400"></i>Failed';
-                    setTimeout(() => { syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>Sync to Cloud'; }, 3000);
-                }
-                updateSyncIndicator(false, '');
-            });
-        }
-
-        // FIX: รวม pushToCloud และ pullFromCloud ให้ใช้ cloud-url input เดียวกัน
+        // ─── PUSH: ส่งข้อมูลขึ้น Google Sheet ─────────────────────────────────────
         async function pushToCloud() {
             const url = getCloudUrl();
             if (!url) return;
@@ -652,78 +611,71 @@
                 const res = await fetch(url, {
                     method: 'POST',
                     mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain' },
+                    headers: { 'Content-Type': 'text/plain' }, // text/plain หลีกเลี่ยง CORS preflight
                     body: JSON.stringify(state)
                 });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
                 const data = await res.json();
                 if (data.status === 'success') {
-                    updateSyncIndicator(true, data.timestamp || '');
+                    updateSyncUI(true, 'Cloud Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
+                } else {
+                    throw new Error(data.message || 'Push failed');
                 }
             } catch(e) {
                 console.error('pushToCloud error:', e);
-                updateSyncIndicator(false, '');
+                updateSyncUI(false, 'Sync Error', e.message);
             } finally {
                 setSyncLoading(false);
             }
         }
 
+        // ─── PULL: ดึงข้อมูลจาก Google Sheet ─────────────────────────────────────
         async function pullFromCloud() {
             const url = getCloudUrl();
             if (!url) return;
             setSyncLoading(true);
             try {
-                const res = await fetch(url + '?t=' + Date.now()); // cache-bust
+                const res = await fetch(url + '?t=' + Date.now(), { mode: 'cors' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
                 const data = await res.json();
-                if (data && (data.tripData || data.plans)) {
+                if (data && data.tripData) {
                     const langCache = state.currentLang;
                     const themeCache = state.currentTheme;
                     state = data;
                     state.currentLang = langCache;
                     state.currentTheme = themeCache;
                     if (!state.timelineGroups) state.timelineGroups = ["ตลอดทั้งทริป", "Day 1", "Day 2"];
-                    if (!state.categoriesMap) {
-                        state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
-                    }
-                    updateSyncIndicator(true, data._lastSynced || '');
-                    saveState();
+                    if (!state.categoriesMap) state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
+                    localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
+                    updateSyncUI(true, 'Cloud Synced ✓', 'โหลดข้อมูลจาก Cloud สำเร็จ');
                     renderAll();
                 } else if (data.status === 'empty') {
-                    console.log('Cloud is empty, keeping local data.');
+                    // Sheet ว่าง — push local data ขึ้นไปเลย
+                    updateSyncUI(true, 'Cloud Ready', 'Sheet ว่าง กำลัง push ข้อมูลขึ้น...');
+                    await pushToCloud();
                 }
             } catch(e) {
                 console.error('pullFromCloud error:', e);
-                // Fallback to localStorage
-                const local = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
-                if (local) { state = JSON.parse(local); renderAll(); }
-                updateSyncIndicator(false, '');
+                updateSyncUI(false, 'Pull Failed', e.message);
+                // Fallback: ใช้ local data ต่อไป
+                const local = localStorage.getItem('pick_pin_pack_state');
+                if (local) try { state = JSON.parse(local); renderAll(); } catch(_) {}
             } finally {
                 setSyncLoading(false);
             }
         }
 
-        // FIX: helper ดึง URL จาก input element เสมอ (ไม่ใช้ global variable)
-        function getCloudUrl() {
-            const el = document.getElementById('cloud-url');
-            return el ? el.value.trim() : '';
-        }
-
-        // FIX: อัปเดต sync status indicator ใน sidebar
-        function updateSyncIndicator(success, timestamp) {
-            const dot = document.querySelector('#sync-indicator .rounded-full');
-            const title = document.getElementById('sync-status-title');
-            const desc = document.getElementById('sync-status-desc');
-            if (!dot || !title || !desc) return;
-            if (success) {
-                dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
-                title.innerText = 'Cloud Synced';
-                const t = timestamp ? new Date(timestamp).toLocaleTimeString('th-TH') : '';
-                desc.innerText = t ? 'อัปเดตล่าสุด ' + t : 'ซิงค์กับ Google Sheet แล้ว';
+        // ─── MANUAL SYNC (ปุ่ม Sync ใน header) ───────────────────────────────────
+        function triggerManualSync() {
+            if (getCloudUrl()) {
+                pushToCloud().then(() => pullFromCloud());
             } else {
-                dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
-                title.innerText = 'Local Storage';
-                desc.innerText = 'ระบบเซฟข้อมูลชั่วคราว';
+                alert(state.currentLang === "th" ? "ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์" : "Not connected. Please configure Cloud Sync first.");
             }
         }
+
+        // syncToCloud เป็น alias ของ pushToCloud (ใช้ใน auto-sync timer)
+        function syncToCloud() { pushToCloud(); }
 
         function changeTheme(themeName) {
             // Remove all theme classes from body
@@ -1161,22 +1113,32 @@
             state.plans.push(n.trim()); state.tripData[n.trim()] = []; state.currentPlan = n.trim(); saveState(); renderAll();
         }
         function updateSyncUI(isCloud, title, desc) {
-            const t = document.getElementById('sync-status-title'); const d = document.getElementById('sync-status-desc');
-            if(t && d) { t.innerText = title; d.innerText = desc; }
+            const dot = document.querySelector('#sync-indicator .rounded-full');
+            const t = document.getElementById('sync-status-title');
+            const d = document.getElementById('sync-status-desc');
+            if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
+            if (t) t.innerText = title;
+            if (d) d.innerText = desc;
         }
         function setSyncLoading(l) {
-            const icon = document.getElementById('sync-icon'); if(icon) { if(l) icon.classList.add('animate-spin'); else icon.classList.remove('animate-spin'); }
+            const icon = document.getElementById('sync-icon');
+            if (icon) { if (l) icon.classList.add('animate-spin'); else icon.classList.remove('animate-spin'); }
         }
         function saveCloudConfig() {
-            const u = document.getElementById('cloud-script-url').value.trim(); if(!u) return alert("Please specify URL");
-            cloudScriptUrl = u; localStorage.setItem('trip_cloud_url_v5', u); updateBrowserUrl(u);
-            updateSyncUI(true, "Cloud Active", "ระบบผูกคลาวด์ v5 สำเร็จ"); pushToCloud().then(() => pullFromCloud());
+            const u = document.getElementById('cloud-script-url').value.trim();
+            if (!u) return alert("กรุณาระบุ Apps Script URL ก่อน");
+            localStorage.setItem('trip_cloud_url_v5', u);
+            updateBrowserUrl(u);
+            updateSyncUI(true, "กำลังเชื่อมต่อ...", "กำลัง push ข้อมูลขึ้น Cloud");
+            pushToCloud().then(() => pullFromCloud());
         }
         function disconnectCloud() {
-            cloudScriptUrl = ""; localStorage.removeItem('trip_cloud_url_v5');
+            const urlInput = document.getElementById('cloud-script-url');
+            if (urlInput) urlInput.value = '';
+            localStorage.removeItem('trip_cloud_url_v5');
             const cUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.pushState({path: cUrl}, '', cUrl);
-            updateSyncUI(false, "Local Mode", "สลับกลับสู่ระบบออฟไลน์"); saveState(); renderAll();
+            updateSyncUI(false, "Local Storage", "ระบบเซฟข้อมูลชั่วคราว");
         }
         
         function updateSelectDropdowns() {
