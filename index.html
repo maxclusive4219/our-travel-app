@@ -401,6 +401,34 @@
             </div>
 
         </div>
+    <div id="view-cloud-config" class="view-panel hidden space-y-4 md:space-y-6">
+        <div class="card-bg p-6 rounded-xl border shadow-3xs max-w-2xl mx-auto space-y-4">
+            <div class="flex items-center gap-3 border-b pb-3 dark:border-zinc-800">
+                <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
+                    <i class="fa-solid fa-cloud"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-indigo-500 uppercase tracking-wider">Google Sheets Cloud Database Sync</h3>
+                    <p class="text-[11px] text-gray-400">เชื่อมต่อข้อมูลทริปของคุณเข้ากับ Google Apps Script เพื่อเปิดใช้งานการซิงค์แบบเรียลไทม์</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="text-[10px] text-gray-400 font-bold block mb-1">Cloud Script URL (Web App Webhook)</label>
+                    <input type="text" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs rounded-lg px-3 py-2.5 border focus:outline-hidden">
+                </div>
+                
+                <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-600 dark:text-amber-400 leading-relaxed">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>คำแนะนำ:</strong> เมื่อนำ URL จาก Google Apps Script มาวางแล้ว ระบบจะเปิดฟังก์ชันออโต้ซิงค์ (Auto-Sync) ให้โดยอัตโนมัติเมื่อมีการเปลี่ยนแปลงข้อมูลภายใน 1.5 วินาที
+                </div>
+                
+                <button onclick="saveCloudConfig()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2.5 rounded-lg cursor-pointer click-bounce shadow-md">
+                    บันทึกการเชื่อมต่อและเปิดใช้งานคลาวด์
+                </button>
+            </div>
+        </div>
+    </div>
     </main>
 
     <!-- FLOATING POPUP INPUT FORM MODAL -->
@@ -538,6 +566,84 @@
 
         let modalMode = "add";
 
+        // --- เติมฟังก์ชันที่หายไปเพื่อแก้เว็บค้าง ---
+
+        // 1. ระบบเปลี่ยนแท็บเมนู
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-panel').forEach(el => {
+                el.classList.remove('active-view');
+                el.classList.add('hidden');
+            });
+            
+            const targetView = document.getElementById('view-' + tabId);
+            if(targetView) {
+                targetView.classList.remove('hidden');
+                setTimeout(() => targetView.classList.add('active-view'), 10);
+            }
+
+            document.querySelectorAll('.tab-btn-active, .sidebar-link.active').forEach(btn => {
+                btn.classList.remove('tab-btn-active', 'text-gray-900', 'shadow-3xs', 'bg-rose-500', 'text-white', 'active');
+                if(btn.tagName === 'BUTTON' && btn.id.startsWith('m-btn')) btn.classList.add('text-gray-400');
+                if(btn.tagName === 'BUTTON' && btn.id.startsWith('btn')) btn.classList.add('text-gray-500');
+            });
+
+            const mBtn = document.getElementById('m-btn-' + tabId.replace('-config', ''));
+            const dBtn = document.getElementById('btn-' + tabId.replace('-config', ''));
+            if(mBtn) { mBtn.classList.remove('text-gray-400'); mBtn.classList.add('tab-btn-active', 'text-gray-900', 'shadow-3xs'); }
+            if(dBtn) { dBtn.classList.remove('text-gray-500'); dBtn.classList.add('bg-rose-500', 'text-white', 'active'); }
+        }
+
+        // 2. ระบบดึงสีและ Badge ตามหมวดหมู่
+        function getStyleByCat(cat) {
+            const map = {
+                "เดินทาง": { border: "border-l-blue-500", badge: "bg-blue-100 text-blue-700" },
+                "ที่พัก": { border: "border-l-purple-500", badge: "bg-purple-100 text-purple-700" },
+                "อาหาร": { border: "border-l-amber-500", badge: "bg-amber-100 text-amber-700" },
+                "ช้อปปิ้ง": { border: "border-l-rose-500", badge: "bg-rose-100 text-rose-700" },
+                "ท่องเที่ยว": { border: "border-l-emerald-500", badge: "bg-emerald-100 text-emerald-700" }
+            };
+            return map[cat] || { border: "border-l-gray-400", badge: "bg-gray-100 text-gray-700 dark:bg-zinc-800 dark:text-zinc-300" };
+        }
+
+        // 3. ระบบแปลภาษา
+        function applyLanguageStrings() {
+            document.querySelectorAll('[data-lang-th]').forEach(el => {
+                el.innerText = state.currentLang === 'th' ? el.getAttribute('data-lang-th') : el.getAttribute('data-lang-en');
+            });
+            const langBtn = document.getElementById('lang-btn-text');
+            if(langBtn) langBtn.innerText = state.currentLang === 'th' ? 'TH' : 'EN';
+        }
+
+        function toggleLanguage() {
+            state.currentLang = state.currentLang === 'th' ? 'en' : 'th';
+            saveState(); renderAll();
+        }
+
+        // 4. ระบบจัดการรูปภาพ / ป็อปอัพ / หมวดหมู่เบื้องต้น
+        function generateSmartImageUrl(title, link) {
+            return "https://placehold.co/400x300/f3f4f6/a1a1aa?text=" + encodeURIComponent(title.charAt(0));
+        }
+        function openLightbox(imgUrl, title) {
+            document.getElementById('lightbox-target-img').src = imgUrl;
+            document.getElementById('lightbox-target-title').innerText = title;
+            const box = document.getElementById('lightbox-popup-window');
+            box.classList.remove('hidden'); box.classList.add('flex');
+            setTimeout(() => box.classList.remove('opacity-0'), 10);
+        }
+        function closeLightbox() {
+            const box = document.getElementById('lightbox-popup-window');
+            box.classList.add('opacity-0');
+            setTimeout(() => { box.classList.add('hidden'); box.classList.remove('flex'); }, 300);
+        }
+        function handleModalCategoryFormToggle() {
+            const cat = document.getElementById('p-category').value;
+            const transWrap = document.getElementById('modal-transport-type-wrapper');
+            if(cat === "เดินทาง") transWrap.classList.remove('hidden');
+            else transWrap.classList.add('hidden');
+        }
+        function openCategoryManagerModal() { alert('กำลังพัฒนาระบบแก้ไขไอคอน'); }
+        function closeCategoryManagerModal() { }
+
         function getCloudUrl() {
             const el = document.getElementById('cloud-script-url');
             return el ? el.value.trim() : (localStorage.getItem('trip_cloud_url_v5') || '');
@@ -588,8 +694,40 @@
             if (savedUrl) {
                 updateSyncUI(true, "กำลังโหลด...", "กำลังดึงข้อมูลจาก Cloud");
                 pullFromCloud();
+
+                setInterval(() => {
+                    pullFromCloudSilent();
+                }, 15000);
             }
         }
+        
+        async function pullFromCloudSilent() {
+            const url = getCloudUrl();
+            if (!url) return;
+            try {
+                const data = await fetchViaJsonp(url);
+                if (data && data.tripData) {
+                    // ป้องกันการอัปเดตทับในจังหวะที่ผู้ใช้เพิ่งกดแก้ไขข้อมูล (เช็คเวลาล่าสุด)
+                    if (data._lastSynced && state._lastSynced) {
+                        const cloudTime = new Date(data._lastSynced).getTime();
+                        const localTime = new Date(state._lastSynced).getTime();
+                        if (cloudTime <= localTime) return; // ถ้าของ local สดใหม่กว่า ให้ข้ามไป
+                    }
+                    
+                    const langCache = state.currentLang;
+                    const themeCache = state.currentTheme;
+                    state = { ...data };
+                    state.currentLang = langCache;
+                    state.currentTheme = themeCache;
+                    localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
+                    renderAll(); // อัปเดตหน้าจอทันที
+                    updateSyncUI(true, 'Live Synced ✓', 'อัปเดตตรงกับเพื่อนแล้ว');
+                }
+            } catch(e) {
+                console.warn('Silent pull failed:', e);
+            }
+        }
+
 
         function saveState() {
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
@@ -658,7 +796,7 @@
                 const timeout = setTimeout(() => {
                     cleanup();
                     reject(new Error('Timeout — ไม่ได้รับข้อมูลภายใน 10 วินาที'));
-                }, 10000);
+                }, 5000);
 
                 window[cbName] = function(data) { cleanup(); resolve(data); };
                 function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
@@ -1227,6 +1365,22 @@
 
         document.getElementById('p-category').addEventListener('change', handleModalCategoryFormToggle);
         window.onload = init;
+
+        function saveCloudConfig() {
+            const urlInput = document.getElementById('cloud-script-url');
+            if (!urlInput) return;
+            const url = urlInput.value.trim();
+            
+            if (url === "") {
+                localStorage.removeItem('trip_cloud_url_v5');
+                alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ Local Storage");
+            } else {
+                localStorage.setItem('trip_cloud_url_v5', url);
+                alert("บันทึกการเชื่อมต่อคลาวด์สำเร็จ! ระบบกำลังเริ่มดึงข้อมูลล่าสุด...");
+                pullFromCloud();
+            }
+            renderAll();
+        }
     </script>
 </body>
 </html>
