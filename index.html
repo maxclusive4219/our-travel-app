@@ -1027,6 +1027,11 @@
                 groupSpecificCards.forEach((item, index) => {
                     const card = document.createElement('div');
                     const themeColor = getStyleByCat(item.category);
+
+                    const isBypassed = item.bypass ? true : false;
+                    const bypassOpacityClass = isBypassed ? 'opacity-50 grayscale' : (item.visited ? 'opacity-45 scale-[0.98]' : '');
+                    const bypassBadgeHtml = isBypassed ? `<span class="text-[9px] px-1.5 py-0.2 rounded font-bold bg-gray-200 text-gray-500 dark:bg-zinc-800 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700"><i class="fa-solid fa-eye-slash"></i> สำรอง (Bypass)</span>` : '';
+
                     card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${themeColor.border} ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
 
                     const finalImg = item.img ? item.img : generateSmartImageUrl(item.title, item.link);
@@ -1065,7 +1070,6 @@
                     }
 
                     const displayCategoryLabelName = state.categoriesMap[item.category] || item.category;
-
                     const isChecked = item.visited ? 'checked-active' : '';
                     const checkIcon = item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : '';
 
@@ -1080,26 +1084,35 @@
                                 
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-1.5 flex-wrap">
-                                        <h4 class="font-bold text-xs truncate">${item.title}</h4>
+                                        <h4 class="font-bold text-xs truncate ${isBypassed ? 'line-through text-gray-400' : ''}">${item.title}</h4>
                                         <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${themeColor.badge}">${displayCategoryLabelName}</span>
+                                        ${bypassBadgeHtml}
                                         ${innerBadgeHtml}
                                         ${starRatingHtml}
                                         ${groupSelectorDropdownHtml}
                                     </div>
                                     <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium">
-                                        <span class="text-amber-500 font-bold">฿${item.cost.toLocaleString()}</span>
+                                        <span class="text-amber-500 font-bold ${isBypassed ? 'line-through' : ''}">฿${item.cost.toLocaleString()}</span>
                                         ${mapBtnHtml}
                                         ${webBtnHtml}
                                     </div>
                                 </div>
                             </div>
                             
+                            <!-- กล่องเครื่องมือ (ปุ่มเลื่อน, Bypass, ก๊อปปี้, แก้ไข, ลบ) -->
                             <div class="flex items-center gap-0.5 shrink-0 inner-widget-bg rounded-lg p-0.5 border">
                                 <button onclick="moveCardOrder(${item.id}, 'up')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนขึ้น"><i class="fa-solid fa-chevron-up"></i></button>
                                 <button onclick="moveCardOrder(${item.id}, 'down')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนลง"><i class="fa-solid fa-chevron-down"></i></button>
                                 <div class="w-[1px] h-3 bg-gray-200 dark:bg-zinc-700 mx-0.5"></div>
-                                <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-pencil"></i></button>
-                                <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-regular fa-trash-can"></i></button>
+                                
+                                <!-- ✨ ปุ่ม Bypass รูปดวงตา -->
+                                <button onclick="toggleBypass(${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ข้ามรายการนี้ (Bypass)"><i class="fa-solid ${isBypassed ? 'fa-eye-slash text-amber-500' : 'fa-eye'}"></i></button>
+                                
+                                <!-- ✨ ปุ่มทำสำเนา -->
+                                <button onclick="duplicatePlace(${item.id})" class="text-gray-400 hover:text-emerald-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ทำสำเนาการ์ด"><i class="fa-regular fa-copy"></i></button>
+                                
+                                <button onclick="openModal('edit', ${item.id})" class="text-gray-400 hover:text-amber-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="แก้ไข"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deletePlace(${item.id})" class="text-gray-300 hover:text-rose-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="ลบ"><i class="fa-regular fa-trash-can"></i></button>
                             </div>
                         </div>
                         ${noteBoxHtml}
@@ -1182,6 +1195,29 @@
         function deletePlace(id) {
             state.tripData[state.currentPlan] = (state.tripData[state.currentPlan] || []).filter(p => p.id !== id);
             saveState(); renderAll();
+        }
+        function duplicatePlace(id) {
+            const list = state.tripData[state.currentPlan] || [];
+            const item = list.find(p => p.id === id);
+            if (item) {
+                // สร้างสำเนาข้อมูลใหม่ และกำหนด ID ใหม่ให้ไม่ซ้ำของเดิม
+                const newItem = { ...item, id: Date.now(), visited: false, bypass: false };
+                newItem.title = newItem.title + " (Copy)"; // เติมคำว่า Copy ต่อท้ายชื่อ
+                list.push(newItem);
+                saveState();
+                renderAll();
+            }
+        }
+
+        // ฟังก์ชันเปิด/ปิด Bypass (ข้ามการคำนวณ)
+        function toggleBypass(id) {
+            const list = state.tripData[state.currentPlan] || [];
+            const item = list.find(p => p.id === id);
+            if (item) {
+                item.bypass = !item.bypass; // สลับสถานะ
+                saveState();
+                renderAll();
+            }
         }
         function editTripTitle() {
             const t = prompt("แก้ไขชื่อทริปหลัก:", state.tripTitle);
@@ -1319,20 +1355,27 @@
             `).join('');
             
             const rawList = state.tripData[state.currentPlan] || [];
-            const totalEstCost = rawList.reduce((sum, item) => sum + item.cost, 0);
+            
+            // ✨ นำรายการมาคัดกรอง: เอาเฉพาะที่ไม่ได้กด Bypass (bypass = false หรือ ไม่มีค่า)
+            const activeList = rawList.filter(item => !item.bypass); 
+            
+            // ใช้ activeList ในการคำนวณทั้งหมด
+            const totalEstCost = activeList.reduce((sum, item) => sum + item.cost, 0);
             document.getElementById('header-total-budget').innerText = `฿${totalEstCost.toLocaleString()}`;
             if(document.getElementById('stat-est-cost')) {
                 document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
             }
             if(document.getElementById('stat-places')) {
-                document.getElementById('stat-places').innerText = `${rawList.length} Places`;
+                document.getElementById('stat-places').innerText = `${activeList.length} Places`;
             }
-            if(document.getElementById('stat-progress') && rawList.length > 0) {
-                const visitedCount = rawList.filter(item => item.visited).length;
-                const percentage = Math.round((visitedCount / rawList.length) * 100);
-                document.getElementById('stat-progress').innerText = `${percentage}%`;
-            } else if (document.getElementById('stat-progress')) {
-                document.getElementById('stat-progress').innerText = `0%`;
+            if(document.getElementById('stat-progress')) {
+                if (activeList.length > 0) {
+                    const visitedCount = activeList.filter(item => item.visited).length;
+                    const percentage = Math.round((visitedCount / activeList.length) * 100);
+                    document.getElementById('stat-progress').innerText = `${percentage}%`;
+                } else {
+                    document.getElementById('stat-progress').innerText = `0%`;
+                }
             }
 
             updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); renderColorLegendBlock(); renderFinancialDashboardProgressCharts(); applyLanguageStrings();
