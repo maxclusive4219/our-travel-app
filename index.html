@@ -70,9 +70,8 @@
         }
 
         /* ==========================================================================
-           DYNAMIC THEME ENGINE SYSTEM (แก้ไขจุดทับซ้อนและช่องติ๊กถูกให้คมชัดทุกสภาวะแสง)
+           DYNAMIC THEME ENGINE SYSTEM
            ========================================================================== */
-        /* --- 1. THEME LIGHT --- */
         body.theme-light { background-color: #F3F4F6 !important; color: #1F2937 !important; }
         body.theme-light .dashboard-bg-wrapper, body.theme-light .main-content-area { background-color: #F9FAFB !important; }
         body.theme-light .main-header, body.theme-light .card-bg, body.theme-light aside, body.theme-light .mobile-bar, body.theme-light .modal-bg-target { background-color: #FFFFFF !important; border-color: #E5E7EB !important; color: #1F2937 !important; }
@@ -84,7 +83,6 @@
         body.theme-light .custom-check-bg { background-color: #FFFFFF !important; border-color: #D1D5DB !important; color: #1F2937 !important; }
         body.theme-light .custom-check-bg.checked-active { background-color: #10B981 !important; border-color: #10B981 !important; color: #FFFFFF !important; }
 
-        /* --- 2. THEME SLATE (เทาน้ำเงินเข้มหรู สบายตา) --- */
         body.theme-slate { background-color: #0F172A !important; color: #F1F5F9 !important; }
         body.theme-slate .dashboard-bg-wrapper, body.theme-slate .main-content-area { background-color: #0F172A !important; }
         body.theme-slate .main-header, body.theme-slate .card-bg, body.theme-slate aside, body.theme-slate .mobile-bar, body.theme-slate .modal-bg-target { background-color: #1E293B !important; border-color: #334155 !important; color: #F1F5F9 !important; }
@@ -98,7 +96,6 @@
         body.theme-slate .custom-check-bg { background-color: #0F172A !important; border-color: #475569 !important; color: transparent; }
         body.theme-slate .custom-check-bg.checked-active { background-color: #10B981 !important; border-color: #10B981 !important; color: #FFFFFF !important; }
 
-        /* --- 3. THEME DARK (มืดสนิท คุมขอบและองค์ประกอบหลังบ้านทั้งหมด) --- */
         body.theme-dark { background-color: #09090B !important; color: #FAFAFA !important; }
         body.theme-dark .dashboard-bg-wrapper, body.theme-dark .main-content-area { background-color: #09090B !important; }
         body.theme-dark .main-header, body.theme-dark .card-bg, body.theme-dark aside, body.theme-dark .mobile-bar, body.theme-dark .modal-bg-target { background-color: #18181B !important; border-color: #27272A !important; color: #FAFAFA !important; }
@@ -238,7 +235,7 @@
 
         <div class="flex-1 overflow-y-auto p-4 md:p-6 main-content-area relative">
             
-            <!-- VIEW 1: ITINERARY PLANNER[cite: 5] -->
+            <!-- VIEW 1: ITINERARY PLANNER -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                     <div class="card-bg p-3.5 rounded-xl border shadow-3xs">
@@ -302,7 +299,7 @@
                 </div>
             </div>
 
-            <!-- VIEW 2: EXPENSES SYSTEM (เพิ่มแถบกราฟแสดงงบแยกตามหมวดหมู่)[cite: 5] -->
+            <!-- VIEW 2: EXPENSES SYSTEM -->
             <div id="view-expenses" class="view-panel hidden space-y-4 md:space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <!-- ส่วนแสดงผลรวมคลังเงิน -->
@@ -314,7 +311,7 @@
                         <div class="mt-2 text-[10px] text-gray-400 font-bold border-t pt-2 dark:border-zinc-800" id="split-formula-badge">Split System Active</div>
                     </div>
                     
-                    <!-- ส่วนแสดงแดชบอร์ดกราฟแท่งสรุปค่าใช้จ่ายแยกหมวดหมู่ตามสั่ง (Visual Billing Dashboard) -->
+                    <!-- ส่วนแสดงแดชบอร์ดกราฟแท่งสรุปค่าใช้จ่ายแยกหมวดหมู่ตามสั่ง -->
                     <div class="card-bg p-4 rounded-xl border shadow-3xs md:col-span-2 space-y-2">
                         <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-chart-pie text-indigo-500"></i> แดชบอร์ดสรุปยอดจ่ายแยกตามหมวดหมู่ (Dashboard Overview)</h4>
                         <div id="category-budget-charts-root" class="space-y-2 text-xs">
@@ -381,52 +378,45 @@
             </div>
 
             <!-- VIEW 3: CLOUD CONFIG -->
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 inner-widget-bg"><i class="fa-solid fa-cloud"></i></div>
+            <div id="view-cloud-config" class="view-panel hidden space-y-4 md:space-y-6">
+                <div class="card-bg p-6 rounded-xl border shadow-3xs max-w-2xl mx-auto space-y-4">
+                    
+                    <div class="flex items-center gap-3 border-b pb-3 border-gray-100 dark:border-zinc-800">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500 text-white flex items-center justify-center shadow-sm">
+                            <i class="fa-solid fa-cloud"></i>
+                        </div>
                         <div>
-                            <h2 class="font-bold text-sm">Google Sheets Cloud Config v5</h2>
-                            <p class="text-[11px] text-gray-400">วางรหัสผ่านคลาวด์เว็บแอปส่วนตัวของคุณเพื่อใช้งานออนไลน์</p>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-zinc-100">Google Sheets Cloud Config v5</h3>
+                            <p class="text-xs text-gray-400">เชื่อมต่อและแชร์ข้อมูลทริปออนไลน์กับเพื่อนๆ</p>
                         </div>
                     </div>
-                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-3 space-y-3">
-                        <input type="url" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs rounded-lg px-3 py-2.5 border">
-                        <div class="flex gap-2">
-                            <button onclick="saveCloudConfig()" class="bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer click-bounce">เปิดระบบโหมดออนไลน์</button>
-                            <button onclick="disconnectCloud()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer click-bounce inner-widget-bg">ปิดการเชื่อมต่อ</button>
-                        </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-zinc-300">
+                            Web App URL (จาก Google Apps Script)
+                        </label>
+                        <input type="text" id="cloud-script-url" 
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                               placeholder="https://script.google.com/macros/s/.../exec">
+                        <p class="text-xs text-gray-400">วางรหัสผ่านคลาวด์เว็บแอปส่วนตัวของคุณเพื่อใช้งานออนไลน์</p>
                     </div>
+
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <button onclick="saveCloudConfig()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-floppy-disk mr-1.5"></i> บันทึกการเชื่อมต่อ
+                        </button>
+                        <button onclick="disconnectCloud()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-300 rounded-lg text-sm font-medium transition cursor-pointer">
+                            <i class="fa-solid fa-link-slash mr-1.5"></i> ยกเลิกเชื่อมต่อ
+                        </button>
+                        <button onclick="copyShareLink()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-share-nodes mr-1.5"></i> คัดลอกลิงก์ส่งให้เพื่อน
+                        </button>
+                    </div>
+
                 </div>
             </div>
 
-        </div>
-    <div id="view-cloud-config" class="view-panel hidden space-y-4 md:space-y-6">
-        <div class="card-bg p-6 rounded-xl border shadow-3xs max-w-2xl mx-auto space-y-4">
-            <div class="flex items-center gap-3 border-b pb-3 dark:border-zinc-800">
-                <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
-                    <i class="fa-solid fa-cloud"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm text-indigo-500 uppercase tracking-wider">Google Sheets Cloud Database Sync</h3>
-                    <p class="text-[11px] text-gray-400">เชื่อมต่อข้อมูลทริปของคุณเข้ากับ Google Apps Script เพื่อเปิดใช้งานการซิงค์แบบเรียลไทม์</p>
-                </div>
-            </div>
-            
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="text-[10px] text-gray-400 font-bold block mb-1">Cloud Script URL (Web App Webhook)</label>
-                    <input type="text" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs rounded-lg px-3 py-2.5 border focus:outline-hidden">
-                </div>
-                
-                <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-600 dark:text-amber-400 leading-relaxed">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>คำแนะนำ:</strong> เมื่อนำ URL จาก Google Apps Script มาวางแล้ว ระบบจะเปิดฟังก์ชันออโต้ซิงค์ (Auto-Sync) ให้โดยอัตโนมัติเมื่อมีการเปลี่ยนแปลงข้อมูลภายใน 1.5 วินาที
-                </div>
-                
-                <button onclick="saveCloudConfig()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2.5 rounded-lg cursor-pointer click-bounce shadow-md">
-                    บันทึกการเชื่อมต่อและเปิดใช้งานคลาวด์
-                </button>
-            </div>
-        </div>
-    </div>
+        </div> <!-- End main-content-area -->
     </main>
 
     <!-- FLOATING POPUP INPUT FORM MODAL -->
@@ -564,8 +554,6 @@
 
         let modalMode = "add";
 
-        // --- เติมฟังก์ชันที่หายไปเพื่อแก้เว็บค้าง ---
-
         // 1. ระบบเปลี่ยนแท็บเมนู
         function switchTab(tabId) {
             document.querySelectorAll('.view-panel').forEach(el => {
@@ -642,18 +630,9 @@
         function openCategoryManagerModal() { alert('กำลังพัฒนาระบบแก้ไขไอคอน'); }
         function closeCategoryManagerModal() { }
 
+        // --- ระบบดึงและรับ URL ของคลาวด์ ---
         function getCloudUrl() {
-            // 1. เช็กก่อนว่าในเครื่องเคยกรอกลิงก์อื่นไว้ไหม
-            const savedUrl = localStorage.getItem('trip_cloud_url_v5');
-            if (savedUrl && savedUrl.trim() !== "") {
-                return savedUrl;
-            }
-            
-            // 2. [จุดสำคัญ] ถ้าเครื่องนี้ยังไม่เคยเชื่อมต่อ ให้ใช้ลิงก์หลักของกลุ่มเราทันที!
-            // นำ Web App URL (ที่ลงท้ายด้วย /exec) ของคุณมาวางแทนที่ตรงนี้ได้เลยครับ
-            const defaultUrl = "AKfycbwwlD2NWspNUdR2_WkXa5_v8i-IR-vlzQswsqaOjKnsyxeWhIYUueO6FKtzNyWLcBFv"; 
-            
-            return defaultUrl;
+            return localStorage.getItem('trip_cloud_url_v5') || "";
         }
 
         function updateBrowserUrl(url) {
@@ -666,6 +645,7 @@
             }
         }
 
+        // --- ระบบ Initialize ของแอปพลิเคชัน ---
         function init() {
             const localTheme = localStorage.getItem('trip_theme_v5') || "light";
             const localLang = localStorage.getItem('trip_lang_v5') || "th";
@@ -685,11 +665,20 @@
             changeTheme(state.currentTheme || localTheme);
 
             let savedUrl = "";
+            
+            // เช็กว่ามีการเปิดจากลิงก์แชร์ (?db=...) หรือไม่
             const urlParams = new URLSearchParams(window.location.search);
             const dbParam = urlParams.get('db');
-            if (dbParam) { try { savedUrl = atob(dbParam); } catch(e) { savedUrl = dbParam; } }
+            if (dbParam) { 
+                try { 
+                    savedUrl = decodeURIComponent(escape(atob(dbParam))); // ถอดรหัสลิงก์
+                } catch(e) { 
+                    savedUrl = dbParam; 
+                } 
+            }
             if (!savedUrl) savedUrl = localStorage.getItem('trip_cloud_url_v5') || "";
 
+            // ถ้ามี URL ไม่ว่าจะเปิดจากลิงก์ หรือเซฟไว้ในเครื่อง ให้เชื่อมต่อ
             if (savedUrl) {
                 const urlInput = document.getElementById('cloud-script-url');
                 if (urlInput) urlInput.value = savedUrl;
@@ -698,14 +687,13 @@
 
             renderAll();
             
-            // --- ส่วนดึงข้อมูลอัตโนมัติ (แก้ไขไม่ให้ซ้ำซ้อนแล้ว) ---
+            // เริ่มต้นระบบซิงค์ (แก้ไขการเรียกซ้ำซ้อนแล้ว)
             const activeUrl = getCloudUrl(); 
-                
             if (activeUrl) {
                 updateSyncUI(true, "กำลังโหลด...", "กำลังซิงค์ข้อมูลล่าสุดจากคลาวด์");
-                pullFromCloud(); // ดึงข้อมูลครั้งแรกทันทีที่เปิดเว็บ
+                pullFromCloud(); // ดึงข้อมูลครั้งแรก
                 
-                // ระบบอัปเดตข้อมูลอัตโนมัติทุกๆ 15 วินาที
+                // ตั้งเวลาดึงข้อมูลอัตโนมัติทุกๆ 15 วินาที
                 setInterval(() => {
                     pullFromCloudSilent();
                 }, 15000); 
@@ -714,17 +702,17 @@
             }
         }
 
+        // --- ฟังก์ชันดึงข้อมูลแบบเงียบๆ (Auto-Polling) ---
         async function pullFromCloudSilent() {
             const url = getCloudUrl();
             if (!url) return;
             try {
                 const data = await fetchViaJsonp(url);
                 if (data && data.tripData) {
-                    // ป้องกันการอัปเดตทับในจังหวะที่ผู้ใช้เพิ่งกดแก้ไขข้อมูล (เช็คเวลาล่าสุด)
                     if (data._lastSynced && state._lastSynced) {
                         const cloudTime = new Date(data._lastSynced).getTime();
                         const localTime = new Date(state._lastSynced).getTime();
-                        if (cloudTime <= localTime) return; // ถ้าของ local สดใหม่กว่า ให้ข้ามไป
+                        if (cloudTime <= localTime) return; 
                     }
                     
                     const langCache = state.currentLang;
@@ -733,14 +721,13 @@
                     state.currentLang = langCache;
                     state.currentTheme = themeCache;
                     localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-                    renderAll(); // อัปเดตหน้าจอทันที
+                    renderAll(); 
                     updateSyncUI(true, 'Live Synced ✓', 'อัปเดตตรงกับเพื่อนแล้ว');
                 }
             } catch(e) {
                 console.warn('Silent pull failed:', e);
             }
         }
-
 
         function saveState() {
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
@@ -992,7 +979,6 @@
 
                     const displayCategoryLabelName = state.categoriesMap[item.category] || item.category;
 
-                    // FIX: แก้ไขปุ่มติ๊กถูกการ์ดให้เห็นสัญลักษณ์ไอคอนหัวใจเด่นชัดในทุกโหมดธีมสี (checked-active)
                     const isChecked = item.visited ? 'checked-active' : '';
                     const checkIcon = item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : '';
 
@@ -1284,7 +1270,6 @@
             closeModal(); saveState(); renderAll();
         }
 
-        // FIX LOGIC: ปรับสูตรคำนวณเงินหนี้สินรายบุคคล โดยข้ามบิลที่กดเคลียร์ (Settle) ไปแล้วอัตโนมัติ
         function renderExpenses() {
             const totalSpent = state.expenses.reduce((s, i) => s + i.amount, 0);
             document.getElementById('exp-total-spent').innerText = `฿${totalSpent.toLocaleString()}`;
@@ -1292,7 +1277,7 @@
 
             let ledger = {}; state.members.forEach(m => { ledger[m] = 0; });
             state.expenses.forEach(e => {
-                if(e.settled === true) return; // หากบิลใด ติ๊กถูกปิดบัญชีไปแล้ว ให้ข้าม (Skip) ไม่นำมาคำนวณสร้างหนี้ค้างคาเพิ่ม
+                if(e.settled === true) return; 
                 
                 const payer = e.payer; const amt = e.amount;
                 const validPayer = state.members.includes(payer) ? payer : state.members[0];
@@ -1402,6 +1387,34 @@
             renderAll();
         }
 
+        function copyShareLink() {
+            const urlInput = document.getElementById('cloud-script-url');
+            if (!urlInput || !urlInput.value.trim()) {
+                alert("❌ ไม่สามารถสร้างลิงก์ได้: กรุณากรอก Web App URL และกดบันทึกการเชื่อมต่อก่อนครับ");
+                return;
+            }
+            
+            const webAppUrl = urlInput.value.trim();
+            // เข้ารหัสแปลง URL ให้เป็นรหัสปลอดภัย (Base64) ป้องกันบราวเซอร์สับสนพารามิเตอร์
+            const encodedUrl = btoa(unescape(encodeURIComponent(webAppUrl)));
+            
+            // สร้างลิงก์สำเร็จรูป (ลิงก์ของเว็บปัจจุบันที่คุณกำลังเปิดอยู่ + รหัสต่อคลาวด์)
+            const shareUrl = window.location.origin + window.location.pathname + "?db=" + encodedUrl;
+            
+            // ทำการสั่งคัดลอกลงคลิปบอร์ดเครื่องอัตโนมัติ
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert("📋 คัดลอกลิงก์สำเร็จ! คุณสามารถส่งลิงก์นี้เข้ากลุ่ม LINE ให้เพื่อนๆ เปิดในเครื่องอื่น หรือเปิดในมือถือได้เลย ทุกเครื่องจะซิงค์ข้อมูลตรงกันทันทีโดยไม่ต้องตั้งค่าใหม่ครับ");
+            }).catch(err => {
+                // แผนสำรองหากบราวเซอร์บางรุ่นบล็อกระบบ clipboard ความปลอดภัยสูง
+                const tempInput = document.createElement("input");
+                tempInput.value = shareUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert("📋 คัดลอกลิงก์แชร์สำเร็จ!");
+            });
+        }
     </script>
 </body>
 </html>
