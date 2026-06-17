@@ -381,8 +381,6 @@
             </div>
 
             <!-- VIEW 3: CLOUD CONFIG -->
-            <div id="view-cloud-config" class="view-panel hidden space-y-6">
-                <div class="max-w-xl card-bg p-5 rounded-xl border shadow-3xs space-y-4">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 inner-widget-bg"><i class="fa-solid fa-cloud"></i></div>
                         <div>
@@ -645,8 +643,17 @@
         function closeCategoryManagerModal() { }
 
         function getCloudUrl() {
-            const el = document.getElementById('cloud-script-url');
-            return el ? el.value.trim() : (localStorage.getItem('trip_cloud_url_v5') || '');
+            // 1. เช็กก่อนว่าในเครื่องเคยกรอกลิงก์อื่นไว้ไหม
+            const savedUrl = localStorage.getItem('trip_cloud_url_v5');
+            if (savedUrl && savedUrl.trim() !== "") {
+                return savedUrl;
+            }
+            
+            // 2. [จุดสำคัญ] ถ้าเครื่องนี้ยังไม่เคยเชื่อมต่อ ให้ใช้ลิงก์หลักของกลุ่มเราทันที!
+            // นำ Web App URL (ที่ลงท้ายด้วย /exec) ของคุณมาวางแทนที่ตรงนี้ได้เลยครับ
+            const defaultUrl = "AKfycbwwlD2NWspNUdR2_WkXa5_v8i-IR-vlzQswsqaOjKnsyxeWhIYUueO6FKtzNyWLcBFv"; 
+            
+            return defaultUrl;
         }
 
         function updateBrowserUrl(url) {
@@ -690,14 +697,20 @@
             }
 
             renderAll();
-
-            if (savedUrl) {
-                updateSyncUI(true, "กำลังโหลด...", "กำลังดึงข้อมูลจาก Cloud");
-                pullFromCloud();
-
+            
+            // --- ส่วนดึงข้อมูลอัตโนมัติ (แก้ไขไม่ให้ซ้ำซ้อนแล้ว) ---
+            const activeUrl = getCloudUrl(); 
+                
+            if (activeUrl) {
+                updateSyncUI(true, "กำลังโหลด...", "กำลังซิงค์ข้อมูลล่าสุดจากคลาวด์");
+                pullFromCloud(); // ดึงข้อมูลครั้งแรกทันทีที่เปิดเว็บ
+                
+                // ระบบอัปเดตข้อมูลอัตโนมัติทุกๆ 15 วินาที
                 setInterval(() => {
                     pullFromCloudSilent();
-                }, 15000);
+                }, 15000); 
+            } else {
+                updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า");
             }
         }
 
@@ -1381,7 +1394,7 @@
             }
             renderAll();
         }
-        
+
         function disconnectCloud() {
             localStorage.removeItem('trip_cloud_url_v5');
             alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ข้อมูลในเครื่อง (Local Storage)");
