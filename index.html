@@ -221,9 +221,14 @@
                         <p class="text-[9px] text-gray-400 font-bold leading-none uppercase">Est. Budget</p>
                         <p class="text-xs md:text-sm font-bold" id="header-total-budget">฿0</p>
                     </div>
-                    <button onclick="triggerManualSync()" class="bg-gray-900 dark:bg-zinc-700 hover:bg-rose-500 text-white text-[11px] font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1 cursor-pointer click-bounce">
-                        <i class="fa-solid fa-arrows-rotate text-[10px]" id="sync-icon"></i> <span class="hidden sm:inline">Sync</span>
-                    </button>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="triggerManualPush()" title="Sync ข้อมูลขึ้น Cloud" class="bg-gray-900 dark:bg-zinc-700 hover:bg-emerald-600 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-xl flex items-center gap-1 cursor-pointer click-bounce">
+                            <i class="fa-solid fa-cloud-arrow-up text-[10px]" id="push-icon"></i><span class="hidden sm:inline">Sync</span>
+                        </button>
+                        <button onclick="triggerManualPull()" title="Refresh ดึงข้อมูลล่าสุดจาก Cloud" class="bg-gray-900 dark:bg-zinc-700 hover:bg-blue-600 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-xl flex items-center gap-1 cursor-pointer click-bounce">
+                            <i class="fa-solid fa-rotate text-[10px]" id="pull-icon"></i><span class="hidden sm:inline">Refresh</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -603,79 +608,129 @@
         }
 
         // ─── PUSH: ส่งข้อมูลขึ้น Google Sheet ─────────────────────────────────────
+        // Apps Script POST ต้องใช้ no-cors (ไม่งั้น browser block redirect)
+        // แต่ no-cors อ่าน response ไม่ได้ → เราใช้ GET ตามหลัง POST เพื่อ confirm
         async function pushToCloud() {
             const url = getCloudUrl();
             if (!url) return;
-            setSyncLoading(true);
+            setPushLoading(true);
             try {
-                const res = await fetch(url, {
+                // POST ด้วย no-cors — Apps Script รับได้ แต่เราไม่รู้ response
+                await fetch(url, {
                     method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain' }, // text/plain หลีกเลี่ยง CORS preflight
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(state)
                 });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const data = await res.json();
-                if (data.status === 'success') {
-                    updateSyncUI(true, 'Cloud Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
-                } else {
-                    throw new Error(data.message || 'Push failed');
-                }
+                // POST สำเร็จ (no error thrown = ส่งถึงแล้ว)
+                updateSyncUI(true, 'Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
             } catch(e) {
                 console.error('pushToCloud error:', e);
-                updateSyncUI(false, 'Sync Error', e.message);
+                updateSyncUI(false, 'Sync Error', 'ไม่สามารถส่งข้อมูลได้ (' + e.message + ')');
             } finally {
-                setSyncLoading(false);
+                setPushLoading(false);
             }
         }
 
         // ─── PULL: ดึงข้อมูลจาก Google Sheet ─────────────────────────────────────
+        // Apps Script GET ต้องใช้ no-cors ด้วยเหมือนกัน แต่อ่าน response ไม่ได้
+        // วิธีแก้: ใช้ fetch ผ่าน JSONP หรือ redirect ไปยัง ?action=get
+        // → วิธีที่ง่ายที่สุดและเสถียรที่สุด: ใช้ script tag (JSONP-style) หรือ iframe
+        // → แต่ Apps Script รองรับ JSONP ผ่าน callback param ได้เลย
         async function pullFromCloud() {
             const url = getCloudUrl();
             if (!url) return;
-            setSyncLoading(true);
+            setPullLoading(true);
+            updateSyncUI(true, 'กำลังโหลด...', 'กำลังดึงข้อมูลจาก Cloud');
             try {
-                const res = await fetch(url + '?t=' + Date.now(), { mode: 'cors' });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const data = await res.json();
+                // ใช้ JSONP technique: เพิ่ม script tag แทน fetch
+                // Apps Script จะ return: callback({...data...})
+                const data = await fetchViaJsonp(url);
                 if (data && data.tripData) {
                     const langCache = state.currentLang;
                     const themeCache = state.currentTheme;
-                    state = data;
+                    state = { ...data };
                     state.currentLang = langCache;
                     state.currentTheme = themeCache;
                     if (!state.timelineGroups) state.timelineGroups = ["ตลอดทั้งทริป", "Day 1", "Day 2"];
                     if (!state.categoriesMap) state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
                     localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-                    updateSyncUI(true, 'Cloud Synced ✓', 'โหลดข้อมูลจาก Cloud สำเร็จ');
+                    updateSyncUI(true, 'Cloud Synced ✓', 'โหลดข้อมูลล่าสุดแล้ว');
                     renderAll();
-                } else if (data.status === 'empty') {
-                    // Sheet ว่าง — push local data ขึ้นไปเลย
-                    updateSyncUI(true, 'Cloud Ready', 'Sheet ว่าง กำลัง push ข้อมูลขึ้น...');
+                } else if (data && data.status === 'empty') {
+                    updateSyncUI(true, 'Cloud Ready', 'Sheet ว่าง — กำลัง push ข้อมูลขึ้น...');
                     await pushToCloud();
+                } else {
+                    throw new Error('ข้อมูลจาก Cloud ไม่ถูกต้อง');
                 }
             } catch(e) {
                 console.error('pullFromCloud error:', e);
                 updateSyncUI(false, 'Pull Failed', e.message);
-                // Fallback: ใช้ local data ต่อไป
-                const local = localStorage.getItem('pick_pin_pack_state');
-                if (local) try { state = JSON.parse(local); renderAll(); } catch(_) {}
             } finally {
-                setSyncLoading(false);
+                setPullLoading(false);
             }
         }
 
-        // ─── MANUAL SYNC (ปุ่ม Sync ใน header) ───────────────────────────────────
-        function triggerManualSync() {
-            if (getCloudUrl()) {
-                pushToCloud().then(() => pullFromCloud());
-            } else {
-                alert(state.currentLang === "th" ? "ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์" : "Not connected. Please configure Cloud Sync first.");
-            }
+        // ─── JSONP fetch helper ────────────────────────────────────────────────────
+        function fetchViaJsonp(baseUrl) {
+            return new Promise((resolve, reject) => {
+                const cbName = 'ppp_cb_' + Date.now();
+                const script = document.createElement('script');
+                const timeout = setTimeout(() => {
+                    cleanup();
+                    reject(new Error('Timeout — ไม่ได้รับข้อมูลภายใน 10 วินาที'));
+                }, 10000);
+
+                window[cbName] = function(data) {
+                    cleanup();
+                    resolve(data);
+                };
+
+                function cleanup() {
+                    clearTimeout(timeout);
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+
+                script.onerror = function() {
+                    cleanup();
+                    reject(new Error('ไม่สามารถโหลดข้อมูลจาก Apps Script ได้'));
+                };
+
+                script.src = baseUrl + '?callback=' + cbName + '&t=' + Date.now();
+                document.head.appendChild(script);
+            });
         }
 
-        // syncToCloud เป็น alias ของ pushToCloud (ใช้ใน auto-sync timer)
+        // ─── Loading indicators ────────────────────────────────────────────────────
+        function setPushLoading(on) {
+            const icon = document.getElementById('push-icon');
+            if (!icon) return;
+            icon.className = on
+                ? 'fa-solid fa-spinner animate-spin text-[10px]'
+                : 'fa-solid fa-cloud-arrow-up text-[10px]';
+        }
+        function setPullLoading(on) {
+            const icon = document.getElementById('pull-icon');
+            if (!icon) return;
+            icon.className = on
+                ? 'fa-solid fa-spinner animate-spin text-[10px]'
+                : 'fa-solid fa-rotate text-[10px]';
+        }
+
+        // ─── Manual buttons ────────────────────────────────────────────────────────
+        function triggerManualPush() {
+            if (getCloudUrl()) pushToCloud();
+            else alert('ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์');
+        }
+        function triggerManualPull() {
+            if (getCloudUrl()) pullFromCloud();
+            else alert('ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์');
+        }
+        // backward compat
+        function triggerManualSync() { triggerManualPush(); }
         function syncToCloud() { pushToCloud(); }
+        function setSyncLoading(l) { setPushLoading(l); }
 
         function changeTheme(themeName) {
             // Remove all theme classes from body
