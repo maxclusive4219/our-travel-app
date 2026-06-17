@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CouplesTrip // Ultimate Travel Engine (V5.3-Sorting Groups)</title>
+    <title>Pick Pin Pack // Pick a place, pin the route, pack and go.</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- FontAwesome Icons -->
@@ -41,7 +41,7 @@
             transform: translateY(0) scale(1);
         }
         
-        /* Place Cards Animations & Custom Color Borders */
+        /* Place Cards Animations & Custom Color Borders[cite: 5] */
         .place-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             border-left-width: 5px !important; 
@@ -95,9 +95,9 @@
     <div class="md:hidden card-bg border-b px-4 py-3 flex items-center justify-between shrink-0 z-10 shadow-2xs">
         <div class="flex items-center gap-2">
             <div class="w-7 h-7 bg-rose-500 rounded-lg flex items-center justify-center text-white text-xs">
-                <i class="fa-solid fa-heart"></i>
+                <i class="fa-solid fa-location-dot"></i>
             </div>
-            <span class="font-bold text-sm tracking-tight" id="mobile-app-title">OurSpace V5</span>
+            <span class="font-bold text-sm tracking-tight" id="mobile-app-title">Pick Pin Pack</span>
         </div>
         <div class="flex bg-gray-100 dark:bg-zinc-800/80 p-0.5 rounded-lg text-xs font-semibold">
             <button onclick="switchTab('itinerary')" id="m-btn-itinerary" class="px-2.5 py-1 rounded-md bg-white text-gray-900 shadow-3xs click-bounce">ทริป</button>
@@ -111,11 +111,11 @@
         <div>
             <div class="flex items-center gap-3 px-2 mb-8">
                 <div class="w-9 h-9 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-heart text-sm"></i>
+                    <i class="fa-solid fa-location-dot text-sm"></i>
                 </div>
                 <div>
-                    <span class="font-bold text-base tracking-tight block">OurSpace</span>
-                    <span class="text-xs text-gray-400 font-medium">Smart-Engine V5</span>
+                    <span class="font-bold text-base tracking-tight block text-rose-500">Pick Pin Pack</span>
+                    <span class="text-[10px] text-gray-400 font-medium">Pick, Pin, Pack and Go!</span>
                 </div>
             </div>
 
@@ -161,9 +161,13 @@
         
         <header class="card-bg border-b p-4 md:px-8 md:py-0 md:h-16 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
             <div class="flex flex-wrap items-center justify-between md:justify-start gap-4">
-                <div class="flex items-center gap-1.5">
-                    <h1 class="text-base md:text-lg font-bold max-w-[140px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
-                    <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                <div class="flex flex-col justify-center">
+                    <div class="flex items-center gap-1.5">
+                        <h1 class="text-base md:text-lg font-bold max-w-[140px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
+                        <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                    </div>
+                    <!-- สโลแกนจำง่ายตามสั่งใต้ชื่อเว็บ -->
+                    <p class="text-[10px] text-gray-400 hidden md:block">Pick a place, pin the route, pack and go.</p>
                 </div>
                 
                 <div class="bg-gray-100 dark:bg-zinc-800/80 p-0.5 rounded-xl flex border border-gray-200/50 dark:border-zinc-700 items-center">
@@ -380,7 +384,6 @@
                         <select id="p-category" onchange="handleModalCategoryFormToggle()" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900"></select>
                     </div>
                     <div>
-                        <!-- ข้อมูลผูกสังกัดกลุ่มวัน/ไลน์ตามสั่ง -->
                         <label class="text-[10px] font-bold text-indigo-500 block mb-0.5">จัดระเบียบเข้ากลุ่มวัน</label>
                         <select id="p-group-assignment" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900 font-bold"></select>
                     </div>
@@ -415,6 +418,19 @@
                         <label class="text-[10px] font-bold text-gray-400 block mb-0.5" data-lang-th="งบประมาณคร่าวๆ (฿)" data-lang-en="Budget Estimation (฿)">งบประมาณคร่าวๆ (฿)</label>
                         <input type="number" id="p-cost" class="w-full border rounded-lg px-3 py-1.5">
                     </div>
+                </div>
+
+                <!-- Google Maps Style Rating Input (ระบบระบุดาวรีวิวตามจริงแบบเสถียรไม่พึ่งพา API) -->
+                <div>
+                    <label class="text-[10px] font-bold text-amber-500 block mb-0.5"><i class="fa-solid fa-star"></i> คะแนนรีวิวสถานที่ (ตามข้อมูล Google Maps)</label>
+                    <select id="p-rating" class="w-full border rounded-lg px-2 py-1.5 bg-white dark:bg-zinc-900 font-bold">
+                        <option value="">-- ยังไม่มีคะแนนรีวิว / ไม่ระบุ --</option>
+                        <option value="5.0">⭐⭐⭐⭐ Apple รีวิว 5.0 เต็ม</option>
+                        <option value="4.8">⭐⭐⭐⭐⭐ ดีมาก 4.8</option>
+                        <option value="4.5">⭐⭐⭐⭐ ดีมาก 4.5</option>
+                        <option value="4.0">⭐⭐⭐⭐ ดี 4.0</option>
+                        <option value="3.5">⭐⭐⭐ ปานกลาง 3.5</option>
+                    </select>
                 </div>
 
                 <div>
@@ -457,7 +473,7 @@
             tripTitle: "Our Dream Trip",
             members: ["คุณเอง", "แฟน"],
             categories: ["✈️ เดินทาง", "🏨 ที่พัก", "🍽️ อาหาร", "🛍️ ช้อปปิ้ง", "🎟️ ท่องเที่ยว"],
-            timelineGroups: ["ตลอดทั้งทริป", "Day 1", "Day 2"], // ระบบคุมชื่อแถบกลุ่มวันอิสระตามสั่ง
+            timelineGroups: ["ตลอดทั้งทริป", "Day 1", "Day 2"], 
             plans: ["Plan A", "Plan B"],
             currentPlan: "Plan A",
             tripData: { "Plan A": [], "Plan B": [] },
@@ -533,7 +549,6 @@
                     const langCache = state.currentLang;
                     state = data;
                     state.currentLang = langCache;
-                    // ตรวจทานโครงสร้างกลุ่มป้องกันบั๊กข้ามสายงานเก่า
                     if (!state.timelineGroups) state.timelineGroups = ["ตลอดทั้งทริป", "Day 1", "Day 2"];
                     renderAll();
                 }
@@ -646,9 +661,8 @@
             return { border: 'border-l-emerald-500', badge: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/40' };
         }
 
-        // --- ระบบคุมกลุ่มวัน/ไลน์เดินทางแบบโมเดิร์นและยืดหยุ่นสูง ---
         function promptAddNewGroup() {
-            const gName = prompt("กรุณาระบุชื่อกลุ่มแถบตารางใหม่ (เช่น Day 3, กลุ่มที่พักภายนอก, ลิสต์ของฝาก):");
+            const gName = prompt("กรุณาระบุชื่อกลุ่มแถบตารางใหม่ (เช่น Day 3, ร้านเด็ด):");
             if(gName && gName.trim() !== "") {
                 const clean = gName.trim();
                 if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้มีในระบบแล้ว");
@@ -657,84 +671,69 @@
             }
         }
 
+        // ปุ่มดินสอแก้ไขชื่อกลุ่มแบบไดนามิกตามสั่ง (Edit Group Name Feature)
+        function editTimelineGroupName(oldName) {
+            const newName = prompt(`กรุณาระบุชื่อใหม่สำหรับกลุ่ม "${oldName}":`, oldName);
+            if(newName && newName.trim() !== "" && newName.trim() !== oldName) {
+                const clean = newName.trim();
+                if(state.timelineGroups.includes(clean)) return alert("ชื่อกลุ่มนี้ซ้ำกับกลุ่มอื่นที่มีอยู่แล้ว");
+                
+                // สลับคีย์ชื่อกลุ่มภายในการ์ดทุกใบที่สังกัดอยู่แบบเรียลไทม์
+                const rawList = state.tripData[state.currentPlan] || [];
+                rawList.forEach(item => {
+                    if((item.group || "ตลอดทั้งทริป") === oldName) item.group = clean;
+                });
+
+                state.timelineGroups = state.timelineGroups.map(g => g === oldName ? clean : g);
+                saveState(); renderAll();
+            }
+        }
+
         function removeTimelineGroup(gName) {
             if(state.timelineGroups.length <= 1) return alert("ต้องมีกลุ่มตารางกำหนดการขั้นต่ำอย่างน้อย 1 กลุ่มหลักครับ");
-            if(confirm(`ลบกลุ่ม "${gName}"? (การ์ดด้านในจะถูกย้ายไปที่กลุ่มแรกโดยอัตโนมัติ ไม่สูญหาย)`)) {
+            if(confirm(`ลบกลุ่ม "${gName}"? (การ์ดด้านในจะย้ายไปกลุ่มแรกอัตโนมัติ)`)) {
                 const rawList = state.tripData[state.currentPlan] || [];
                 const fallbackGroup = state.timelineGroups.find(g => g !== gName) || "ตลอดทั้งทริป";
-                
-                rawList.forEach(item => {
-                    if(item.group === gName) item.group = fallbackGroup;
-                });
-                
+                rawList.forEach(item => { if(item.group === gName) item.group = fallbackGroup; });
                 state.timelineGroups = state.timelineGroups.filter(g => g !== gName);
                 saveState(); renderAll();
             }
         }
 
-        // ฟังก์ชันสั่งสลับเลื่อน ลำดับการ์ด ขึ้น-ลง ภายในอาณาเขตกลุ่ม (Up/Down Sorting Mechanism)
         function moveCardOrder(id, direction) {
             const rawList = state.tripData[state.currentPlan] || [];
             const index = rawList.findIndex(item => item.id === id);
             if(index === -1) return;
-
             const currentCard = rawList[index];
-            
-            // กรองหาเฉพาะการ์ดที่อยู่ในกลุ่ม (Group) เดียวกันมาสลับเพื่อความแม่นยำทางตรรกะ
             const groupFilteredIndices = rawList
                 .map((item, idx) => ({ item, idx }))
-                .filter(entry => entry.item.group === currentCard.group);
-
+                .filter(entry => (entry.item.group || "ตลอดทั้งทริป") === (currentCard.group || "ตลอดทั้งทริป"));
             const positionInGroup = groupFilteredIndices.findIndex(entry => entry.idx === index);
-
             if(direction === 'up' && positionInGroup > 0) {
                 const targetEntry = groupFilteredIndices[positionInGroup - 1];
-                // สลับสแต็กที่อยู่บนอาร์เรย์หลักเรียลไทม์
-                rawList[index] = targetEntry.item;
-                rawList[targetEntry.idx] = currentCard;
+                rawList[index] = targetEntry.item; rawList[targetEntry.idx] = currentCard;
             } else if(direction === 'down' && positionInGroup < groupFilteredIndices.length - 1) {
                 const targetEntry = groupFilteredIndices[positionInGroup + 1];
-                rawList[index] = targetEntry.item;
-                rawList[targetEntry.idx] = currentCard;
+                rawList[index] = targetEntry.item; rawList[targetEntry.idx] = currentCard;
             }
-
             saveState(); renderAll();
         }
 
-        // ฟังก์ชันจิ้มสลับย้ายกลุ่มการ์ดตรงๆ (Move card cross group lines)
         function changeCardGroupAssociation(id, nextGroup) {
             const rawList = state.tripData[state.currentPlan] || [];
             const item = rawList.find(i => i.id === id);
-            if(item) {
-                item.group = nextGroup;
-                saveState(); renderAll();
-            }
+            if(item) { item.group = nextGroup; saveState(); renderAll(); }
         }
 
-        // ARCHITECTURE GROUP RENDERING SUITE (จัดรูปหน้าต่างหลักเป็นกลุ่มบล็อกวันแนวตั้งสลับขึ้นลงได้)
         function renderItinerary() {
             const rootContainer = document.getElementById('itinerary-groups-root');
             rootContainer.innerHTML = '';
-            
             const rawList = state.tripData[state.currentPlan] || [];
             
-            document.getElementById('stat-places').innerText = `${rawList.length} Places`;
-            const progress = rawList.length ? Math.round((rawList.filter(i=>i.visited).length / rawList.length)*100) : 0;
-            document.getElementById('stat-progress').innerText = `${progress}%`;
-            
-            const totalEstCost = rawList.reduce((s, i) => s + i.cost, 0);
-            document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
-            
-            const totalActual = state.expenses.reduce((s, i) => s + i.amount, 0);
-            document.getElementById('header-total-budget').innerText = `฿${(totalEstCost + totalActual).toLocaleString()}`;
-
-            // วาดแผง Group คอนเทนเนอร์บล็อกแนวตั้งอิสระแยกย่อยตามสั่ง
             state.timelineGroups.forEach(gName => {
                 const groupSpecificCards = rawList.filter(item => (item.group || "ตลอดทั้งทริป") === gName);
-                
                 const groupWrapper = document.createElement('div');
                 groupWrapper.className = "space-y-2.5 bg-gray-100/40 dark:bg-zinc-900/40 p-3 rounded-2xl border border-gray-200/60 dark:border-zinc-800/80";
-                
                 let groupSumCost = groupSpecificCards.reduce((sum, item) => sum + item.cost, 0);
 
                 groupWrapper.innerHTML = `
@@ -743,9 +742,11 @@
                             <span class="w-1.5 h-3.5 bg-rose-500 rounded-full"></span>
                             <h3 class="font-bold text-xs text-gray-900 dark:text-white uppercase tracking-wider">${gName} <span class="text-[10px] text-gray-400 font-normal">(${groupSpecificCards.length})</span></h3>
                         </div>
-                        <div class="flex items-center gap-2 text-[10px]">
-                            <span class="font-bold text-gray-500">รวม: ฿${groupSumCost.toLocaleString()}</span>
-                            <button onclick="removeTimelineGroup('${gName}')" class="text-gray-300 hover:text-rose-500 ml-1" title="ลบกลุ่มบรรทัดนี้"><i class="fa-regular fa-trash-can"></i></button>
+                        <div class="flex items-center gap-1.5 text-[10px]">
+                            <span class="font-bold text-gray-500 mr-1">รวม: ฿${groupSumCost.toLocaleString()}</span>
+                            <!-- ปุ่มดินสอควบคุมแก้ไขชื่อกลุ่มตามสั่ง -->
+                            <button onclick="editTimelineGroupName('${gName}')" class="text-gray-400 hover:text-indigo-500 p-0.5" title="แก้ไขชื่อกลุ่ม"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="removeTimelineGroup('${gName}')" class="text-gray-300 hover:text-rose-500 p-0.5" title="ลบกลุ่มบรรทัดนี้"><i class="fa-regular fa-trash-can"></i></button>
                         </div>
                     </div>
                     <div id="sub-group-items-${gName.replace(/[^a-zA-Z0-9]/g, '')}" class="space-y-2"></div>
@@ -755,16 +756,14 @@
                 const itemsSubRoot = document.getElementById(`sub-group-items-${gName.replace(/[^a-zA-Z0-9]/g, '')}`);
 
                 if(groupSpecificCards.length === 0) {
-                    itemsSubRoot.innerHTML = `<p class="text-[10px] text-gray-400 italic py-2 text-center">ลากวางหรือกดเพิ่มรายการเข้ามาในกลุ่มบรรทัดนี้</p>`;
+                    itemsSubRoot.innerHTML = `<p class="text-[10px] text-gray-400 italic py-2 text-center">ไม่มีรายการในกลุ่มนี้</p>`;
                     return;
                 }
 
                 groupSpecificCards.forEach((item, index) => {
                     const card = document.createElement('div');
                     const themeColor = getStyleByCat(item.category);
-                    
                     card.className = `place-card card-bg p-3 rounded-xl border shadow-3xs flex flex-col gap-2.5 relative overflow-hidden ${themeColor.border} ${item.visited ? 'opacity-45 scale-[0.98]' : ''}`;
-                    card.style.animation = `fadeIn 0.3s ease forwards`;
 
                     const finalImg = item.img ? item.img : generateSmartImageUrl(item.title, item.link);
 
@@ -789,13 +788,18 @@
                         innerBadgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">${item.transportType}</span>`;
                     }
 
-                    // สร้างชุดตัวเลือก Dropdown ย้ายสลับกลุ่มข้ามวันกันสดๆ เพื่อความสบายบนมือถือ
                     let groupOptionsOptions = state.timelineGroups.map(g => `<option value="${g}" ${g === (item.group || 'ตลอดทั้งทริป') ? 'selected' : ''}>${g}</option>`).join('');
                     let groupSelectorDropdownHtml = `
                         <select onchange="changeCardGroupAssociation(${item.id}, this.value)" class="text-[9px] bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 px-1 py-0.5 rounded font-bold">
                             ${groupOptionsOptions}
                         </select>
                     `;
+
+                    // แสดงสัญลักษณ์คะแนนดาวสไตล์ Google Maps สีทองหรูหราบนตัวการ์ดสะดุดตาตามสั่ง
+                    let starRatingHtml = "";
+                    if(item.rating) {
+                        starRatingHtml = `<span class="text-amber-500 font-bold inline-flex items-center gap-0.5 ml-1 text-[10px] bg-amber-500/10 px-1 rounded border border-amber-500/20"><i class="fa-solid fa-star text-[9px]"></i> ${item.rating}</span>`;
+                    }
 
                     card.innerHTML = `
                         <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
@@ -804,14 +808,14 @@
                                     ${item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
                                 </button>
                                 
-                                <img onclick="openLightbox('${finalImg}', '${item.title}')" class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 cursor-zoom-in transition-transform duration-300 hover:scale-105" src="${finalImg}" alt="Place" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=80&q=80'">
+                                <img onclick="openLightbox('${finalImg}', '${item.title}')" class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 cursor-zoom-in transition-transform duration-300 hover:scale-105" src="${finalImg}" alt="Place">
                                 
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-1.5 flex-wrap">
                                         <h4 class="font-bold text-xs truncate ${item.visited ? 'line-through text-gray-400' : ''}">${item.title}</h4>
                                         <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${themeColor.badge}">${item.category}</span>
                                         ${innerBadgeHtml}
-                                        <!-- กล่องย้ายข้ามกลุ่มวัน -->
+                                        ${starRatingHtml}
                                         ${groupSelectorDropdownHtml}
                                     </div>
                                     <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium">
@@ -822,7 +826,6 @@
                                 </div>
                             </div>
                             
-                            <!-- ปุ่มควบคุมขึ้นลงสำหรับการสลับลำดับการ์ดก่อนหลัง (Sorting Buttons) -->
                             <div class="flex items-center gap-0.5 shrink-0 bg-gray-50 dark:bg-zinc-800 rounded-lg p-0.5 border border-gray-100 dark:border-zinc-700">
                                 <button onclick="moveCardOrder(${item.id}, 'up')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนขึ้น"><i class="fa-solid fa-chevron-up"></i></button>
                                 <button onclick="moveCardOrder(${item.id}, 'down')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce" title="เลื่อนลง"><i class="fa-solid fa-chevron-down"></i></button>
@@ -855,6 +858,7 @@
                     document.getElementById('p-title').value = item.title || "";
                     document.getElementById('p-priority').value = item.priority || "⭐ High";
                     document.getElementById('p-cost').value = item.cost || 0;
+                    document.getElementById('p-rating').value = item.rating || "";
                     document.getElementById('p-website').value = item.website || "";
                     document.getElementById('p-link').value = item.link || "";
                     document.getElementById('p-img').value = item.img || "";
@@ -865,6 +869,7 @@
                 document.getElementById('edit-place-id').value = "";
                 document.getElementById('p-title').value = "";
                 document.getElementById('p-cost').value = "";
+                document.getElementById('p-rating').value = "";
                 document.getElementById('p-website').value = "";
                 document.getElementById('p-link').value = "";
                 document.getElementById('p-img').value = "";
@@ -973,8 +978,6 @@
             if(pCat) pCat.innerHTML = state.categories.map(c => `<option value="${c}">${c}</option>`).join('');
             if(eCat) eCat.innerHTML = state.categories.map(c => `<option value="${c}">${c}</option>`).join('');
             if(ePayer) ePayer.innerHTML = state.members.map(m => `<option value="${m}">${m}</option>`).join('');
-            
-            // อัปเดตตัวเลือกกลุ่มเป้าหมายในฟอร์ม Modal
             if(pGroup) pGroup.innerHTML = state.timelineGroups.map(g => `<option value="${g}">${g}</option>`).join('');
 
             if(eLinked) {
@@ -1011,6 +1014,7 @@
             const group = document.getElementById('p-group-assignment').value;
             const priority = document.getElementById('p-priority').value;
             const cost = parseFloat(document.getElementById('p-cost').value) || 0;
+            const rating = document.getElementById('p-rating').value;
             const website = document.getElementById('p-website').value.trim();
             const link = document.getElementById('p-link').value.trim();
             const img = document.getElementById('p-img').value.trim();
@@ -1025,12 +1029,12 @@
                 const item = list.find(p => p.id === id);
                 if(item) {
                     item.title = title; item.category = category; item.group = group; item.priority = priority;
-                    item.cost = cost; item.website = website; item.link = link; item.img = img; item.note = note;
+                    item.cost = cost; item.rating = rating; item.website = website; item.link = link; item.img = img; item.note = note;
                     item.transportType = transportType;
                 }
             } else {
                 if(!state.tripData[state.currentPlan]) state.tripData[state.currentPlan] = [];
-                state.tripData[state.currentPlan].push({ id: Date.now(), title, category, group, priority, cost, website, link, img, note, transportType, visited: false });
+                state.tripData[state.currentPlan].push({ id: Date.now(), title, category, group, priority, cost, rating, website, link, img, note, transportType, visited: false });
             }
             closeModal(); saveState(); renderAll();
         }
