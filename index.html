@@ -114,6 +114,15 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         body.theme-dark ::-webkit-scrollbar-thumb, body.theme-slate ::-webkit-scrollbar-thumb { background: #3F3F46; }
+
+        html { font-size: 17px; } 
+        .text-\\[9px\\] { font-size: 10.5px !important; }
+        .text-\\[10px\\] { font-size: 11.5px !important; }
+        .text-\\[11px\\] { font-size: 12.5px !important; }
+        .text-xs { font-size: 13.5px !important; }
+        .text-sm { font-size: 15px !important; }
+        .text-base { font-size: 17px !important; }
+
     </style>
 </head>
 <body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
@@ -627,9 +636,41 @@
             if(cat === "เดินทาง") transWrap.classList.remove('hidden');
             else transWrap.classList.add('hidden');
         }
-        function openCategoryManagerModal() { alert('กำลังพัฒนาระบบแก้ไขไอคอน'); }
-        function closeCategoryManagerModal() { }
+        function openCategoryManagerModal() {
+            const holder = document.getElementById('category-inputs-list-holder');
+            holder.innerHTML = '';
+            // ดึงข้อมูลหมวดหมู่มาสร้างช่องกรอกอัตโนมัติ
+            Object.keys(state.categoriesMap).forEach(key => {
+                holder.innerHTML += `
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-400 block mb-0.5">หมวดหมู่: ${key}</label>
+                        <input type="text" id="cat-icon-${key}" value="${state.categoriesMap[key]}" class="w-full border rounded-lg px-3 py-2 bg-white dark:bg-zinc-900 focus:outline-none">
+                    </div>
+                `;
+            });
+            const modal = document.getElementById('modal-category-manager');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
 
+        function closeCategoryManagerModal() {
+            const modal = document.getElementById('modal-category-manager');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 250);
+        }
+
+        // ฟังก์ชันสำหรับกดบันทึกการเปลี่ยนไอคอน
+        function submitCategoryIconsUpdate() {
+            Object.keys(state.categoriesMap).forEach(key => {
+                const el = document.getElementById(`cat-icon-${key}`);
+                if(el && el.value.trim() !== '') {
+                    state.categoriesMap[key] = el.value.trim();
+                }
+            });
+            closeCategoryManagerModal();
+            saveState();
+            renderAll();
+        }
         // --- ระบบดึงและรับ URL ของคลาวด์ ---
         function getCloudUrl() {
             return localStorage.getItem('trip_cloud_url_v5') || "";
@@ -1111,6 +1152,26 @@
             if(state.members.length <= 1) return;
             if(confirm(`ลบคุณ ${name}?`)) { state.members = state.members.filter(m => m !== name); saveState(); renderAll(); }
         }
+
+        function editMemberName(oldName) {
+            const newName = prompt(`แก้ไขชื่อสมาชิก "${oldName}":`, oldName);
+            if (!newName || newName.trim() === "" || newName.trim() === oldName) return;
+            
+            const cleanName = newName.trim();
+            if (state.members.includes(cleanName)) return alert("ชื่อนี้มีอยู่แล้วในทริปครับ");
+
+            // 1. อัปเดตชื่อในรายชื่อสมาชิก
+            const mIndex = state.members.indexOf(oldName);
+            if (mIndex !== -1) state.members[mIndex] = cleanName;
+
+            // 2. ตามไปอัปเดตชื่อคนจ่ายในบิลเก่าๆ ทั้งหมดเพื่อไม่ให้ระบบคำนวณเงินรวน
+            state.expenses.forEach(e => {
+                if (e.payer === oldName) e.payer = cleanName;
+            });
+
+            saveState(); renderAll();
+        }
+
         function promptManageCategories() {
             const act = prompt("พิมพ์ 'เพิ่ม' เพื่อสร้างใหม่ หรือพิมพ์ชื่อหมวดหมู่เดิมเพื่อ 'ลบ'");
             if(!act) return;
@@ -1206,7 +1267,8 @@
             const mBadgeBox = document.getElementById('members-list-badges');
             mBadgeBox.innerHTML = state.members.map(m => `
                 <span class="bg-gray-900 text-white dark:bg-zinc-700 dark:text-zinc-200 font-semibold text-[10px] px-2 py-0.5 rounded-md inline-flex items-center gap-1 hover:bg-rose-500 transition-colors duration-200 border dark:border-zinc-600">
-                    ${m} <i onclick="removeMember('${m}')" class="fa-solid fa-circle-xmark text-gray-400 hover:text-white cursor-pointer text-[9px]"></i>
+                    <span onclick="editMemberName('${m}')" class="cursor-pointer hover:underline" title="คลิกเพื่อแก้ไขชื่อ">${m}</span> 
+                    <i onclick="removeMember('${m}')" class="fa-solid fa-circle-xmark text-gray-400 hover:text-white cursor-pointer text-[9px]" title="ลบออก"></i>
                 </span>
             `).join('');
             
