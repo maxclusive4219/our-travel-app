@@ -11,7 +11,7 @@
     
     <style>
         /* ==========================================================================
-           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ตามที่ตั้งค่าไว้[cite: 5]
+           FONTS SYSTEM: ฝังฟอนต์ Ekkamai Vibe ตามที่ตั้งค่าไว้
            ========================================================================== */
         @font-face {
             font-family: 'EkkamaiVibe';
@@ -30,7 +30,7 @@
             font-family: 'EkkamaiVibe', sans-serif !important;
         }
         
-        /* Advanced Web Animations System[cite: 5] */
+        /* Advanced Web Animations System */
         .view-panel {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
@@ -41,7 +41,7 @@
             transform: translateY(0) scale(1);
         }
         
-        /* Place Cards Animations & Custom Color Borders[cite: 5] */
+        /* Place Cards Animations & Custom Color Borders */
         .place-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             border-left-width: 5px !important; 
@@ -51,7 +51,7 @@
             box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
         }
 
-        /* Micro Interactive Click Feedback[cite: 5] */
+        /* Micro Interactive Click Feedback */
         .click-bounce {
             transition: transform 0.1s ease;
         }
@@ -59,7 +59,7 @@
             transform: scale(0.94);
         }
 
-        /* Checkbox dynamic pop[cite: 5] */
+        /* Checkbox dynamic pop */
         @keyframes popCheck {
             0% { transform: scale(0.8); }
             50% { transform: scale(1.2); }
@@ -70,44 +70,47 @@
         }
 
         /* ==========================================================================
-           DYNAMIC THEME ENGINE SYSTEM (แก้บั๊กการแสดงผลสีทับซ้อนและช่องติ๊กถูก)
+           DYNAMIC THEME ENGINE SYSTEM (แก้ไขจุดทับซ้อนและช่องติ๊กถูกให้คมชัดทุกสภาวะแสง)
            ========================================================================== */
         /* --- 1. THEME LIGHT --- */
         body.theme-light { background-color: #F3F4F6 !important; color: #1F2937 !important; }
+        body.theme-light .dashboard-bg-wrapper, body.theme-light .main-content-area { background-color: #F9FAFB !important; }
         body.theme-light .main-header, body.theme-light .card-bg, body.theme-light aside, body.theme-light .mobile-bar, body.theme-light .modal-bg-target { background-color: #FFFFFF !important; border-color: #E5E7EB !important; color: #1F2937 !important; }
         body.theme-light input, body.theme-light select, body.theme-light textarea { background-color: #FFFFFF !important; border-color: #D1D5DB !important; color: #1F2937 !important; }
         body.theme-light .group-wrapper-bg { background-color: rgba(243, 244, 246, 0.6) !important; border-color: rgba(229, 231, 235, 0.9) !important; }
-        body.theme-light .dashboard-bg-wrapper { background-color: #F9FAFB !important; }
         body.theme-light .inner-widget-bg { background-color: #F3F4F6 !important; border-color: #E5E7EB !important; color: #1F2937 !important; }
         body.theme-light .tab-pill-bg { background-color: #F3F4F6 !important; border-color: #E5E7EB !important; }
         body.theme-light .tab-btn-active { background-color: #FFFFFF !important; color: #111827 !important; }
-        body.theme-light .custom-check-bg { background-color: #FFFFFF !important; border-color: #D1D5DB !important; }
+        body.theme-light .custom-check-bg { background-color: #FFFFFF !important; border-color: #D1D5DB !important; color: #1F2937 !important; }
+        body.theme-light .custom-check-bg.checked-active { background-color: #10B981 !important; border-color: #10B981 !important; color: #FFFFFF !important; }
 
-        /* --- 2. THEME SLATE --- */
+        /* --- 2. THEME SLATE (เทาน้ำเงินเข้มหรู สบายตา) --- */
         body.theme-slate { background-color: #0F172A !important; color: #F1F5F9 !important; }
+        body.theme-slate .dashboard-bg-wrapper, body.theme-slate .main-content-area { background-color: #0F172A !important; }
         body.theme-slate .main-header, body.theme-slate .card-bg, body.theme-slate aside, body.theme-slate .mobile-bar, body.theme-slate .modal-bg-target { background-color: #1E293B !important; border-color: #334155 !important; color: #F1F5F9 !important; }
         body.theme-slate input, body.theme-slate select, body.theme-slate textarea { background-color: #0F172A !important; border-color: #475569 !important; color: #FFFFFF !important; }
         body.theme-slate h1, body.theme-slate h2, body.theme-slate h3, body.theme-slate h4, body.theme-slate span, body.theme-slate p, body.theme-slate label { color: #F1F5F9 !important; }
         body.theme-slate .group-wrapper-bg { background-color: #151F32 !important; border-color: #334155 !important; }
-        body.theme-slate .dashboard-bg-wrapper { background-color: #0F172A !important; }
         body.theme-slate .inner-widget-bg { background-color: #0F172A !important; border-color: #334155 !important; color: #F1F5F9 !important; }
         body.theme-slate .tab-pill-bg { background-color: #0F172A !important; border-color: #334155 !important; }
         body.theme-slate .tab-btn-active { background-color: #334155 !important; color: #FFFFFF !important; }
         body.theme-slate .text-gray-400, body.theme-slate .text-gray-500 { color: #94A3B8 !important; }
-        body.theme-slate .custom-check-bg { background-color: #0F172A !important; border-color: #475569 !important; }
+        body.theme-slate .custom-check-bg { background-color: #0F172A !important; border-color: #475569 !important; color: transparent; }
+        body.theme-slate .custom-check-bg.checked-active { background-color: #10B981 !important; border-color: #10B981 !important; color: #FFFFFF !important; }
 
-        /* --- 3. THEME DARK (มืดสนิท ครอบคลุมกรอบป้าย Plan A/B และช่องติ๊กถูก) --- */
+        /* --- 3. THEME DARK (มืดสนิท คุมขอบและองค์ประกอบหลังบ้านทั้งหมด) --- */
         body.theme-dark { background-color: #09090B !important; color: #FAFAFA !important; }
+        body.theme-dark .dashboard-bg-wrapper, body.theme-dark .main-content-area { background-color: #09090B !important; }
         body.theme-dark .main-header, body.theme-dark .card-bg, body.theme-dark aside, body.theme-dark .mobile-bar, body.theme-dark .modal-bg-target { background-color: #18181B !important; border-color: #27272A !important; color: #FAFAFA !important; }
         body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #09090B !important; border-color: #27272A !important; color: #FFFFFF !important; }
         body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, body.theme-dark h4, body.theme-dark span, body.theme-dark p, body.theme-dark label { color: #FAFAFA !important; }
         body.theme-dark .group-wrapper-bg { background-color: #111114 !important; border-color: #27272A !important; }
-        body.theme-dark .dashboard-bg-wrapper { background-color: #09090B !important; }
         body.theme-dark .inner-widget-bg { background-color: #09090B !important; border-color: #27272A !important; color: #FAFAFA !important; }
         body.theme-dark .tab-pill-bg { background-color: #09090B !important; border-color: #27272A !important; }
         body.theme-dark .tab-btn-active { background-color: #27272A !important; color: #FFFFFF !important; }
         body.theme-dark .text-gray-400, body.theme-dark .text-gray-500 { color: #A1A1AA !important; }
-        body.theme-dark .custom-check-bg { background-color: #09090B !important; border-color: #27272A !important; }
+        body.theme-dark .custom-check-bg { background-color: #09090B !important; border-color: #27272A !important; color: transparent; }
+        body.theme-dark .custom-check-bg.checked-active { background-color: #10B981 !important; border-color: #10B981 !important; color: #FFFFFF !important; }
 
         /* Scrollbar styling */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -233,7 +236,7 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 dashboard-bg-wrapper relative">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 main-content-area relative">
             
             <!-- VIEW 1: ITINERARY PLANNER[cite: 5] -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
@@ -387,7 +390,7 @@
                             <p class="text-[11px] text-gray-400">วางรหัสผ่านคลาวด์เว็บแอปส่วนตัวของคุณเพื่อใช้งานออนไลน์</p>
                         </div>
                     </div>
-                    <div class="border-t border-gray-100 pt-3 space-y-3">
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-3 space-y-3">
                         <input type="url" id="cloud-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs rounded-lg px-3 py-2.5 border">
                         <div class="flex gap-2">
                             <button onclick="saveCloudConfig()" class="bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer click-bounce">เปิดระบบโหมดออนไลน์</button>
@@ -530,15 +533,14 @@
             plans: ["Plan A", "Plan B"],
             currentPlan: "Plan A",
             tripData: { "Plan A": [], "Plan B": [] },
-            expenses: [] // ตระกูลโครงสร้างคลาวด์เวอร์ชัน 5
+            expenses: [] 
         };
 
         let modalMode = "add";
 
-        // อ่าน Cloud URL จาก input element เสมอ — single source of truth
         function getCloudUrl() {
             const el = document.getElementById('cloud-script-url');
-            return el ? el.value.trim() : '';
+            return el ? el.value.trim() : (localStorage.getItem('trip_cloud_url_v5') || '');
         }
 
         function updateBrowserUrl(url) {
@@ -555,7 +557,6 @@
             const localTheme = localStorage.getItem('trip_theme_v5') || "light";
             const localLang = localStorage.getItem('trip_lang_v5') || "th";
 
-            // โหลด state จาก localStorage ก่อนเสมอ
             const localSaved = localStorage.getItem('pick_pin_pack_state') || localStorage.getItem('trip_local_db_v5');
             if (localSaved) {
                 try {
@@ -568,10 +569,8 @@
                 state.categoriesMap = { "เดินทาง": "✈️ เดินทาง", "ที่พัก": "🏨 ที่พัก", "อาหาร": "🍽️ อาหาร", "ช้อปปิ้ง": "🛍️ ช้อปปิ้ง", "ท่องเที่ยว": "🎟️ ท่องเที่ยว" };
             }
 
-            // Apply theme
             changeTheme(state.currentTheme || localTheme);
 
-            // Restore cloud URL: ลำดับความสำคัญ — URL param > localStorage
             let savedUrl = "";
             const urlParams = new URLSearchParams(window.location.search);
             const dbParam = urlParams.get('db');
@@ -586,43 +585,31 @@
 
             renderAll();
 
-            // ถ้ามี cloud URL — ดึงข้อมูลล่าสุดจาก cloud
             if (savedUrl) {
                 updateSyncUI(true, "กำลังโหลด...", "กำลังดึงข้อมูลจาก Cloud");
                 pullFromCloud();
             }
         }
 
-
         function saveState() {
-            // 1. บันทึกลง localStorage ทันที
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
-
-            // 2. Auto-sync ขึ้น Cloud ถ้ามี URL (debounced 1.5 วินาที)
             if (getCloudUrl()) {
                 if (window.autoSyncTimer) clearTimeout(window.autoSyncTimer);
-                window.autoSyncTimer = setTimeout(() => {
-                    pushToCloud();
-                }, 1500);
+                window.autoSyncTimer = setTimeout(() => { pushToCloud(); }, 1500);
             }
         }
 
-        // ─── PUSH: ส่งข้อมูลขึ้น Google Sheet ─────────────────────────────────────
-        // Apps Script POST ต้องใช้ no-cors (ไม่งั้น browser block redirect)
-        // แต่ no-cors อ่าน response ไม่ได้ → เราใช้ GET ตามหลัง POST เพื่อ confirm
         async function pushToCloud() {
             const url = getCloudUrl();
             if (!url) return;
             setPushLoading(true);
             try {
-                // POST ด้วย no-cors — Apps Script รับได้ แต่เราไม่รู้ response
                 await fetch(url, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(state)
                 });
-                // POST สำเร็จ (no error thrown = ส่งถึงแล้ว)
                 updateSyncUI(true, 'Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
             } catch(e) {
                 console.error('pushToCloud error:', e);
@@ -632,19 +619,12 @@
             }
         }
 
-        // ─── PULL: ดึงข้อมูลจาก Google Sheet ─────────────────────────────────────
-        // Apps Script GET ต้องใช้ no-cors ด้วยเหมือนกัน แต่อ่าน response ไม่ได้
-        // วิธีแก้: ใช้ fetch ผ่าน JSONP หรือ redirect ไปยัง ?action=get
-        // → วิธีที่ง่ายที่สุดและเสถียรที่สุด: ใช้ script tag (JSONP-style) หรือ iframe
-        // → แต่ Apps Script รองรับ JSONP ผ่าน callback param ได้เลย
         async function pullFromCloud() {
             const url = getCloudUrl();
             if (!url) return;
             setPullLoading(true);
             updateSyncUI(true, 'กำลังโหลด...', 'กำลังดึงข้อมูลจาก Cloud');
             try {
-                // ใช้ JSONP technique: เพิ่ม script tag แทน fetch
-                // Apps Script จะ return: callback({...data...})
                 const data = await fetchViaJsonp(url);
                 if (data && data.tripData) {
                     const langCache = state.currentLang;
@@ -671,7 +651,6 @@
             }
         }
 
-        // ─── JSONP fetch helper ────────────────────────────────────────────────────
         function fetchViaJsonp(baseUrl) {
             return new Promise((resolve, reject) => {
                 const cbName = 'ppp_cb_' + Date.now();
@@ -681,64 +660,33 @@
                     reject(new Error('Timeout — ไม่ได้รับข้อมูลภายใน 10 วินาที'));
                 }, 10000);
 
-                window[cbName] = function(data) {
-                    cleanup();
-                    resolve(data);
-                };
-
-                function cleanup() {
-                    clearTimeout(timeout);
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-                }
-
-                script.onerror = function() {
-                    cleanup();
-                    reject(new Error('ไม่สามารถโหลดข้อมูลจาก Apps Script ได้'));
-                };
-
+                window[cbName] = function(data) { cleanup(); resolve(data); };
+                function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+                script.onerror = function() { cleanup(); reject(new Error('ไม่สามารถโหลดข้อมูลจาก Apps Script ได้')); };
                 script.src = baseUrl + '?callback=' + cbName + '&t=' + Date.now();
                 document.head.appendChild(script);
             });
         }
 
-        // ─── Loading indicators ────────────────────────────────────────────────────
         function setPushLoading(on) {
             const icon = document.getElementById('push-icon');
-            if (!icon) return;
-            icon.className = on
-                ? 'fa-solid fa-spinner animate-spin text-[10px]'
-                : 'fa-solid fa-cloud-arrow-up text-[10px]';
+            if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-cloud-arrow-up text-[10px]';
         }
         function setPullLoading(on) {
             const icon = document.getElementById('pull-icon');
-            if (!icon) return;
-            icon.className = on
-                ? 'fa-solid fa-spinner animate-spin text-[10px]'
-                : 'fa-solid fa-rotate text-[10px]';
+            if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-rotate text-[10px]';
         }
 
-        // ─── Manual buttons ────────────────────────────────────────────────────────
-        function triggerManualPush() {
-            if (getCloudUrl()) pushToCloud();
-            else alert('ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์');
-        }
-        function triggerManualPull() {
-            if (getCloudUrl()) pullFromCloud();
-            else alert('ยังไม่ได้เชื่อมต่อ Cloud กรุณาไปที่เมนู เชื่อมต่อคลาวด์');
-        }
-        // backward compat
+        function triggerManualPush() { if (getCloudUrl()) pushToCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
+        function triggerManualPull() { if (getCloudUrl()) pullFromCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
         function triggerManualSync() { triggerManualPush(); }
         function syncToCloud() { pushToCloud(); }
         function setSyncLoading(l) { setPushLoading(l); }
 
         function changeTheme(themeName) {
-            // Remove all theme classes from body
             document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark');
             document.body.classList.add('theme-' + themeName);
 
-            // FIX: sync Tailwind's `dark:` class system with our theme
-            // Tailwind v4 CDN reads `dark` class on <html> element
             if (themeName === 'dark' || themeName === 'slate') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -750,126 +698,13 @@
             renderAll();
         }
 
-        function toggleLanguage() {
-            state.currentLang = state.currentLang === "th" ? "en" : "th";
-            localStorage.setItem('trip_lang_v5', state.currentLang);
-            renderAll();
-        }
-
-        function applyLanguageStrings() {
-            const isEn = state.currentLang === "en";
-            document.getElementById('lang-btn-text').innerText = isEn ? "TH" : "EN";
-            document.querySelectorAll('[data-lang-th]').forEach(el => {
-                el.innerText = isEn ? el.getAttribute('data-lang-en') : el.getAttribute('data-lang-th');
-            });
-        }
-
-        function switchTab(tab) {
-            const panels = ['view-itinerary', 'view-expenses', 'view-cloud-config'];
-            panels.forEach(p => {
-                const el = document.getElementById(p);
-                el.classList.add('hidden');
-                el.classList.remove('active-view');
-            });
-
-            document.getElementById('m-btn-itinerary').className = "px-2.5 py-1 rounded-md text-gray-400 click-bounce";
-            document.getElementById('m-btn-expenses').className = "px-2.5 py-1 rounded-md text-gray-400 click-bounce";
-            document.getElementById('m-btn-cloud').className = "px-2.5 py-1 rounded-md text-gray-400 click-bounce";
-
-            let targetId = "view-itinerary";
-            if (tab === 'expenses') targetId = "view-expenses";
-            if (tab === 'cloud-config') targetId = "view-cloud-config";
-
-            const targetEl = document.getElementById(targetId);
-            targetEl.classList.remove('hidden');
-            setTimeout(() => { targetEl.classList.add('active-view'); }, 20);
-
-            const activeBtnClass = "px-2.5 py-1 rounded-md tab-btn-active shadow-3xs click-bounce";
-            if(tab === 'itinerary') document.getElementById('m-btn-itinerary').className = activeBtnClass;
-            if(tab === 'expenses') document.getElementById('m-btn-expenses').className = activeBtnClass;
-            if(tab === 'cloud-config') document.getElementById('m-btn-cloud').className = activeBtnClass;
-        }
-
-        function generateSmartImageUrl(placeTitle, googleMapLink) {
-            if (!googleMapLink || googleMapLink.trim() === "") {
-                return `https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&q=80`;
-            }
-            const cleanKeyword = encodeURIComponent(placeTitle.replace(/\s+/g, ','));
-            return `https://source.unsplash.com/featured/300x300/?${cleanKeyword},landscape,building`;
-        }
-
-        function handleModalCategoryFormToggle() {
-            const catValue = document.getElementById('p-category').value;
-            const transportWrapper = document.getElementById('modal-transport-type-wrapper');
-            const priorityWrapper = document.getElementById('modal-priority-wrapper');
-            const costWrapper = document.getElementById('modal-cost-wrapper');
-            const labelTitle = document.getElementById('label-p-title');
-
-            if (catValue === "เดินทาง") {
-                transportWrapper.classList.remove('hidden');
-                priorityWrapper.classList.add('hidden'); 
-                costWrapper.className = "col-span-2";
-                labelTitle.innerText = state.currentLang === "th" ? "ชื่อเส้นทางการเดินทาง / ยานพาหนะ" : "Route / Transportation Line";
-            } else {
-                transportWrapper.classList.add('hidden');
-                priorityWrapper.classList.remove('hidden');
-                costWrapper.className = "col-span-1";
-                labelTitle.innerText = state.currentLang === "th" ? "ชื่อสถานที่ / จุดหมาย" : "Destination Title";
-            }
-        }
-
-        function openLightbox(imgSrc, title) {
-            const lb = document.getElementById('lightbox-popup-window');
-            document.getElementById('lightbox-target-img').src = imgSrc;
-            document.getElementById('lightbox-target-title').innerText = title;
-            lb.classList.remove('hidden'); lb.classList.add('flex');
-            setTimeout(() => { lb.classList.remove('opacity-0'); }, 20);
-        }
-        function closeLightbox() {
-            const lb = document.getElementById('lightbox-popup-window');
-            lb.classList.add('opacity-0');
-            setTimeout(() => { lb.classList.add('hidden'); lb.classList.remove('flex'); }, 250);
-        }
-
-        function openCategoryManagerModal() {
-            const holder = document.getElementById('category-inputs-list-holder');
-            holder.innerHTML = '';
-            Object.keys(state.categoriesMap).forEach(key => {
-                const currentDisplayValue = state.categoriesMap[key];
-                holder.innerHTML += `
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-bold uppercase text-gray-400">หมวดหมู่คีย์: ${key}</label>
-                        <input type="text" id="cat-input-${key}" value="${currentDisplayValue}" class="w-full border rounded-lg px-3 py-1.5 focus:outline-hidden">
-                    </div>
-                `;
-            });
-            const m = document.getElementById('modal-category-manager');
-            m.classList.remove('hidden'); m.classList.add('flex');
-            setTimeout(() => { m.classList.remove('opacity-0'); m.querySelector('div').classList.remove('scale-95'); }, 20);
-        }
-
-        function closeCategoryManagerModal() {
-            const m = document.getElementById('modal-category-manager');
-            m.classList.add('opacity-0'); m.querySelector('div').classList.add('scale-95');
-            setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 250);
-        }
-
-        function submitCategoryIconsUpdate() {
-            Object.keys(state.categoriesMap).forEach(key => {
-                const val = document.getElementById(`cat-input-${key}`).value.trim();
-                if(val) state.categoriesMap[key] = val;
-            });
-            closeCategoryManagerModal(); saveState(); renderAll();
-        }
-
-        // ฟังก์ชันกำหนดสีการ์ดตามหมวดหมู่ (แก้บั๊กพื้นหลังป้าย Tag ทับซ้อนในโหมดมืดเรียบร้อย)
-        function getStyleByCat(cat) {
-            if(!cat) return { border: 'border-l-gray-400', badge: 'bg-gray-100 text-gray-600 dark:bg-zinc-800 dark:text-zinc-400' };
-            if (cat === 'เดินทาง') return { border: 'border-l-blue-500', badge: 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30' };
-            if (cat === 'ที่พัก') return { border: 'border-l-purple-500', badge: 'bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30' };
-            if (cat === 'อาหาร') return { border: 'border-l-amber-500', badge: 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30' };
-            if (cat === 'ช้อปปิ้ง') return { border: 'border-l-rose-500', badge: 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30' };
-            return { border: 'border-l-emerald-500', badge: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' };
+        function updateSyncUI(isCloud, title, desc) {
+            const dot = document.querySelector('#sync-indicator .rounded-full');
+            const t = document.getElementById('sync-status-title');
+            const d = document.getElementById('sync-status-desc');
+            if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
+            if (t) t.innerText = title;
+            if (d) d.innerText = desc;
         }
 
         function promptAddNewGroup() {
@@ -1006,12 +841,15 @@
 
                     const displayCategoryLabelName = state.categoriesMap[item.category] || item.category;
 
+                    // FIX: แก้ไขปุ่มติ๊กถูกการ์ดให้เห็นสัญลักษณ์ไอคอนหัวใจเด่นชัดในทุกโหมดธีมสี (checked-active)
+                    const isChecked = item.visited ? 'checked-active' : '';
+                    const checkIcon = item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : '';
+
                     card.innerHTML = `
                         <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
                             <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                                <!-- แก้บั๊กสีพื้นหลังช่องสี่เหลี่ยมติ๊กถูกในโหมดมืดเรียบร้อย (custom-check-bg) -->
-                                <button onclick="toggleVisited(${item.id}, this)" class="w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${item.visited ? 'bg-emerald-500 border-emerald-500 text-white check-pop-active' : ''}">
-                                    ${item.visited ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
+                                <button onclick="toggleVisited(${item.id}, this)" class="custom-check-bg ${isChecked} w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all">
+                                    ${checkIcon}
                                 </button>
                                 
                                 <img onclick="openLightbox('${finalImg}', '${item.title}')" class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 cursor-zoom-in transition-transform duration-300 hover:scale-105" src="${finalImg}" alt="Place">
@@ -1103,7 +941,6 @@
             }
         }
 
-        // ฟังก์ชันสั่ง "ติ๊กถูกเคลียร์บิล/จ่ายเงินครบแล้ว" ของระบบบัญชีกองกลางตามสั่ง
         function toggleExpenseSettled(index, btnEl) {
             if(state.expenses[index]) {
                 state.expenses[index].settled = !state.expenses[index].settled;
@@ -1167,34 +1004,6 @@
             if (state.plans.includes(n.trim())) return;
             state.plans.push(n.trim()); state.tripData[n.trim()] = []; state.currentPlan = n.trim(); saveState(); renderAll();
         }
-        function updateSyncUI(isCloud, title, desc) {
-            const dot = document.querySelector('#sync-indicator .rounded-full');
-            const t = document.getElementById('sync-status-title');
-            const d = document.getElementById('sync-status-desc');
-            if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
-            if (t) t.innerText = title;
-            if (d) d.innerText = desc;
-        }
-        function setSyncLoading(l) {
-            const icon = document.getElementById('sync-icon');
-            if (icon) { if (l) icon.classList.add('animate-spin'); else icon.classList.remove('animate-spin'); }
-        }
-        function saveCloudConfig() {
-            const u = document.getElementById('cloud-script-url').value.trim();
-            if (!u) return alert("กรุณาระบุ Apps Script URL ก่อน");
-            localStorage.setItem('trip_cloud_url_v5', u);
-            updateBrowserUrl(u);
-            updateSyncUI(true, "กำลังเชื่อมต่อ...", "กำลัง push ข้อมูลขึ้น Cloud");
-            pushToCloud().then(() => pullFromCloud());
-        }
-        function disconnectCloud() {
-            const urlInput = document.getElementById('cloud-script-url');
-            if (urlInput) urlInput.value = '';
-            localStorage.removeItem('trip_cloud_url_v5');
-            const cUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.pushState({path: cUrl}, '', cUrl);
-            updateSyncUI(false, "Local Storage", "ระบบเซฟข้อมูลชั่วคราว");
-        }
         
         function updateSelectDropdowns() {
             const pCat = document.getElementById('p-category'); const eCat = document.getElementById('expense-category');
@@ -1225,7 +1034,6 @@
             legendBox.innerHTML = html;
         }
 
-        // RENDER VISUAL BUDGET DASHBOARD (ฟังก์ชันประมวลผลวาดแท่งกราฟสรุปเงิน)
         function renderFinancialDashboardProgressCharts() {
             const chartsRoot = document.getElementById('category-budget-charts-root');
             if(!chartsRoot) return;
@@ -1238,7 +1046,6 @@
                 const catExpenses = state.expenses.filter(e => e.category === key);
                 const catSum = catExpenses.reduce((sum, e) => sum + e.amount, 0);
                 
-                // คำนวณหาอัตราเปอร์เซ็นต์สัดส่วนความหนาของกราฟ
                 const pct = totalSpent > 0 ? Math.round((catSum / totalSpent) * 100) : 0;
                 const barColor = colorMap[key] || "bg-zinc-500";
                 const displayLabel = state.categoriesMap[key];
@@ -1326,6 +1133,7 @@
             closeModal(); saveState(); renderAll();
         }
 
+        // FIX LOGIC: ปรับสูตรคำนวณเงินหนี้สินรายบุคคล โดยข้ามบิลที่กดเคลียร์ (Settle) ไปแล้วอัตโนมัติ
         function renderExpenses() {
             const totalSpent = state.expenses.reduce((s, i) => s + i.amount, 0);
             document.getElementById('exp-total-spent').innerText = `฿${totalSpent.toLocaleString()}`;
@@ -1333,6 +1141,8 @@
 
             let ledger = {}; state.members.forEach(m => { ledger[m] = 0; });
             state.expenses.forEach(e => {
+                if(e.settled === true) return; // หากบิลใด ติ๊กถูกปิดบัญชีไปแล้ว ให้ข้าม (Skip) ไม่นำมาคำนวณสร้างหนี้ค้างคาเพิ่ม
+                
                 const payer = e.payer; const amt = e.amount;
                 const validPayer = state.members.includes(payer) ? payer : state.members[0];
                 if(e.split === 'split') {
@@ -1368,14 +1178,14 @@
                 let linkedLabelHtml = e.linkedPlaceId ? `<span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-500 px-1 py-0.2 rounded"><i class="fa-solid fa-paperclip"></i> Linked</span>` : "";
                 
                 const displayCategoryLabelName = state.categoriesMap[e.category] || e.category;
-                
-                // โครงสร้างประวัติธุรกรรม (เพิ่มกล่อง Checkbox สำหรับติ๊กจ่าย/เคลียร์บิลแล้วถาวรตามสั่ง)
+                const checkedActive = e.settled ? 'checked-active' : '';
+                const checkIcon = e.settled ? '<i class="fa-solid fa-check text-[8px] text-white"></i>' : '';
+
                 log.className = `flex items-center justify-between p-2.5 rounded-lg inner-widget-bg border text-xs shadow-3xs transition-all duration-300 ${e.settled ? 'opacity-40 scale-[0.98]' : ''}`;
                 log.innerHTML = `
                     <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                        <!-- ปุ่มติ๊กจ่าย/เคลียร์หนี้สินกองกลางแล้วตามสั่ง (Settle Checkbox) -->
-                        <button onclick="toggleExpenseSettled(${idx}, this)" class="w-4.5 h-4.5 rounded border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${e.settled ? 'bg-emerald-500 border-emerald-500 text-white' : ''}">
-                            ${e.settled ? '<i class="fa-solid fa-check text-[8px]"></i>' : ''}
+                        <button onclick="toggleExpenseSettled(${idx}, this)" class="w-4.5 h-4.5 rounded border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all custom-check-bg ${checkedActive}">
+                            ${checkIcon}
                         </button>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-1.5 flex-wrap">
@@ -1409,13 +1219,13 @@
                 const matchedPlace = currentPlaces.find(p => p.id === parseInt(linkedPlaceId));
                 if(matchedPlace) matchedPlace.cost = amount;
             }
-            // เพิ่มสถานะเริ่มต้นของบิลว่า settled: false (ยังไม่ได้เคลียร์กัน)
             state.expenses.unshift({ title, category, amount, payer, split, settled: false, linkedPlaceId: linkedPlaceId ? parseInt(linkedPlaceId) : null });
             saveState(); renderAll();
             document.getElementById('expense-title').value = ''; document.getElementById('expense-amount').value = '';
         }
         function deleteExpense(idx) { state.expenses.splice(idx, 1); saveState(); renderAll(); }
 
+        document.getElementById('p-category').addEventListener('change', handleModalCategoryFormToggle);
         window.onload = init;
     </script>
 </body>
