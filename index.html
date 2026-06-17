@@ -700,7 +700,7 @@
                 }, 15000);
             }
         }
-        
+
         async function pullFromCloudSilent() {
             const url = getCloudUrl();
             if (!url) return;
@@ -1381,6 +1381,14 @@
             }
             renderAll();
         }
+        
+        function disconnectCloud() {
+            localStorage.removeItem('trip_cloud_url_v5');
+            alert("ยกเลิกการเชื่อมต่อคลาวด์แล้ว ระบบจะสลับกลับไปใช้ข้อมูลในเครื่อง (Local Storage)");
+            updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า");
+            renderAll();
+        }
+
     </script>
 </body>
 </html>
