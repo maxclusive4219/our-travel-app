@@ -93,9 +93,9 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         body.theme-dark ::-webkit-scrollbar-thumb, body.theme-slate ::-webkit-scrollbar-thumb { background: #3F3F46; }
 
-        /* FONT SIZE SCALING - responsive: desktop inherits 18px, mobile gets 16px base */
+        /* FONT SIZE SCALING - responsive: desktop 18px base, phone gets 16px */
         html { font-size: 18px; }
-        @media (max-width: 767px) {
+        @media (max-width: 639px) {
             html { font-size: 16px; }
             [class*="text-[9px]"] { font-size: 11px !important; }
             [class*="text-[10px]"] { font-size: 12px !important; }
@@ -104,7 +104,7 @@
             .text-sm { font-size: 15px !important; }
             .text-base { font-size: 16px !important; }
         }
-        @media (min-width: 768px) {
+        @media (min-width: 640px) {
             [class*="text-[9px]"] { font-size: 11px !important; }
             [class*="text-[10px]"] { font-size: 12.5px !important; }
             [class*="text-[11px]"] { font-size: 13.5px !important; }
@@ -118,7 +118,7 @@
         /* Safe area for iPhone notch/home bar */
         body { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-        /* Mobile bottom nav bar */
+        /* Mobile bottom nav bar — show only on phones (<1024px) */
         #mobile-bottom-nav {
             position: fixed;
             bottom: 0;
@@ -128,7 +128,8 @@
             border-top-width: 1px;
             display: none;
         }
-        @media (max-width: 767px) {
+        /* Only phones get bottom nav — tablet (768px+) and desktop get sidebar */
+        @media (max-width: 639px) {
             #mobile-bottom-nav { display: flex; }
             .mobile-main-content { padding-bottom: 72px; }
         }
@@ -147,10 +148,12 @@
             border: 1px solid;
             transition: all 0.4s ease;
         }
-        #mobile-sync-pill.synced { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #059669; }
-        #mobile-sync-pill.pending { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #d97706; }
-        #mobile-sync-pill.error { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #dc2626; }
-        #mobile-sync-pill.loading { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.3); color: #6366f1; }
+        #mobile-sync-pill.synced { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #059669; }
+        #mobile-sync-pill.pending { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.35); color: #d97706; }
+        #mobile-sync-pill.error   { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.35);  color: #dc2626; }
+        #mobile-sync-pill.loading { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.35); color: #6366f1; }
+        body.theme-dark #mobile-sync-pill.synced, body.theme-slate #mobile-sync-pill.synced { color: #34d399; }
+        body.theme-dark #mobile-sync-pill.pending, body.theme-slate #mobile-sync-pill.pending { color: #fbbf24; }
 
         /* Mobile header - compact single row */
         .mobile-header-compact {
@@ -171,9 +174,39 @@
         }
 
         /* Mobile: make cards more touch-friendly */
-        @media (max-width: 767px) {
+        @media (max-width: 639px) {
             .place-card { padding: 12px !important; }
             .place-card:active { transform: scale(0.985); }
+        }
+
+        /* ===== MOBILE CARD STACK LAYOUT (phone only) =====
+           On narrow phones: card becomes vertical stack
+           info row on top, action buttons below as a horizontal strip */
+        @media (max-width: 639px) {
+            .card-info-row {
+                flex-direction: column;
+                align-items: stretch !important;
+                gap: 8px !important;
+            }
+            .card-actions-bar {
+                display: flex !important;
+                width: 100%;
+                justify-content: flex-end;
+                gap: 2px;
+                border-top: 1px solid rgba(0,0,0,0.06);
+                padding-top: 6px;
+                margin-top: 2px;
+            }
+            /* Make action buttons bigger touch targets on mobile */
+            .card-actions-bar button {
+                padding: 6px 8px !important;
+                font-size: 13px !important;
+            }
+        }
+        /* On tablet+: card stays horizontal, action bar is inline (original) */
+        @media (min-width: 640px) {
+            .card-info-row { flex-direction: row; align-items: center; }
+            .card-actions-bar { display: flex; }
         }
 
         /* Sync pending toast */
@@ -184,7 +217,7 @@
             white-space: nowrap;
         }
         #sync-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        @media (min-width: 768px) {
+        @media (min-width: 640px) {
             #sync-toast { bottom: 24px; }
         }
 
@@ -206,10 +239,10 @@
         body.theme-slate .bg-zinc-100, body.theme-dark .bg-zinc-100 { background-color: #27272A !important; color: #A1A1AA !important; }
     </style>
 </head>
-<body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
+<body class="theme-light text-gray-800 antialiased h-screen flex flex-col sm:flex-row overflow-hidden">
 
-    <!-- MOBILE TOP BAR — compact, single row, shows sync status -->
-    <div class="md:hidden mobile-bar border-b shrink-0 z-10 shadow-sm mobile-header-compact">
+    <!-- MOBILE TOP BAR — phones only (<640px), tablets get desktop sidebar -->
+    <div class="sm:hidden mobile-bar border-b shrink-0 z-10 shadow-sm mobile-header-compact">
         <div class="flex items-center gap-2 min-w-0">
             <div class="w-7 h-7 bg-rose-500 rounded-lg flex items-center justify-center text-white shrink-0" style="font-size:13px;">
                 <i class="fa-solid fa-location-dot"></i>
@@ -229,8 +262,8 @@
         </div>
     </div>
 
-    <!-- DESKTOP SIDEBAR -->
-    <aside class="hidden md:flex w-64 border-r flex-col justify-between p-6 shrink-0 h-full z-10 shadow-2xs">
+    <!-- DESKTOP/TABLET SIDEBAR — shown on sm+ (640px+), phones get bottom nav -->
+    <aside class="hidden sm:flex w-56 md:w-64 border-r flex-col justify-between p-4 md:p-6 shrink-0 h-full z-10 shadow-2xs">
         <div>
             <div class="flex items-center gap-3 px-2 mb-8">
                 <div class="w-9 h-9 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-md">
@@ -282,14 +315,14 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden dashboard-bg-wrapper">
         
-        <header class="main-header border-b px-4 md:px-8 py-3 md:py-0 md:h-16 flex flex-col gap-2 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
-            <div class="flex items-center justify-between md:justify-start gap-3">
+        <header class="main-header border-b px-4 sm:px-6 md:px-8 py-3 sm:py-0 sm:h-16 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between shrink-0 shadow-3xs z-5">
+            <div class="flex items-center justify-between sm:justify-start gap-3">
                 <div class="flex flex-col justify-center min-w-0">
                     <div class="flex items-center gap-1.5">
-                        <h1 class="text-sm md:text-lg font-bold max-w-[160px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
+                        <h1 class="text-sm sm:text-lg font-bold max-w-[160px] sm:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
                         <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce shrink-0"><i class="fa-solid fa-pen text-[10px]"></i></button>
                     </div>
-                    <p class="text-[10px] text-gray-400 hidden md:block">Pick Your Stops, Pin Your Route, Pack Within Budget.</p>
+                    <p class="text-[10px] text-gray-400 hidden sm:block">Pick Your Stops, Pin Your Route, Pack Within Budget.</p>
                 </div>
                 
                 <div class="tab-pill-bg p-0.5 rounded-xl flex border items-center">
@@ -300,8 +333,8 @@
                 </div>
             </div>
 
-            <!-- Desktop-only: members + budget + sync -->
-            <div class="hidden md:flex items-center justify-end gap-3">
+            <!-- Desktop/tablet only: members + budget + sync -->
+            <div class="hidden sm:flex items-center justify-end gap-3">
                 <div class="flex items-center gap-1.5 inner-widget-bg px-2 py-1 rounded-xl border">
                     <span class="text-[10px] font-bold text-gray-400 block uppercase">Members:</span>
                     <div id="members-list-badges" class="flex gap-1 flex-wrap"></div>
@@ -313,7 +346,7 @@
                     </button>
                     <div class="text-right">
                         <p class="text-[9px] text-gray-400 font-bold leading-none uppercase">Est. Budget</p>
-                        <p class="text-xs md:text-sm font-bold" id="header-total-budget">฿0</p>
+                        <p class="text-xs sm:text-sm font-bold" id="header-total-budget">฿0</p>
                     </div>
                     <div class="flex items-center gap-1.5">
                         <button onclick="triggerManualPush()" title="Sync ข้อมูลขึ้น Cloud" class="bg-gray-900 dark:bg-zinc-700 hover:bg-emerald-600 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-xl flex items-center gap-1 cursor-pointer click-bounce">
@@ -326,9 +359,9 @@
                 </div>
             </div>
 
-            <!-- Mobile-only: budget summary strip -->
-            <div class="flex md:hidden items-center justify-between gap-2 border-t pt-2" style="border-color:rgba(0,0,0,0.07);">
-                <div class="flex items-center gap-1.5 inner-widget-bg px-2 py-1 rounded-xl border overflow-x-auto max-w-[60vw]" style="scrollbar-width:none;">
+            <!-- Phone-only: budget + members compact strip -->
+            <div class="flex sm:hidden items-center justify-between gap-2 border-t pt-2" style="border-color:rgba(0,0,0,0.07);">
+                <div class="flex items-center gap-1.5 inner-widget-bg px-2 py-1 rounded-xl border overflow-x-auto max-w-[58vw]" style="scrollbar-width:none;">
                     <span class="text-[10px] font-bold text-gray-400 shrink-0">Members:</span>
                     <div id="members-list-badges-mobile" class="flex gap-1 flex-nowrap"></div>
                     <button onclick="promptAddMember()" class="w-5 h-5 bg-gray-900 text-white rounded-md text-[10px] flex items-center justify-center hover:bg-rose-500 cursor-pointer click-bounce border shrink-0"><i class="fa-solid fa-plus"></i></button>
@@ -1097,7 +1130,7 @@
                         : `฿${actualCost.toLocaleString()}`;
 
                     card.innerHTML = `
-                        <div class="flex items-center justify-between gap-2.5 min-w-0 w-full">
+                        <div class="card-info-row flex items-center justify-between gap-2.5 min-w-0 w-full">
                             <div class="flex items-center gap-2.5 min-w-0 flex-1">
                                 <button onclick="toggleVisited(${item.id}, this)" class="custom-check-bg ${isChecked} w-5 h-5 rounded-md border flex items-center justify-center shrink-0 cursor-pointer click-bounce transition-all">
                                     ${checkIcon}
@@ -1105,18 +1138,18 @@
                                 <img onclick="openLightbox('${finalImg}', '${item.title}')" class="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100 dark:bg-zinc-800 cursor-zoom-in transition-transform duration-300 hover:scale-105" src="${finalImg}" alt="Place">
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-1.5 flex-wrap">
-                                        <h4 class="font-bold text-xs truncate ${isBypassed ? 'line-through text-gray-400' : ''}">${item.title}</h4>
-                                        <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${themeColor.badge}">${displayCategoryLabelName}</span>
+                                        <h4 class="font-bold text-xs truncate ${isBypassed ? 'line-through text-gray-400' : ''}" style="max-width:100%;">${item.title}</h4>
+                                        <span class="text-[9px] px-1.5 py-0.2 font-bold rounded ${themeColor.badge} shrink-0">${displayCategoryLabelName}</span>
                                         ${bypassBadgeHtml} ${innerBadgeHtml} ${starRatingHtml} ${groupSelectorDropdownHtml}
                                     </div>
-                                    <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium">
+                                    <div class="flex items-center gap-3 mt-0.5 text-[10px] text-gray-400 font-medium flex-wrap">
                                         <span class="text-amber-500 font-bold ${isBypassed ? 'line-through opacity-70' : ''}">${costDisplay}</span>
                                         ${mapBtnHtml} ${webBtnHtml}
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="flex items-center gap-0.5 shrink-0 inner-widget-bg rounded-lg p-0.5 border">
+                            <div class="card-actions-bar flex items-center gap-0.5 shrink-0 inner-widget-bg rounded-lg p-0.5 border">
                                 <button onclick="moveCardOrder(${item.id}, 'up')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-chevron-up"></i></button>
                                 <button onclick="moveCardOrder(${item.id}, 'down')" class="text-gray-400 hover:text-indigo-500 px-1 py-0.5 text-[10px] cursor-pointer click-bounce"><i class="fa-solid fa-chevron-down"></i></button>
                                 <div class="w-[1px] h-3 bg-gray-200 dark:bg-zinc-700 mx-0.5"></div>
