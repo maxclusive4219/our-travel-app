@@ -2,7 +2,9 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Pick Pin Pack // Pick Your Stops, Pin Your Route, Pack Within Budget.</title>
     <!-- Tailwind CSS v4 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -91,14 +93,100 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         body.theme-dark ::-webkit-scrollbar-thumb, body.theme-slate ::-webkit-scrollbar-thumb { background: #3F3F46; }
 
-        /* FONT SIZE SCALING */
-        html { font-size: 18px; } 
-        [class*="text-[9px]"] { font-size: 11px !important; }
-        [class*="text-[10px]"] { font-size: 12.5px !important; }
-        [class*="text-[11px]"] { font-size: 13.5px !important; }
-        .text-xs { font-size: 14.5px !important; }
-        .text-sm { font-size: 16px !important; }
-        .text-base { font-size: 18px !important; }
+        /* FONT SIZE SCALING - responsive: desktop inherits 18px, mobile gets 16px base */
+        html { font-size: 18px; }
+        @media (max-width: 767px) {
+            html { font-size: 16px; }
+            [class*="text-[9px]"] { font-size: 11px !important; }
+            [class*="text-[10px]"] { font-size: 12px !important; }
+            [class*="text-[11px]"] { font-size: 13px !important; }
+            .text-xs { font-size: 13px !important; }
+            .text-sm { font-size: 15px !important; }
+            .text-base { font-size: 16px !important; }
+        }
+        @media (min-width: 768px) {
+            [class*="text-[9px]"] { font-size: 11px !important; }
+            [class*="text-[10px]"] { font-size: 12.5px !important; }
+            [class*="text-[11px]"] { font-size: 13.5px !important; }
+            .text-xs { font-size: 14.5px !important; }
+            .text-sm { font-size: 16px !important; }
+            .text-base { font-size: 18px !important; }
+        }
+
+        /* ===== MOBILE LAYOUT IMPROVEMENTS ===== */
+
+        /* Safe area for iPhone notch/home bar */
+        body { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+        /* Mobile bottom nav bar */
+        #mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0; right: 0;
+            z-index: 50;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            border-top-width: 1px;
+            display: none;
+        }
+        @media (max-width: 767px) {
+            #mobile-bottom-nav { display: flex; }
+            .mobile-main-content { padding-bottom: 72px; }
+        }
+
+        /* Mobile nav button active state */
+        .mobile-nav-btn { transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .mobile-nav-btn.active-mobile-tab .mobile-nav-icon { transform: translateY(-2px) scale(1.15); }
+        .mobile-nav-btn.active-mobile-tab .mobile-nav-label { color: #f43f5e; font-weight: 700; }
+        .mobile-nav-btn.active-mobile-tab .mobile-nav-icon-wrap { background-color: rgba(244, 63, 94, 0.12); }
+
+        /* Sync status pill — mobile top bar */
+        #mobile-sync-pill {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 11px; font-weight: 600;
+            padding: 3px 8px; border-radius: 20px;
+            border: 1px solid;
+            transition: all 0.4s ease;
+        }
+        #mobile-sync-pill.synced { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #059669; }
+        #mobile-sync-pill.pending { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #d97706; }
+        #mobile-sync-pill.error { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #dc2626; }
+        #mobile-sync-pill.loading { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.3); color: #6366f1; }
+
+        /* Mobile header - compact single row */
+        .mobile-header-compact {
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        /* Slide-up animation for plan switch / tab switch */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .view-panel.active-view {
+            animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Mobile: make cards more touch-friendly */
+        @media (max-width: 767px) {
+            .place-card { padding: 12px !important; }
+            .place-card:active { transform: scale(0.985); }
+        }
+
+        /* Sync pending toast */
+        #sync-toast {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(10px);
+            z-index: 100; pointer-events: none; opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+        #sync-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        @media (min-width: 768px) {
+            #sync-toast { bottom: 24px; }
+        }
 
         /* DARK THEME FIXES */
         body.theme-slate [class*="bg-blue-100"], body.theme-dark [class*="bg-blue-100"] { background-color: rgba(59, 130, 246, 0.15) !important; color: #93C5FD !important; }
@@ -120,21 +208,24 @@
 </head>
 <body class="theme-light text-gray-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- MOBILE TOP BAR -->
-    <div class="md:hidden mobile-bar border-b px-4 py-3 flex items-center justify-between shrink-0 z-10 shadow-2xs">
-        <div class="flex flex-col">
-            <div class="flex items-center gap-2">
-                <div class="w-6 h-6 bg-rose-500 rounded-lg flex items-center justify-center text-white text-xs">
-                    <i class="fa-solid fa-location-dot"></i>
-                </div>
-                <span class="font-bold text-sm tracking-tight" id="mobile-app-title">Pick Pin Pack</span>
+    <!-- MOBILE TOP BAR — compact, single row, shows sync status -->
+    <div class="md:hidden mobile-bar border-b shrink-0 z-10 shadow-sm mobile-header-compact">
+        <div class="flex items-center gap-2 min-w-0">
+            <div class="w-7 h-7 bg-rose-500 rounded-lg flex items-center justify-center text-white shrink-0" style="font-size:13px;">
+                <i class="fa-solid fa-location-dot"></i>
             </div>
-            <p class="text-[9px] text-gray-400 mt-0.5 leading-none">Pick Your Stops, Pin Your Route, Pack Within Budget.</p>
+            <div class="min-w-0">
+                <span class="font-bold tracking-tight block truncate max-w-[130px]" style="font-size:15px;" id="mobile-trip-title-display">Pick Pin Pack</span>
+            </div>
         </div>
-        <div class="flex tab-pill-bg p-0.5 rounded-lg text-xs font-semibold shrink-0 border">
-            <button onclick="switchTab('itinerary')" id="m-btn-itinerary" class="px-2.5 py-1 rounded-md tab-btn-active text-gray-900 shadow-3xs click-bounce">ทริป</button>
-            <button onclick="switchTab('expenses')" id="m-btn-expenses" class="px-2.5 py-1 rounded-md text-gray-400 click-bounce">เงิน</button>
-            <button onclick="switchTab('cloud-config')" id="m-btn-cloud" class="px-2.5 py-1 rounded-md text-gray-400 click-bounce"><i class="fa-solid fa-cloud"></i></button>
+        <div class="flex items-center gap-2 shrink-0">
+            <div id="mobile-sync-pill" class="pending">
+                <span id="mobile-sync-dot" style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0;"></span>
+                <span id="mobile-sync-text">Local</span>
+            </div>
+            <button onclick="triggerManualPush()" id="mobile-push-btn" title="Sync" class="w-8 h-8 rounded-xl bg-gray-900 text-white flex items-center justify-center click-bounce" style="font-size:13px;">
+                <i class="fa-solid fa-cloud-arrow-up" id="mobile-push-icon"></i>
+            </button>
         </div>
     </div>
 
@@ -191,12 +282,12 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="flex-1 flex flex-col min-w-0 h-full overflow-hidden dashboard-bg-wrapper">
         
-        <header class="main-header border-b p-4 md:px-8 md:py-0 md:h-16 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
-            <div class="flex flex-wrap items-center justify-between md:justify-start gap-4">
-                <div class="flex flex-col justify-center">
+        <header class="main-header border-b px-4 md:px-8 py-3 md:py-0 md:h-16 flex flex-col gap-2 md:flex-row md:items-center md:justify-between shrink-0 shadow-3xs z-5">
+            <div class="flex items-center justify-between md:justify-start gap-3">
+                <div class="flex flex-col justify-center min-w-0">
                     <div class="flex items-center gap-1.5">
-                        <h1 class="text-base md:text-lg font-bold max-w-[140px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
-                        <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                        <h1 class="text-sm md:text-lg font-bold max-w-[160px] md:max-w-none truncate" id="main-trip-title">Our Dream Trip</h1>
+                        <button onclick="editTripTitle()" class="text-gray-400 hover:text-rose-500 p-1 cursor-pointer click-bounce shrink-0"><i class="fa-solid fa-pen text-[10px]"></i></button>
                     </div>
                     <p class="text-[10px] text-gray-400 hidden md:block">Pick Your Stops, Pin Your Route, Pack Within Budget.</p>
                 </div>
@@ -209,7 +300,8 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between md:justify-end gap-3 border-t border-gray-100 pt-2.5 md:pt-0 md:border-0">
+            <!-- Desktop-only: members + budget + sync -->
+            <div class="hidden md:flex items-center justify-end gap-3">
                 <div class="flex items-center gap-1.5 inner-widget-bg px-2 py-1 rounded-xl border">
                     <span class="text-[10px] font-bold text-gray-400 block uppercase">Members:</span>
                     <div id="members-list-badges" class="flex gap-1 flex-wrap"></div>
@@ -233,9 +325,27 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile-only: budget summary strip -->
+            <div class="flex md:hidden items-center justify-between gap-2 border-t pt-2" style="border-color:rgba(0,0,0,0.07);">
+                <div class="flex items-center gap-1.5 inner-widget-bg px-2 py-1 rounded-xl border overflow-x-auto max-w-[60vw]" style="scrollbar-width:none;">
+                    <span class="text-[10px] font-bold text-gray-400 shrink-0">Members:</span>
+                    <div id="members-list-badges-mobile" class="flex gap-1 flex-nowrap"></div>
+                    <button onclick="promptAddMember()" class="w-5 h-5 bg-gray-900 text-white rounded-md text-[10px] flex items-center justify-center hover:bg-rose-500 cursor-pointer click-bounce border shrink-0"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="toggleLanguage()" class="inner-widget-bg hover:bg-rose-500 hover:text-white px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer border click-bounce">
+                        <i class="fa-solid fa-language"></i> <span id="lang-btn-text-mobile">TH</span>
+                    </button>
+                    <div class="text-right">
+                        <p class="text-[9px] text-gray-400 font-bold leading-none uppercase">Budget</p>
+                        <p class="font-bold" style="font-size:13px;" id="header-total-budget-mobile">฿0</p>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 main-content-area relative">
+        <div class="flex-1 overflow-y-auto p-4 md:p-6 main-content-area mobile-main-content relative">
             
             <!-- VIEW 1: ITINERARY PLANNER -->
             <div id="view-itinerary" class="view-panel active-view space-y-4 md:space-y-6">
@@ -533,6 +643,34 @@
         </div>
     </div>
 
+    <!-- MOBILE BOTTOM NAV BAR -->
+    <nav id="mobile-bottom-nav" class="mobile-bar border-t items-center justify-around px-2 py-2">
+        <button onclick="switchTab('itinerary')" id="m-btn-itinerary" class="mobile-nav-btn active-mobile-tab flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl min-w-[64px]">
+            <div class="mobile-nav-icon-wrap w-9 h-7 rounded-xl flex items-center justify-center transition-all duration-200">
+                <i class="mobile-nav-icon fa-solid fa-route transition-all duration-200" style="font-size:16px;color:#f43f5e;"></i>
+            </div>
+            <span class="mobile-nav-label" style="font-size:10px;color:#f43f5e;">ทริป</span>
+        </button>
+        <button onclick="switchTab('expenses')" id="m-btn-expenses" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl min-w-[64px]">
+            <div class="mobile-nav-icon-wrap w-9 h-7 rounded-xl flex items-center justify-center transition-all duration-200">
+                <i class="mobile-nav-icon fa-solid fa-wallet transition-all duration-200" style="font-size:16px;color:#9ca3af;"></i>
+            </div>
+            <span class="mobile-nav-label text-gray-400" style="font-size:10px;">เงิน</span>
+        </button>
+        <button onclick="switchTab('cloud-config')" id="m-btn-cloud" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl min-w-[64px]">
+            <div class="mobile-nav-icon-wrap w-9 h-7 rounded-xl flex items-center justify-center transition-all duration-200">
+                <i class="mobile-nav-icon fa-solid fa-cloud transition-all duration-200" style="font-size:16px;color:#9ca3af;"></i>
+            </div>
+            <span class="mobile-nav-label text-gray-400" style="font-size:10px;">Cloud</span>
+        </button>
+    </nav>
+
+    <!-- SYNC TOAST NOTIFICATION -->
+    <div id="sync-toast" class="mobile-bar border rounded-2xl px-4 py-2 shadow-lg" style="font-size:12px;font-weight:600;">
+        <i class="fa-solid fa-cloud-arrow-up mr-1.5" style="color:#10b981;"></i>
+        <span id="sync-toast-text">บันทึกแล้ว ✓</span>
+    </div>
+
     <!-- MAIN CORE LOGIC ENGINE -->
     <script>
         let state = {
@@ -560,15 +698,33 @@
             document.querySelectorAll('.view-panel').forEach(el => { el.classList.remove('active-view'); el.classList.add('hidden'); });
             const targetView = document.getElementById('view-' + tabId);
             if(targetView) { targetView.classList.remove('hidden'); setTimeout(() => targetView.classList.add('active-view'), 10); }
+            
+            // Desktop sidebar active state
             document.querySelectorAll('.tab-btn-active, .sidebar-link.active').forEach(btn => {
                 btn.classList.remove('tab-btn-active', 'text-gray-900', 'shadow-3xs', 'bg-rose-500', 'text-white', 'active');
-                if(btn.tagName === 'BUTTON' && btn.id.startsWith('m-btn')) btn.classList.add('text-gray-400');
                 if(btn.tagName === 'BUTTON' && btn.id.startsWith('btn')) btn.classList.add('text-gray-500');
             });
-            const mBtn = document.getElementById('m-btn-' + tabId.replace('-config', ''));
             const dBtn = document.getElementById('btn-' + tabId.replace('-config', ''));
-            if(mBtn) { mBtn.classList.remove('text-gray-400'); mBtn.classList.add('tab-btn-active', 'text-gray-900', 'shadow-3xs'); }
             if(dBtn) { dBtn.classList.remove('text-gray-500'); dBtn.classList.add('bg-rose-500', 'text-white', 'active'); }
+
+            // Mobile bottom nav active state
+            const tabMap = { 'itinerary': 'itinerary', 'expenses': 'expenses', 'cloud-config': 'cloud' };
+            const activeNavId = tabMap[tabId] || tabId;
+            document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+                btn.classList.remove('active-mobile-tab');
+                const icon = btn.querySelector('.mobile-nav-icon');
+                const label = btn.querySelector('.mobile-nav-label');
+                if (icon) icon.style.color = '#9ca3af';
+                if (label) { label.style.color = '#9ca3af'; label.style.fontWeight = '500'; }
+            });
+            const activeMBtn = document.getElementById('m-btn-' + activeNavId);
+            if (activeMBtn) {
+                activeMBtn.classList.add('active-mobile-tab');
+                const icon = activeMBtn.querySelector('.mobile-nav-icon');
+                const label = activeMBtn.querySelector('.mobile-nav-label');
+                if (icon) icon.style.color = '#f43f5e';
+                if (label) { label.style.color = '#f43f5e'; label.style.fontWeight = '700'; }
+            }
         }
 
         function getStyleByCat(cat) {
@@ -669,11 +825,13 @@
             if (activeUrl) {
                 updateSyncUI(true, "กำลังโหลด...", "กำลังซิงค์ข้อมูลล่าสุดจากคลาวด์");
                 pullFromCloud(); 
-                setInterval(() => { pullFromCloudSilent(); }, 15000); 
+                setInterval(() => { pullFromCloudSilent(); }, 30000); // ★ reduced from 15s to prevent race conditions
             } else { updateSyncUI(false, "ไม่ได้เชื่อมต่อคลาวด์", "คลิกเพื่อตั้งค่า"); }
         }
 
         async function pullFromCloudSilent() {
+            // ★ SYNC FIX: skip pull if we have unsaved local changes waiting to push
+            if (window._pendingPush) return;
             const url = getCloudUrl(); if (!url) return;
             try {
                 const data = await fetchViaJsonp(url);
@@ -694,9 +852,17 @@
         function saveState() {
             localStorage.setItem('pick_pin_pack_state', JSON.stringify(state));
             if (getCloudUrl()) {
+                // ★ SYNC FIX: mark pending so silent pull won't overwrite local changes
+                window._pendingPush = true;
                 if (window.autoSyncTimer) clearTimeout(window.autoSyncTimer);
-                window.autoSyncTimer = setTimeout(() => { pushToCloud(); }, 1500);
+                window.autoSyncTimer = setTimeout(() => {
+                    pushToCloud().finally(() => {
+                        window._pendingPush = false;
+                    });
+                }, 1500);
             }
+            // Show local-save toast on mobile
+            showSyncToast('บันทึกแล้ว ✓');
         }
 
         async function pushToCloud() {
@@ -704,7 +870,9 @@
             setPushLoading(true);
             try {
                 await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(state) });
-                updateSyncUI(true, 'Synced ✓', 'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH'));
+                const timeStr = new Date().toLocaleTimeString('th-TH');
+                updateSyncUI(true, 'Synced ✓', 'อัปเดตล่าสุด ' + timeStr);
+                showSyncToast('☁️ Sync สำเร็จ');
             } catch(e) { updateSyncUI(false, 'Sync Error', 'ไม่สามารถส่งข้อมูลได้ (' + e.message + ')'); } finally { setPushLoading(false); }
         }
 
@@ -737,8 +905,60 @@
             });
         }
 
-        function setPushLoading(on) { const icon = document.getElementById('push-icon'); if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-cloud-arrow-up text-[10px]'; }
+        function setPushLoading(on) {
+            // Desktop
+            const icon = document.getElementById('push-icon');
+            if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-cloud-arrow-up text-[10px]';
+            // Mobile
+            const mIcon = document.getElementById('mobile-push-icon');
+            if (mIcon) mIcon.className = on ? 'fa-solid fa-spinner animate-spin' : 'fa-solid fa-cloud-arrow-up';
+        }
         function setPullLoading(on) { const icon = document.getElementById('pull-icon'); if (icon) icon.className = on ? 'fa-solid fa-spinner animate-spin text-[10px]' : 'fa-solid fa-rotate text-[10px]'; }
+        
+        function updateSyncUI(isCloud, title, desc) {
+            // Desktop sidebar indicator
+            const dot = document.querySelector('#sync-indicator .rounded-full');
+            const t = document.getElementById('sync-status-title');
+            const d = document.getElementById('sync-status-desc');
+            if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
+            if (t) t.innerText = title;
+            if (d) d.innerText = desc;
+
+            // Mobile sync pill
+            const pill = document.getElementById('mobile-sync-pill');
+            const pillText = document.getElementById('mobile-sync-text');
+            if (pill && pillText) {
+                pill.className = 'pending'; // reset
+                if (title.includes('Synced') || title.includes('Synced ✓') || title.includes('Cloud')) {
+                    pill.className = 'synced';
+                    pillText.innerText = 'Synced ✓';
+                } else if (title.includes('Error') || title.includes('Failed')) {
+                    pill.className = 'error';
+                    pillText.innerText = 'Error';
+                } else if (title.includes('กำลัง') || title.includes('Loading')) {
+                    pill.className = 'loading';
+                    pillText.innerText = '...';
+                } else if (!isCloud) {
+                    pill.className = 'pending';
+                    pillText.innerText = 'Local';
+                } else {
+                    pill.className = 'pending';
+                    pillText.innerText = title.length > 10 ? title.slice(0, 10) : title;
+                }
+            }
+        }
+
+        let _toastTimer = null;
+        function showSyncToast(msg) {
+            const toast = document.getElementById('sync-toast');
+            const toastText = document.getElementById('sync-toast-text');
+            if (!toast || !toastText) return;
+            toastText.innerText = msg;
+            toast.classList.add('show');
+            if (_toastTimer) clearTimeout(_toastTimer);
+            _toastTimer = setTimeout(() => { toast.classList.remove('show'); }, 1600);
+        }
+
         function triggerManualPush() { if (getCloudUrl()) pushToCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
         function triggerManualPull() { if (getCloudUrl()) pullFromCloud(); else alert('ยังไม่ได้เชื่อมต่อ Cloud'); }
         function triggerManualSync() { triggerManualPush(); }
@@ -749,12 +969,6 @@
             document.body.classList.remove('theme-light', 'theme-slate', 'theme-dark'); document.body.classList.add('theme-' + themeName);
             if (themeName === 'dark' || themeName === 'slate') { document.documentElement.classList.add('dark'); } else { document.documentElement.classList.remove('dark'); }
             state.currentTheme = themeName; localStorage.setItem('trip_theme_v5', themeName); renderAll();
-        }
-
-        function updateSyncUI(isCloud, title, desc) {
-            const dot = document.querySelector('#sync-indicator .rounded-full'); const t = document.getElementById('sync-status-title'); const d = document.getElementById('sync-status-desc');
-            if (dot) dot.className = 'w-2 h-2 rounded-full ' + (isCloud ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse');
-            if (t) t.innerText = title; if (d) d.innerText = desc;
         }
 
         function promptAddNewGroup() {
@@ -1070,24 +1284,40 @@
 
         function renderAll() {
             document.getElementById('main-trip-title').innerText = state.tripTitle || "Our Dream Trip";
-            const mBadgeBox = document.getElementById('members-list-badges');
-            mBadgeBox.innerHTML = state.members.map(m => `
+            
+            // Mobile top bar trip title
+            const mTitleEl = document.getElementById('mobile-trip-title-display');
+            if (mTitleEl) mTitleEl.innerText = state.tripTitle || "Pick Pin Pack";
+
+            const memberBadgeHtml = state.members.map(m => `
                 <span class="bg-gray-900 text-white dark:bg-zinc-700 dark:text-zinc-200 font-semibold text-[10px] px-2 py-0.5 rounded-md inline-flex items-center gap-1 hover:bg-rose-500 transition-colors duration-200 border dark:border-zinc-600">
                     <span onclick="editMemberName('${m}')" class="cursor-pointer hover:underline" title="คลิกเพื่อแก้ไขชื่อ">${m}</span> 
                     <i onclick="removeMember('${m}')" class="fa-solid fa-circle-xmark text-gray-400 hover:text-white cursor-pointer text-[9px]" title="ลบออก"></i>
                 </span>
             `).join('');
+
+            // Desktop members
+            const mBadgeBox = document.getElementById('members-list-badges');
+            if (mBadgeBox) mBadgeBox.innerHTML = memberBadgeHtml;
+            // Mobile members
+            const mBadgeBoxMobile = document.getElementById('members-list-badges-mobile');
+            if (mBadgeBoxMobile) mBadgeBoxMobile.innerHTML = memberBadgeHtml;
             
             const rawList = state.tripData[state.currentPlan] || [];
             const activeList = rawList.filter(item => !item.bypass); 
             
-            // ✨ อัปเดตสูตรคำนวณเงินรวมของทริป โดยประมวลผลจากราคา "ต่อคน" หรือ "รวมทั้งหมด"
             const totalEstCost = activeList.reduce((sum, item) => {
                 const actualCost = item.costType === 'per_person' ? (item.cost * state.members.length) : item.cost;
                 return sum + actualCost;
             }, 0);
 
-            document.getElementById('header-total-budget').innerText = `฿${totalEstCost.toLocaleString()}`;
+            // Desktop budget
+            const budgetEl = document.getElementById('header-total-budget');
+            if (budgetEl) budgetEl.innerText = `฿${totalEstCost.toLocaleString()}`;
+            // Mobile budget
+            const mobileBudgetEl = document.getElementById('header-total-budget-mobile');
+            if (mobileBudgetEl) mobileBudgetEl.innerText = `฿${totalEstCost.toLocaleString()}`;
+
             if(document.getElementById('stat-est-cost')) document.getElementById('stat-est-cost').innerText = `฿${totalEstCost.toLocaleString()}`;
             if(document.getElementById('stat-places')) document.getElementById('stat-places').innerText = `${activeList.length} Places`;
             
@@ -1098,6 +1328,10 @@
                     document.getElementById('stat-progress').innerText = `${percentage}%`;
                 } else { document.getElementById('stat-progress').innerText = `0%`; }
             }
+
+            // Sync lang button mobile
+            const langMobile = document.getElementById('lang-btn-text-mobile');
+            if (langMobile) langMobile.innerText = state.currentLang === 'th' ? 'TH' : 'EN';
 
             updateSelectDropdowns(); renderPlansBar(); renderItinerary(); renderExpenses(); renderColorLegendBlock(); renderFinancialDashboardProgressCharts(); applyLanguageStrings();
         }
